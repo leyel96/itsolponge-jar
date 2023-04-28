@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cartItem">
+
+    <select id="list" resultType="com.solponge.domain.cart.CartItemVo">
+        SELECT * FROM cart_item
+    </select>
+    <select id="selectCartItem" resultType="com.solponge.domain.cart.CartItemVo">
+        SELECT cart_item_num, member_num, product_num, cart_item_stock FROM cart_item WHERE cart_item_num = #{CART_ITEM_NUM, jdbcType=NUMERIC}
+    </select>
+
+    <insert id="insertCartItem" useGeneratedKeys="true" keyProperty="CART_ITEM_NUM" keyColumn="CART_ITEM_NUM">
+        INSERT INTO cart_item(member_num,product_num,cart_item_stock)
+        VALUES(#{MEMBER_NUM},#{PRODUCT_NUM},#{CART_ITEM_STOCK})
+    </insert>
+
+    <update id="updateCartItem">
+        UPDATE cart_item SET cart_item_stock=#{CART_ITEM_STOCK} WHERE cart_item_num=#{CART_ITEM_NUM}
+    </update>
+
+    <delete id="deleteCartItem">
+        DELETE FROM cart_item WHERE cart_item_num=#{CART_ITEM_NUM}
+    </delete>
+
+    <delete id="deleteCartItemByMember">
+        DELETE FROM cart_item WHERE member_num=#{MEMBER_NO}
+    </delete>
+
+
+
+</mapper>

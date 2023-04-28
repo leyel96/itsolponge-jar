@@ -1,0 +1,19 @@
+#block{
+    width: 1050px;
+    margin: 0px auto;
+    text-align: center;
+}
+table{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    border-spacing: 50px;
+    border-collapse: separate;
+}
+td{
+    width: 200px;
+    text-align: center;
+    cursor: pointer;
+    background-color: lightgray;
+    height: 50px;
+}

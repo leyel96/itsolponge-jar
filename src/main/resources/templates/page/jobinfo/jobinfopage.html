@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/hdcss.css">
+    <style>
+        #infocontainer {
+            width: 870px;
+            display: block;
+            margin: auto;
+        }
+        #jv_header {
+            width: 870px;
+            margin-left: 20px;
+            margin-top: 30px;
+        }
+        #jv_header_left{
+            width: 570px;
+            height: 90px;
+            float: left;
+        }
+        #companyName{
+            float: left;
+            font-size: 18px;
+        }
+        #jv_header_right {
+            width: 260px;
+            height: 90px;
+            float: left;
+        }
+        #info_url {
+            width: 186px;
+            height: 60px;
+            top: 10px;
+            position: relative;
+            left: 10px;
+            background-color: rgb(102,153,255);
+            color: white;
+            border: solid 1px #007bff;
+        }
+        #jv_summary {
+            clear: both;
+            padding-top: 20px;
+            width: 870px;
+        }
+        #jv_cont {
+            padding-top: 20px;
+            width: 800px;
+        }
+        #jv_cont div{
+            width: 800px;
+        }
+
+        .heart span{
+            color: black;
+        }
+
+        .heart {
+            margin-left: 10px;
+            width: 130px;
+            font-size: 15px;
+            color: gray;
+            cursor: pointer;
+            background-color: transparent;
+            border: solid 1px gray;
+        }
+
+        .heart.red {
+            margin-left: 10px;
+            width: 130px;
+            font-size: 15px;
+            color: red;
+            background-color: transparent;
+            border: solid 1px gray;
+        }
+        .infoNameScrap_star {
+            text-align: center;
+            font-size: 35px;
+            color: gray;
+            cursor: pointer;
+            background-color: transparent;
+            border: solid 1px gray;
+            width: 60px;
+            height: 60px;
+            top: 18px;
+            position: relative;
+
+        }
+
+        .infoNameScrap_star.yellow {
+            text-align: center;
+            font-size: 35px;
+            color: sandybrown;
+            background-color: transparent;
+            border: solid 1px gray;
+            width: 60px;
+            height: 60px;
+            top: 18px;
+            position: relative;
+
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script language="JavaScript">
+        function submitForm(clicked_id) {
+            var buttonElement = document.getElementById(clicked_id);
+            var usercheck = document.getElementById('MEMBER_ID').value;
+            var getMEMBER_NO = document.getElementById('MEMBER_NO').value;
+            console.log(usercheck)
+            console.log(getMEMBER_NO)
+            let MEMBER_NO = parseInt(getMEMBER_NO);
+            var companyName = "companyName_"+clicked_id;
+            var data2 = document.getElementById(companyName).value;
+            if (buttonElement.value === 'Click') {
+                buttonElement.value = 'Clicked';
+                buttonElement.classList.add('red');
+                if (usercheck.length !== 0) {
+                    console.log('보낼 값: ' + data2);
+                    console.log('용자사 번호: ' + MEMBER_NO);
+                    console.log(typeof(MEMBER_NO))
+                    let scrapCompany = JSON.stringify({"member_No": MEMBER_NO,"companyName": data2});
+                    $.ajax({
+                        type: "POST"
+                        , url: "/scrap/company"
+                        , contentType: "application/json"
+                        , data: scrapCompany
+                        , success: function() {
+                            alert('성공');
+                        }
+                        , error: function() {
+                            alert('찜 등록에 실패했습니다. 관리자에게 문의해주세요.');
+                        }
+                    });
+                } else {
+                    alert('찜 등록에 실패했습니다. 로그인을 해주세요');
+                    location.href = "/main";
+                }
+            } else {
+                buttonElement.value = 'Click';
+                buttonElement.classList.remove('red');
+                if (usercheck.length !== 0) {
+                    console.log('보낼 값: ' + data2);
+                    console.log('용자사 번호: ' + MEMBER_NO);
+                    console.log(typeof(MEMBER_NO))
+                    let scrapCompany = JSON.stringify({"member_No": MEMBER_NO,"companyName": data2});
+                    $.ajax({
+                        type: "POST"
+                        , url: "/scrap/company/delete"
+                        , contentType: "application/json"
+                        , data: scrapCompany
+                        , success: function() {
+                            alert('성공');
+                        }
+                        , error: function() {
+                            alert('찜 삭제 실패했습니다. 관리자에게 문의해주세요.');
+                        }
+                    });
+                }
+            }
+        }
+        function submitForm2(clicked_id) {
+            var buttonElement = document.getElementById(clicked_id);
+            var usercheck = document.getElementById('MEMBER_ID').value;
+            var getMEMBER_NO = document.getElementById('MEMBER_NO').value;
+            console.log(usercheck)
+            console.log(getMEMBER_NO)
+            let MEMBER_NO = parseInt(getMEMBER_NO);
+            var infoname = "infoname_"+clicked_id;
+            console.log(infoname)
+            var infoname_re = infoname.replace("_star","");
+            console.log(infoname_re)
+            var data2 = document.getElementById(infoname_re).value;
+            if (buttonElement.value === 'Click') {
+                buttonElement.value = 'Clicked';
+                buttonElement.classList.add('yellow');
+                if (usercheck.length !== 0) {
+                    console.log('보낼 값: ' + data2);
+                    console.log('용자사 번호: ' + MEMBER_NO);
+                    console.log(typeof(MEMBER_NO))
+                    let scrapinfo = JSON.stringify({"member_No": MEMBER_NO,"infoname": data2});
+                    $.ajax({
+                        type: "POST"
+                        , url: "/scrap/job"
+                        , contentType: "application/json"
+                        , data: scrapinfo
+                        , success: function() {
+                            alert('성공');
+                        }
+                        , error: function() {
+                            alert('찜 등록에 실패했습니다. 관리자에게 문의해주세요.');
+                        }
+                    });
+                } else {
+                    alert('찜 등록에 실패했습니다.');
+                    location.href = "/main";
+                }
+            } else {
+                buttonElement.value = 'Click';
+                buttonElement.classList.remove('yellow');
+                if (usercheck.length !== 0) {
+                    console.log('보낼 값: ' + data2);
+                    console.log('용자사 번호: ' + MEMBER_NO);
+                    console.log(typeof(MEMBER_NO))
+                    let scrapinfo = JSON.stringify({"member_No": MEMBER_NO,"infoname": data2});
+                    $.ajax({
+                        type: "POST"
+                        , url: "/scrap/job/delete"
+                        , contentType: "application/json"
+                        , data: scrapinfo
+                        , success: function() {
+                            alert('성공');
+                        }
+                        , error: function() {
+                            alert('찜 삭제 실패했습니다. 관리자에게 문의해주세요.');
+                        }
+                    });
+                }
+            }
+        }
+        $(document).ready(function() {
+            const aTags = document.querySelectorAll('a');
+            aTags.forEach(a => {
+                a.target = '_self';
+            });
+            console.log(aTags)
+        });
+    </script>
+</head>
+<body>
+<header>
+    <nav class="navbar nav-first navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/com.solponge/main">
+                <img th:src="@{~/img/sponge.png}" style="width: 100px;" alt="Logo">
+
+            </a>
+            <ul class="navbar-nav ml-auto">
+                <li>
+                    <div th:if="${member == null}">
+                        <a href="/com.solponge/login" class="btn btn-primary btn-sm">login</a>
+                        <a href="/com.solponge/join" class="btn btn-primary btn-sm">Join</a>
+                        <a href="/com.solponge/login" class="btn btn-primary btn-sm">
+                            <img th:src="@{~/img/Basket.png}" style="width: 20px;" alt="basket" />
+                            Basket
+                        </a>
+                    </div>
+                    <div th:if="${GRADE == 'BASIC'}">
+                        <p th:text="${member.MEMBER_NAME} + '님 환영합니다.'"></p>
+
+                        <a href="/com.solponge/logout" class="btn btn-primary btn-sm">로그아웃</a>
+                        <a th:href="@{/com.solponge/member/{memberNo}/myPage(memberNo=${member.MEMBER_NO})}" class="btn btn-primary btn-sm">마이페이지</a>
+                        <a th:href="@{/com.solponge/member/{memberNo}/myPage/cart(memberNo=${member.MEMBER_NO})}" class="btn btn-primary btn-sm"><img th:src="@{~/img/Basket.png}" style="width: 20px;" alt="basket"> 장바구니</a>
+                    </div>
+                    <div th:if="${GRADE =='ADMIN'}">
+                        <p th:text="${member.MEMBER_NAME} + '님 환영합니다.'"></p>
+
+                        <a href="/com.solponge/logout" class="btn btn-primary btn-sm">로그아웃</a>
+                        <a href="/com.solponge/admin/member" class="btn btn-primary btn-sm">회원관리</a>
+                        <a href="/com.solponge/admin/order" class="btn btn-primary btn-sm">주문관리</a>
+                        <a href="/com.solponge/admin/product" class="btn btn-primary btn-sm">상품관리</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <nav class="nav-second navbar custom-navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <button class="navbar-toggler ml-auto" type="button"
+                    data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navnav-linkbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li><a class="nav-link" href="/com.solponge/productList">BOOK</a>
+                    </li>
+                    <li><a class="nav-link" href="/com.solponge/jobinfolist">JOB</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<div id="infocontainer">
+    <form id="my-form">
+        <div id="jv_header">
+            <div id="jv_header_left">
+                <div id="companyName" th:text="${JopInfoVo.companyname}"></div>
+                <input type="hidden" th:if="${member!=null}" id="MEMBER_ID" th:value="${member.MEMBER_ID}">
+                <input type="hidden" th:if="${member!=null}" id="MEMBER_NO" th:value="${member.MEMBER_NO}">
+                <input type="hidden" th:id="'infoname_'+${JopInfoVo.infonum}" th:value="${JopInfoVo.infoname}"/>
+                <input type="hidden" th:id="'companyName_'+${JopInfoVo.infonum}" th:value="${JopInfoVo.companyname}"/>
+
+                <th:block th:with="comname='response_'+${JopInfoVo.companyname}">
+                    <th:block th:if="${JobScrap?.get(comname) != null}">
+                        <button class="heart red" th:id="${JopInfoVo.infonum}" type="button" onclick="submitForm(this.id)" value="Clicked">&#10084;<span>관심기업 등록</span></button>
+                    </th:block>
+                    <th:block th:unless="${JobScrap?.get(comname) != null}">
+                        <button class="heart" th:id="${JopInfoVo.infonum}" type="button" onclick="submitForm(this.id)" value="Click">&#10084;<span>관심기업 등록</span></button>
+                    </th:block>
+                </th:block>
+                <h2 th:text="${JopInfoVo.infoname}"></h2>
+            </div>
+            <div id="jv_header_right">
+                <th:block th:with="infoname='response_'+${JopInfoVo.infoname}">
+                    <th:block th:if="${JobScrap2?.get(infoname) != null}">
+                        <button class="infoNameScrap_star yellow" th:id="${JopInfoVo.infonum}+'_star'" type="button" onclick="submitForm2(this.id)" value="Clicked">&#10029;</button>
+                    </th:block>
+                    <th:block th:unless="${JobScrap2?.get(infoname) != null}">
+                        <button class="infoNameScrap_star" th:id="${JopInfoVo.infonum}+'_star'" type="button" onclick="submitForm2(this.id)" value="Click">&#10029;</button>
+                    </th:block>
+                </th:block>
+                <a id="info_url" th:href="${JopInfoVo.infolink}">
+                    모집 공고 사이트 이동
+                </a>
+            </div>
+        </div>
+    </form>
+    <div id="jv_summary">
+        <hr />
+        <table cellpadding="5" cellspacing="0" style="margin-left: 15px;">
+            <tr>
+                <td>지원자격</td>
+                <td style="width: 150px;" th:text="${JopInfoVo.qualificat}"></td>
+                <td style="width: 100px;">근무조건</td>
+                <td th:text="${JopInfoVo.worktype}"></td>
+            </tr>
+            <tr>
+                <td style="width: 100px;">근무지역</td>
+                <td style="width: 250px;" th:text="${JopInfoVo.workarea}"></td>
+                <td>마감일</td>
+                <td th:text="${JopInfoVo.deadline}"></td>
+            </tr>
+            <tr>
+                <td>직업군</td>
+                <td style="width: 150px;" th:text="${JopInfoVo.jinfoField}"></td>
+                <td>기술태그</td>
+                <td th:text="${JopInfoVo.ftaglist}"></td>
+            </tr>
+        </table>
+        <hr />
+    </div>
+    <div id="jv_cont" style="margin: 0 auto" th:utext="${JopInfoVo.pagecode}"></div>
+</div>
+
+
+<div class="py-4 border border-lighter border-bottom-0 border-left-0 border-right-0 bg-dark" >
+    <div class="container">
+        <div class="col-md-9 text-center">
+            <a href="#" class="px-3"><small class="font-weight-bold">이용안내</small></a>
+            <a href="#" class="px-3"><small class="font-weight-bold">정책</small></a>
+            <a href="#" class="pl-3"><small class="font-weight-bold">고객지원</small></a>
+        </div>
+    </div>
+</div>
+<footer class="border border-dark border-left-0 border-right-0 border-bottom-0 p-4 bg-dark">
+    <div class="container">
+        <div class="row align-items-center text-center text-md-left col">
+            <p class="mb-0 small">
+                <a href="">프로젝트 소개</a>&nbsp;|&nbsp;<a href="">조원소개</a>&nbsp;|&nbsp;<a href="">개발범위</a>&nbsp;|&nbsp;<a href="">시스템 요구사항</a>
+            </p>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

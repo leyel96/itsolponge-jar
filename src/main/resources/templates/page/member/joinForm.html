@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+    <link rel="stylesheet" type="text/css" href="../css/joinForm.css">
+    <link rel="stylesheet" type="text/css" href="../css/headerFooter.css">
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="../js/login.js"></script>
+    <script>
+        function infocheck(){
+            var emailExp = /^[a-z0-9]{1}[a-z0-9\-]+[a-z0-9]{1}\.(([a-z]{1}[a-z.]+[a-z]{1}[a-z]+)|([a-z]+))$/;
+            var phonExp = /^[0-9]{4}$/;
+
+            if (document.frm.memberId.value == "") {
+                alert("아이디를 입력해주세요.");
+                document.frm.memberId.focus();
+                return false;
+            }
+            if (document.frm.memberPwd.value == ""){
+                alert("비밀번호를 입력해주세요.");
+                document.frm.memberPwd.focus();
+                return false;
+            }
+            if(document.frm.memberPwd.value != document.frm.memberPwdCheck.value){
+                alert("비밀번호가 틀렸습니다.");
+                document.frm.memberPwd.focus();
+                return false;
+            }
+            if (document.frm.memberName.value == ""){
+                alert("이름을 입력해주세요.");
+                document.frm.memberName.focus();
+                return false;
+            }
+            if (document.frm.MEMBER_EMAIL1.value == "" || document.frm.MEMBER_EMAIL2.value == ""){
+                alert("이메일을 입력해주세요.");
+                document.frm.MEMBER_EMAIL1.focus();
+                return false;
+            }
+            if (emailExp.test(document.frm.MEMBER_EMAIL2.value) == false){
+                alert("정확한 이메일 주소를 입력해주세요");
+                document.frm.MEMBER_EMAIL1.focus();
+                return false;
+            }
+            if (document.frm.MEMBER_PHONE2.value == "" || document.frm.MEMBER_PHONE3.value == ""){
+                alert("전화번호를 입력해주세요.");
+                document.frm.MEMBER_PHONE2.focus();
+                return false;
+            }
+            if (document.frm.secnum.value.match(phonExp) == null){
+                alert("전화번호가 틀렸습니다.");
+                document.frm.secnum.focus();
+                return false;
+            }
+            if (document.frm.sample6_postcode.value == "" || document.frm.MEMBER_ADDRESS2.value == "" || document.frm.MEMBER_ADDRESS3.value == ""){
+                alert("주소를 입력해주세요.");
+                document.frm.sample6_detailAddress.focus();
+                return false;
+            }
+            return true;
+        }
+    </script>
+</head>
+<body>
+<header>
+    <nav class="navbar nav-first navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/com.solponge/main">
+                <img th:src="@{~/img/sponge.png}" style="width: 100px;" alt="Logo">
+
+            </a>
+            <ul class="navbar-nav ml-auto">
+                <li>
+                    <div th:if="${member == null}">
+                        <a href="/com.solponge/login" class="btn btn-primary btn-sm">login</a>
+                        <a href="/com.solponge/join" class="btn btn-primary btn-sm">Join</a>
+                        <a href="/com.solponge/login" class="btn btn-primary btn-sm">
+                            <img th:src="@{~/img/Basket.png}" style="width: 20px;" alt="basket" />
+                            Basket
+                        </a>
+                    </div>
+                    <div th:if="${GRADE == 'BASIC'}">
+                        <p th:text="${member.MEMBER_NAME} + '님 환영합니다.'"></p>
+
+                        <a href="/com.solponge/logout" class="btn btn-primary btn-sm">로그아웃</a>
+                        <!--                        <a th:href="/com.solponge/member/${member.MEMBER_NO}/myPage" class="btn btn-primary btn-sm">마이페이지</a>-->
+                        <!--                        <a th:href="/com.solponge/member/${member.MEMBER_NO}/myPage/cart" class="btn btn-primary btn-sm"><img th:src="@{~/img/Basket.png}" style="width: 20px;" alt="basket">&nbsp;장바구니</a>-->
+                        <a th:href="@{/com.solponge/member/{memberNo}/myPage(memberNo=${member.MEMBER_NO})}" class="btn btn-primary btn-sm">마이페이지</a>
+                        <a th:href="@{/com.solponge/member/{memberNo}/myPage/cart(memberNo=${member.MEMBER_NO})}" class="btn btn-primary btn-sm"><img th:src="@{~/img/Basket.png}" style="width: 20px;" alt="basket"> 장바구니</a>
+                    </div>
+                    <div th:if="${GRADE =='ADMIN'}">
+                        <p th:text="${member.MEMBER_NAME} + '님 환영합니다.'"></p>
+
+                        <a href="/com.solponge/logout" class="btn btn-primary btn-sm">로그아웃</a>
+                        <a href="/com.solponge/admin/member" class="btn btn-primary btn-sm">회원관리</a>
+                        <a href="/com.solponge/admin/order" class="btn btn-primary btn-sm">주문관리</a>
+                        <a href="/com.solponge/admin/product" class="btn btn-primary btn-sm">상품관리</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <nav class="nav-second navbar custom-navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <button class="navbar-toggler ml-auto" type="button"
+                    data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navnav-linkbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li><a class="nav-link" href="/com.solponge/productList">BOOK</a>
+                    </li>
+                    <li><a class="nav-link" href="/com.solponge/jobinfolist">JOB</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<form method="post" th:object="${member}" name="frm" onsubmit="return infocheck()">
+    <input type="hidden" name="memberNo">
+    <div id="memberinfo">
+        <table>
+            <tr>
+                <th>아이디</th>
+                <td><input type="text" id="memberId" name="MEMBER_ID" th:field="*{MEMBER_ID}"/>
+                    <div th:if="${#fields.hasErrors('MEMBER_ID')}" th:errors="*{MEMBER_ID}" cssClass="error"></div>
+                </td>
+
+            </tr>
+            <tr>
+                <th>비밀번호</th>
+                <td><input type="password"  id="memberPwd" name="MEMBER_PWD" th:field="*{MEMBER_PWD}"/>
+                    <div th:if="${#fields.hasErrors('MEMBER_PWD')}" th:errors="*{MEMBER_PWD}" cssClass="error"></div>
+
+                </td>
+            </tr>
+            <tr>
+                <th>비밀번호 확인</th>
+                <td><input type="password"  id="memberPwdCheck" name="MEMBER_PWD_CHECK" th:field="*{MEMBER_PWD_CHECK}"/>
+                    <div th:if="${#fields.hasErrors('MEMBER_PWD_CHECK')}" th:errors="*{MEMBER_PWD_CHECK}" cssClass="error"></div>
+                </td>
+            </tr>
+            <tr>
+                <th>이름</th>
+                <td>
+                    <input type="text" name="MEMBER_NAME" id="memberName" th:field="*{MEMBER_NAME}"/>
+                    <div th:if="${#fields.hasErrors('MEMBER_NAME')}" th:errors="*{MEMBER_NAME}" cssClass="error"></div>
+                </td>
+            </tr>
+            <tr>
+                <th>이메일</th>
+                <td><input type="text" size="16" id="email1" name="MEMBER_EMAIL1" th:field="*{MEMBER_EMAIL1}"/> @
+                    <input type="text" size="20" id="email2" name="MEMBER_EMAIL2" value="naver.com"/>
+                    <select name="emails" id="emails" size="1" onchange="mailCheck()">
+                        <option value="naver.com" selected>naver.com</option>
+                        <option value="hanmail.net">hanmail.net</option>
+                        <option value="gmail.com">gmail.com</option>
+                        <option value="nate.com">nate.com</option>
+                        <option value="1">직접입력</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>휴대폰 번호</th>
+                <td><select name="MEMBER_PHONE1" size="1" id="firstnum">
+                    <option value="010">010</option>
+                    <option value="011">011</option>
+                    <option value="013">013</option>
+                    <option value="017">017</option>
+                    <option value="018">018</option>
+                </select>
+                    -
+                    <input type="text" size="4" maxlength="4" minlength="4" name="MEMBER_PHONE2" id="secnum" path="MEMBER_PHONE2"/>-
+                    <input type="text" size="4" maxlength="4" minlength="4" name="MEMBER_PHONE3" id="thrnum" path="MEMBER_PHONE3"/></td>
+
+
+            </tr>
+            <tr>
+                <th>주소</th>
+                <td>
+                    <input type="text" name="MEMBER_ADDRESS1" id="sample6_postcode"  placeholder="우편번호" readonly>
+                    <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
+                    <input type="text" name="MEMBER_ADDRESS2" id="sample6_address" placeholder="주소" readonly>
+                    <input type="text" name="MEMBER_ADDRESS3" id="sample6_detailAddress" placeholder="상세주소">
+
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="회원가입"><input type="button" onclick="location.href='/com.solponge/main'" value="취소"></td>
+            </tr>
+        </table>
+    </div>
+</form>
+
+<div class="py-4 border border-lighter border-bottom-0 border-left-0 border-right-0 bg-dark" >
+    <div class="container">
+        <div class="col-md-9 text-center">
+            <a href="#" class="px-3"><small class="font-weight-bold">이용안내</small></a>
+            <a href="#" class="px-3"><small class="font-weight-bold">정책</small></a>
+            <a href="#" class="pl-3"><small class="font-weight-bold">고객지원</small></a>
+        </div>
+    </div>
+</div>
+<footer class="border border-dark border-left-0 border-right-0 border-bottom-0 p-4 bg-dark">
+    <div class="container">
+        <div class="row align-items-center text-center text-md-left col">
+            <p class="mb-0 small">
+                <a href="">프로젝트 소개</a>&nbsp;|&nbsp;<a href="">조원소개</a>&nbsp;|&nbsp;<a href="">개발범위</a>&nbsp;|&nbsp;<a href="">시스템 요구사항</a>
+            </p>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

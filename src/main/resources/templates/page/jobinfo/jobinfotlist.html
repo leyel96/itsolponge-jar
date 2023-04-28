@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../css/headerFooter.css">
+    <link rel="stylesheet" href="/css/hdcss.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+        /* Pagination container */
+        .url{
+            float: left;
+        }
+        .url:hover {
+            cursor: pointer;
+        }
+        #paging {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        /* Pagination links */
+        .pagination {
+            display: inline-block;
+            margin-bottom: 0;
+        }
+
+        .pagination .page-item {
+            display: inline;
+        }
+
+        .pagination .page-link {
+            color: #007bff;
+            background-color: #ffffff;
+            border: 1px solid #dee2e6;
+            padding: 6px 12px;
+            margin: 0 4px;
+        }
+
+        .pagination .page-item.disabled .page-link {
+            color: #6c757d;
+            pointer-events: none;
+            cursor: default;
+        }
+
+        .pagination .page-item.active .page-link {
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .pagination {
+            display: inline-block;
+            margin: 0 auto;
+        }
+
+        .pagination li {
+            display: inline;
+            margin: 0 1px;
+        }
+
+        .pagination li.active a {
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .pagination li a {
+            color: #007bff;
+            border: 1px solid #007bff;
+            padding: 6px 12px;
+        }
+
+        .pagination li a:hover {
+            background-color: #007bff;
+            color: #fff;
+            border-color: #007bff;
+        }
+
+        .pagination li.disabled a {
+            color: #6c757d;
+            cursor: not-allowed;
+            background-color: #fff;
+            border-color: #6c757d;
+        }
+        #container_booklist{
+            width: 1050px;
+            margin: 0 auto;
+        }
+        #row2{
+            width: 1050px;
+            margin-bottom: 40px;
+        }
+    </style>
+    <style>
+        .heart {
+            width: 25px;
+            font-size: 15px;
+            color: gray;
+            cursor: pointer;
+            background-color: transparent;
+            border: none;
+        }
+
+        .heart.red {
+            width: 25px;
+            font-size: 15px;
+            color: red;
+            background-color: transparent;
+            border: none;
+        }
+        .star {
+            width: 25px;
+            font-size: 15px;
+            color: gray;
+            cursor: pointer;
+            background-color: transparent;
+            border: none;
+        }
+
+        .star.yellow {
+            width: 25px;
+            font-size: 15px;
+            color: sandybrown;
+            background-color: transparent;
+            border: none;
+        }
+    </style>
+    <script language="JavaScript">
+        function submitForm(clicked_id) {
+            var buttonElement = document.getElementById(clicked_id);
+            var usercheck = document.getElementById('MEMBER_ID').value;
+            var getMEMBER_NO = document.getElementById('MEMBER_NO').value;
+            console.log(usercheck)
+            console.log(getMEMBER_NO)
+            let MEMBER_NO = parseInt(getMEMBER_NO);
+            var companyName = "companyName_"+clicked_id;
+            var data2 = document.getElementById(companyName).value;
+            if (buttonElement.value === 'Click') {
+                buttonElement.value = 'Clicked';
+                buttonElement.classList.add('red');
+                if (usercheck.length !== 0) {
+                    console.log('보낼 값: ' + data2);
+                    console.log('용자사 번호: ' + MEMBER_NO);
+                    console.log(typeof(MEMBER_NO))
+                    let scrapCompany = JSON.stringify({"member_No": MEMBER_NO,"companyName": data2});
+                    $.ajax({
+                        type: "POST"
+                        , url: "/scrap/company"
+                        , contentType: "application/json"
+                        , data: scrapCompany
+                        , success: function() {
+                            alert('성공');
+                        }
+                        , error: function() {
+                            alert('찜 등록에 실패했습니다. 관리자에게 문의해주세요.');
+                        }
+                    });
+                } else {
+                    alert('찜 등록에 실패했습니다. 로그인을 해주세요');
+                    location.href = "/main";
+                }
+            } else {
+                buttonElement.value = 'Click';
+                buttonElement.classList.remove('red');
+                if (usercheck.length !== 0) {
+                    console.log('보낼 값: ' + data2);
+                    console.log('용자사 번호: ' + MEMBER_NO);
+                    console.log(typeof(MEMBER_NO))
+                    let scrapCompany = JSON.stringify({"member_No": MEMBER_NO,"companyName": data2});
+                    $.ajax({
+                        type: "POST"
+                        , url: "/scrap/company/delete"
+                        , contentType: "application/json"
+                        , data: scrapCompany
+                        , success: function() {
+                            alert('성공');
+                        }
+                        , error: function() {
+                            alert('찜 삭제 실패했습니다. 관리자에게 문의해주세요.');
+                        }
+                    });
+                }
+            }
+        }
+        function submitForm2(clicked_id) {
+            var buttonElement = document.getElementById(clicked_id);
+            var usercheck = document.getElementById('MEMBER_ID').value;
+            var getMEMBER_NO = document.getElementById('MEMBER_NO').value;
+            console.log(usercheck)
+            console.log(getMEMBER_NO)
+            let MEMBER_NO = parseInt(getMEMBER_NO);
+            var infoname = "infoname_"+clicked_id;
+            console.log(infoname)
+            var infoname_re = infoname.replace("_star","");
+            console.log(infoname_re)
+            var data2 = document.getElementById(infoname_re).value;
+            if (buttonElement.value === 'Click') {
+                buttonElement.value = 'Clicked';
+                buttonElement.classList.add('yellow');
+                if (usercheck.length !== 0) {
+                    console.log('보낼 값: ' + data2);
+                    console.log('용자사 번호: ' + MEMBER_NO);
+                    console.log(typeof(MEMBER_NO))
+                    let scrapinfo = JSON.stringify({"member_No": MEMBER_NO,"infoname": data2});
+                    $.ajax({
+                        type: "POST"
+                        , url: "/scrap/job"
+                        , contentType: "application/json"
+                        , data: scrapinfo
+                        , success: function() {
+                            alert('성공');
+                        }
+                        , error: function() {
+                            alert('찜 등록에 실패했습니다. 관리자에게 문의해주세요.');
+                        }
+                    });
+                } else {
+                    alert('찜 등록에 실패했습니다.');
+                    location.href = "/main";
+                }
+            } else {
+                buttonElement.value = 'Click';
+                buttonElement.classList.remove('yellow');
+                if (usercheck.length !== 0) {
+                    console.log('보낼 값: ' + data2);
+                    console.log('용자사 번호: ' + MEMBER_NO);
+                    console.log(typeof(MEMBER_NO))
+                    let scrapinfo = JSON.stringify({"member_No": MEMBER_NO,"infoname": data2});
+                    $.ajax({
+                        type: "POST"
+                        , url: "/scrap/job/delete"
+                        , contentType: "application/json"
+                        , data: scrapinfo
+                        , success: function() {
+                            alert('성공');
+                        }
+                        , error: function() {
+                            alert('찜 삭제 실패했습니다. 관리자에게 문의해주세요.');
+                        }
+                    });
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+<header>
+    <nav class="navbar nav-first navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/com.solponge/main">
+                <img th:src="@{~/img/sponge.png}" style="width: 100px;" alt="Logo">
+
+            </a>
+            <ul class="navbar-nav ml-auto">
+                <li>
+                    <div th:if="${member == null}">
+                        <a href="/com.solponge/login" class="btn btn-primary btn-sm">login</a>
+                        <a href="/com.solponge/join" class="btn btn-primary btn-sm">Join</a>
+                        <a href="/com.solponge/login" class="btn btn-primary btn-sm">
+                            <img th:src="@{~/img/Basket.png}" style="width: 20px;" alt="basket" />
+                            Basket
+                        </a>
+                    </div>
+                    <div th:if="${GRADE == 'BASIC'}">
+                        <p th:text="${member.MEMBER_NAME} + '님 환영합니다.'"></p>
+
+                        <a href="/com.solponge/logout" class="btn btn-primary btn-sm">로그아웃</a>
+                        <a th:href="@{/com.solponge/member/{memberNo}/myPage(memberNo=${member.MEMBER_NO})}" class="btn btn-primary btn-sm">마이페이지</a>
+                        <a th:href="@{/com.solponge/member/{memberNo}/myPage/cart(memberNo=${member.MEMBER_NO})}" class="btn btn-primary btn-sm"><img th:src="@{~/img/Basket.png}" style="width: 20px;" alt="basket"> 장바구니</a>
+                    </div>
+                    <div th:if="${GRADE =='ADMIN'}">
+                        <p th:text="${member.MEMBER_NAME} + '님 환영합니다.'"></p>
+
+                        <a href="/com.solponge/logout" class="btn btn-primary btn-sm">로그아웃</a>
+                        <a href="/com.solponge/admin/member" class="btn btn-primary btn-sm">회원관리</a>
+                        <a href="/com.solponge/admin/order" class="btn btn-primary btn-sm">주문관리</a>
+                        <a href="/com.solponge/admin/product" class="btn btn-primary btn-sm">상품관리</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <nav class="nav-second navbar custom-navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <button class="navbar-toggler ml-auto" type="button"
+                    data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navnav-linkbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li><a class="nav-link" href="/com.solponge/productList">BOOK</a>
+                    </li>
+                    <li><a class="nav-link" href="/com.solponge/jobinfolist">JOB</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div id="container_booklist">
+    <div id="row2">
+        <form action = "/com.solponge/jobinfolist/search" accept-charset="utf-8" name = "book_info" method = "get">
+            <h3 id="newbook"><th:block th:text="${status != null && status.equals('Yes')} ? ' 검색된 공고' : '새로 등록된 공고'"> </th:block><span>
+                <select name="SearchSelect">
+                    <option value="all">전체</option>
+                    <option value="JopInfo_COMPANYNAME">회사명</option>
+                    <option value="JopInfo_INFONAME">공고명</option>
+                    <option value="JopInfo_FTAGLIST">기술 태그</option>
+                    <option value="JopInfo_QUALIFICAT">지원자격</option>
+                    <option value="JopInfo_WORKTYPE">고용 형태</option>
+                </select>
+                <input type="text" name="SearchValue" size="15" value="검색 내용">
+                <button type="submit"><img src="/img/Magnifier.png" style="width: 20px;" alt="Search"></button>
+                </span>
+            </h3>
+        </form>
+        <input type="hidden" th:if="${member!=null}" id="MEMBER_ID" th:value="${member.MEMBER_ID}">
+        <input type="hidden" th:if="${member!=null}" id="MEMBER_NO" th:value="${member.MEMBER_NO}">
+        <form id="my-form">
+            <table id="Newjob8" style="font-size: 13px;">
+                <tr id="Newjob8th" style="text-align: center; background: #f2f9fe">
+                    <td style="width: 220px; height: 44px">기업명</td>
+                    <td style="width: 420px; height: 44px">제목</td>
+                    <td style="width: 180px; height: 44px">지원자격</td>
+                    <td style="width: 150px; height: 44px">근무조건</td>
+                    <td>마감일</td>
+                </tr>
+                <tr th:each="NewJopInfo, status : ${paginatedjobinfo}" id="Newjob8td">
+                    <td style="display:none"><label style="display:none">
+                        <input th:id="infoname_+${NewJopInfo.infonum}" th:value="${NewJopInfo.infoname}" style="display:none">
+                    </label></td>
+                    <td style="display:none"><label style="display:none">
+                        <input th:id="companyName_+${NewJopInfo.infonum}" th:value="${NewJopInfo.companyname}" style="display:none">
+                    </label></td>
+                    <td th:if="${JobScrap?.get('response_'+NewJopInfo.companyname) != null}" class="infonum" style="height: 54px">
+                        <a class="url" th:href="@{/com.solponge/jobinfolist/{companyname}(companyname=${NewJopInfo.companyname})}" th:text="${NewJopInfo.companyname}"></a>
+                        <button class="heart red" th:id="${NewJopInfo.infonum}" type="button" onclick="submitForm(this.id)" value="Clicked">&#10084;</button>
+                    </td>
+                    <td th:if="${JobScrap?.get('response_'+NewJopInfo.companyname) == null}" class="infonum" style="height: 54px">
+                        <a class="url" th:href="@{/com.solponge/jobinfolist/{companyname}(companyname=${NewJopInfo.companyname})}" th:text="${NewJopInfo.companyname}"></a>
+                        <button class="heart" th:id="${NewJopInfo.infonum}" type="button" onclick="submitForm(this.id)" value="Click">&#10084;</button>
+                    </td>
+
+                    <td th:if="${JobScrap2?.get('response_'+NewJopInfo.infoname) != null}" class="infonum" style="height: 54px">
+                        <a class="url" th:href="@{/com.solponge/jobinfo/{infonum}(infonum=${NewJopInfo.infonum})}" th:text="${NewJopInfo.infoname}"></a>
+                        <button class="star yellow" th:id="${NewJopInfo.infonum}+'_star'" type="button" onclick="submitForm2(this.id)" value="Clicked">&#10029;</button><br><span style="font-size: 10px" th:text="${NewJopInfo.ftaglist}"></span>
+                    </td>
+                    <td th:if="${JobScrap2?.get('response_'+NewJopInfo.infoname) == null}" class="infonum" style="height: 54px">
+                        <a class="url" th:href="@{/com.solponge/jobinfo/{infonum}(infonum=${NewJopInfo.infonum})}" th:text="${NewJopInfo.infoname}"></a>
+                        <button class="star" th:id="${NewJopInfo.infonum}+'_star'" type="button" onclick="submitForm2(this.id)" value="Click">&#10029;</button><br><span style="font-size: 10px" th:text="${NewJopInfo.ftaglist}"></span>
+                    </td>
+                    <td style="height: 54px" th:text="${NewJopInfo.qualificat}"></td>
+                    <td style="text-align: center; height: 54px" th:utext="${NewJopInfo.worktype} + '&lt;br&gt;' + ${NewJopInfo.workarea}"></td>
+                    <td style="height: 54px" th:text="${NewJopInfo.deadline}"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+<nav id="paging" aria-label="Page navigation example" style="clear: both;">
+    <ul class="pagination justify-content-center" style="padding: 0">
+        <li class="page-item" th:classappend="${currentPage == 1 ? 'disabled' : ''}">
+            <a class="page-link" th:href="${url}+'page='+${currentPage - 1}" tabindex="-1" th:aria-disabled="${currentPage == 1}">Previous</a>
+        </li>
+        <th:block th:if="${totalPages == 0}">
+            <!--                    <th:block th:each="pageNum : ${#numbers.sequence(1, 0)}">-->
+            <li class="page-item" th:classappend="${currentPage == 1 ? 'active' : ''}">
+                <a class="page-link" th:href="${url}+'page='+${1}" th:text="${1}"></a>
+            </li>
+            <!--                    </th:block>-->
+        </th:block>
+        <th:block th:if="${totalPages <= 10 and totalPages != 0}">
+            <th:block th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
+                <li class="page-item" th:classappend="${currentPage == pageNum ? 'active' : ''}">
+                    <a class="page-link" th:href="${url}+'page='+${pageNum}" th:text="${pageNum}"></a>
+                </li>
+            </th:block>
+        </th:block>
+        <th:block th:if="${totalPages >= 11 and currentPage <= 6}">
+            <th:block th:each="pageNum : ${#numbers.sequence(1, 10)}">
+                <li class="page-item" th:classappend="${currentPage == pageNum ? 'active' : ''}">
+                    <a class="page-link" th:href="${url}+'page='+${pageNum}" th:text="${pageNum}"></a>
+                </li>
+            </th:block>
+        </th:block>
+        <th:block th:if="${currentPage > 6 and currentPage > totalPages - 6}">
+            <th:block th:each="pageNum : ${#numbers.sequence(totalPages - 9, totalPages)}">
+                <li class="page-item" th:classappend="${currentPage == pageNum ? 'active' : ''}">
+                    <a class="page-link" th:href="${url}+'page='+${pageNum}" th:text="${pageNum}"></a>
+                </li>
+            </th:block>
+        </th:block>
+        <th:block th:if="${currentPage > 6 and currentPage <= totalPages - 6}">
+            <th:block th:each="pageNum : ${#numbers.sequence(currentPage - 5, currentPage + 4)}">
+                <li class="page-item" th:classappend="${currentPage == pageNum ? 'active' : ''}">
+                    <a class="page-link" th:href="${url}+'page='+${pageNum}" th:text="${pageNum}"></a>
+                </li>
+            </th:block>
+        </th:block>
+        <li class="page-item" th:classappend="${currentPage == totalPages ? 'disabled' : ''}" style="margin-right: 44px">
+            <a class="page-link" th:href="${url}+'page='+${currentPage + 1}" th:aria-disabled="${currentPage == totalPages}">Next</a>
+        </li>
+    </ul>
+</nav>
+
+<div class="py-4 border border-lighter border-bottom-0 border-left-0 border-right-0 bg-dark" >
+    <div class="container">
+        <div class="col-md-9 text-center">
+            <a href="#" class="px-3"><small class="font-weight-bold">이용안내</small></a>
+            <a href="#" class="px-3"><small class="font-weight-bold">정책</small></a>
+            <a href="#" class="pl-3"><small class="font-weight-bold">고객지원</small></a>
+        </div>
+    </div>
+</div>
+<footer class="border border-dark border-left-0 border-right-0 border-bottom-0 p-4 bg-dark">
+    <div class="container">
+        <div class="row align-items-center text-center text-md-left col">
+            <p class="mb-0 small">
+                <a href="">프로젝트 소개</a>&nbsp;|&nbsp;<a href="">조원소개</a>&nbsp;|&nbsp;<a href="">개발범위</a>&nbsp;|&nbsp;<a href="">시스템 요구사항</a>
+            </p>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

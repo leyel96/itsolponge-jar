@@ -1,0 +1,43 @@
+/* 로그인 폼 스타일 */
+.login-form {
+    margin: 9% auto; /* 로그인 폼과 푸터 사이의 간격을 늘리기 위한 margin-top */
+    width: 600px;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px; /* 테두리를 둥글게 만드는 속성 */
+}
+
+.login-form h2 {
+    text-align: center;
+}
+
+.login-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"] {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    border-radius: 10px; /* 테두리를 둥글게 만드는 속성 */
+}
+
+.login-form button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: rgb(102,153,255); /* 헤더와 같은 색상 */
+    color: #fff;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 10px; /* 테두리를 둥글게 만드는 속성 */
+}
+

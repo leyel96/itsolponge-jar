@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="member">
+
+    <select id="list" resultType="com.solponge.domain.member.MemberVo">
+        SELECT * FROM MEMBER2
+    </select>
+    <select id="Searchlist_ALL" resultType="com.solponge.domain.member.MemberVo">
+        SELECT * FROM MEMBER2 WHERE MEMBER_ID LIKE '%' || #{SearchValue} || '%' OR MEMBER_NAME LIKE '%' || #{SearchValue} || '%'
+    </select>
+    <select id="Searchlist_MEMBER_ID" resultType="com.solponge.domain.member.MemberVo">
+        SELECT * FROM MEMBER2 WHERE MEMBER_ID LIKE '%' || #{SearchValue} || '%'
+    </select>
+    <select id="Searchlist_MEMBER_NAME" resultType="com.solponge.domain.member.MemberVo">
+        SELECT * FROM MEMBER2 WHERE MEMBER_NAME LIKE '%' || #{SearchValue} || '%'
+    </select>
+    <select id="selectMember" resultType="com.solponge.domain.member.MemberVo" >
+        select * from MEMBER2 where MEMBER_NO=#{member_no, jdbcType=NUMERIC}
+    </select>
+
+    <insert id="insertMember" useGeneratedKeys="true" keyProperty="MEMBER_NO" keyColumn="MEMBER_NO">
+        INSERT INTO MEMBER2(MEMBER_ID, MEMBER_PWD, MEMBER_ADDRESS, MEMBER_EMAIL, MEMBER_PHONE, MEMBER_NAME, MEMBER_GRADE, MEMBER_DATE)
+        VALUES(#{member_id}, #{member_pwd}, #{member_address}, #{member_email}, #{member_phone}, #{member_name}, 'BASIC', SYSDATE())
+    </insert>
+    <update id="updateMember">
+        update MEMBER2 set MEMBER_PWD=#{member_pwd}, MEMBER_ADDRESS=#{member_address}, MEMBER_EMAIL=#{member_email}, MEMBER_PHONE=#{member_phone} where MEMBER_NO=#{member_no}
+    </update>
+    <delete id="deleteMember">
+        delete MEMBER2 where MEMBER_NO=#{member_no}
+    </delete>
+
+    <delete id="delete_member_num">
+        delete from CART where MEMBER_NUM = #{member_no}
+    </delete>
+    <delete id="delete_CART_ITEM">
+        delete from cart_item where member_num =#{member_no}
+    </delete>
+    <delete id="delete_member_No">
+        delete from MEMBER2 where MEMBER_NO =#{member_no}
+    </delete>
+
+</mapper>
+
+

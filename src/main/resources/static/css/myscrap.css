@@ -1,0 +1,202 @@
+.flex-container {
+    margin-left: 10px;
+    display: flex;
+}
+.flex-item {
+    width: 300px;
+    height: 100px;
+    margin: 10px;
+    text-align: left;
+    font-size: 17px;
+}
+.color-red {
+    background-color: darksalmon;
+}
+.color-blue {
+    background-color: dodgerblue;
+}
+
+#container {
+    width: 1300px;
+    margin: 0 auto;
+}
+.companyScrap {
+    height: 240px;
+    overflow: hidden;
+}
+.companies {
+    display: flex;
+    height: 220px;
+    /* width: 5200px; */
+    transition-property: transform;
+    transition-duration: 1s;
+}
+.company {
+    width: 1300px;
+    height: 220px;
+}
+
+.prev,
+.next {
+    width: 100px;
+    height: 30px;
+    border: none;
+    color: white;
+    background-color: gray;
+}
+.prev:disabled,
+.next:disabled {
+    background-color: gray;
+}
+.flex-container .flex-item {
+    overflow: hidden;
+    border: 1px solid;
+    border-radius: 15px;
+    background-color: #ffffff;
+}
+.flex-item.color-gray {
+    background-color: #ffffff;
+}
+.logo,
+.logo img {
+    border-radius: 50%;
+    /* border: 1px solid; */
+    background-color: #ffffff;
+    width: 40px;
+    float: left;
+    cursor: pointer;
+}
+.company_name {
+    float: left;
+    cursor: pointer;
+}
+.item_container {
+    height: 90px;
+    width: 260px;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+.jobinfo {
+    position: relative;
+    top: 7px;
+    clear: both;
+    padding: 7px;
+    font-size: 12px;
+    color: #ffffff;
+    width: 240px;
+    border: 1px solid #F4F6FA;
+}
+.jobinfo a, a:visited{
+    color: black;
+    text-decoration: none;
+}
+.delete_bt{
+    background-color: #ffffff;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+}
+/*    페이징 디자인*/
+.url{
+    float: left;
+}
+.url:hover {
+    cursor: pointer;
+}
+#paging {
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* Pagination links */
+.pagination {
+    display: inline-block;
+    margin-bottom: 0;
+}
+
+.pagination .page-item {
+    display: inline;
+}
+
+.pagination .page-link {
+    color: #007bff;
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    padding: 6px 12px;
+    margin: 0 4px;
+}
+
+.pagination .page-item.disabled .page-link {
+    color: #6c757d;
+    pointer-events: none;
+    cursor: default;
+}
+
+.pagination .page-item.active .page-link {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.pagination {
+    display: inline-block;
+    margin: 0 auto;
+}
+
+.pagination li {
+    display: inline;
+    margin: 0 1px;
+}
+
+.pagination li.active a {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.pagination li a {
+    color: #007bff;
+    border: 1px solid #007bff;
+    padding: 6px 12px;
+}
+
+.pagination li a:hover {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+
+.pagination li.disabled a {
+    color: #6c757d;
+    cursor: not-allowed;
+    background-color: #fff;
+    border-color: #6c757d;
+}
+#container_booklist{
+    width: 1050px;
+    margin: 0 auto;
+}
+#row2{
+    width: 1050px;
+    margin-bottom: 40px;
+}
+
+
+/*    스크랩 부분*/
+.star {
+    width: 25px;
+    font-size: 15px;
+    color: gray;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+}
+
+.star.yellow {
+    width: 25px;
+    font-size: 15px;
+    color: sandybrown;
+    background-color: transparent;
+    border: none;
+}
+

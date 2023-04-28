@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+<!--    <script>-->
+<!--        var arrl = [];-->
+<!--        var productNum =${product_num};-->
+<!--        for (var i = 0; i < productNum.length; i++) {-->
+<!--            arrl[i] = productNum[i];-->
+<!--        }-->
+<!--        console.log(arrl);-->
+
+<!--        var arrl2 = [];-->
+<!--        var paymentStock =${payment_stock};-->
+<!--        for (var i = 0; i < paymentStock.length; i++) {-->
+<!--            arrl2[i] = paymentStock[i];-->
+<!--        }-->
+
+<!--        var arrl3 = [];-->
+<!--        var cartItemNum = ${cartItem_num};-->
+<!--        for (var i = 0; i < cartItemNum.length; i++) {-->
+<!--            arrl3[i] = cartItemNum[i];-->
+<!--        }-->
+<!--        console.log(arrl3);-->
+
+<!--        console.log("${payment_stock[0]}");-->
+
+<!--        var lists = {-->
+<!--            payment_num: "${payment_num}",-->
+<!--            address: "${address}",-->
+<!--            phone: "${phone}",-->
+<!--            email: "${email}",-->
+<!--            delivery_info: "${delivery_info}",-->
+<!--            product_num: arrl,-->
+<!--            payment_stock: arrl2,-->
+<!--            cartItem_num: arrl3-->
+<!--        };-->
+
+<!--        console.log("${product_num}");-->
+<!--        console.log(typeof("${product_num}"));-->
+
+<!--        const IMP = window.IMP;-->
+<!--        IMP.init("imp32154105");-->
+
+<!--        window.onload = function requestPay() {-->
+<!--            IMP.request_pay({-->
+<!--                pg: "html5_inicis.INIpayTest",-->
+<!--                pay_method: "card",-->
+<!--                merchant_uid: "${payment_num}",-->
+<!--                name: "결제하기",-->
+<!--                amount: 100,-->
+<!--                buyer_email: "${email}",-->
+<!--                buyer_name: "${m_name}",-->
+<!--                buyer_tel: "${phone}",-->
+<!--                buyer_addr: "${address.split('/')[1]}" + "${address.split('/')[2]}",-->
+<!--                buyer_postcode: "${address.split('/')[0]}"-->
+<!--            }, function (rsp) {-->
+<!--                if (rsp.success) {-->
+<!--                    jQuery.ajax({-->
+<!--                        url: "/com.solponge/member/${member_No}/payments/su",-->
+<!--                        method: "post",-->
+<!--                        contentType: "application/json;charset=UTF-8",-->
+<!--                        data: JSON.stringify(lists),-->
+<!--                        success: function(res){-->
+<!--                            alert("결제 성공했습니다.");-->
+<!--                            location.replace("/com.solponge/member/${member_No}/payments/success");-->
+<!--                        },-->
+<!--                        error: function (res){-->
+<!--                            alert("결제 실패했습니다.");-->
+<!--                            location.replace('/com.solponge/member/${member_No}/payments/fail');-->
+<!--                        }-->
+<!--                    });-->
+<!--                } else {-->
+<!--                    window.location.href ='/com.solponge/member/${member_No}/payments/fail';-->
+<!--                }-->
+<!--            });-->
+<!--        };-->
+<!--        console.log("${payment_num}"+"${email}"+"${m_name}"+"${phone}");-->
+<!--    </script>-->
+
+</head>
+<body>
+
+</body>
+</html>

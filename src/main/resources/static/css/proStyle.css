@@ -1,0 +1,286 @@
+
+/* Table */
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+table th, table td {
+    padding: 12px;
+    text-align: center;
+}
+table thead th {
+    background-color: rgb(102,153,255);
+    color: white;
+    font-weight: bold;
+}
+table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+table td button {
+    background-color: rgb(102,153,255) !important;
+    color: white !important;
+    border: none !important;
+    cursor: pointer !important;
+}
+.button{
+    padding: 10px; !important;
+}
+table td button:hover {
+    background-color: #3458b3;
+}
+
+/* Table */
+.yogi {
+    border-collapse: collapse;
+    width: 100%;
+}
+.yogi th, table td {
+    padding: 12px;
+    text-align: center;
+}
+.yogi thead th {
+    background-color: rgb(102,153,255);
+    color: white;
+    font-weight: bold;
+}
+.yogi tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+.yogi tbody tr:hover {
+    background-color: #ddd;
+}
+.yogi td button {
+    background-color: rgb(102,153,255) !important;
+    color: white !important;
+    border: none !important;
+    padding: 10px 15px !important;
+    cursor: pointer !important;
+}
+.yogi td button:hover {
+    background-color: #3458b3;
+}
+
+/* Pagination */
+#paging {
+    margin-top: 20px;
+    text-align: center;
+}
+#paging ul {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    border-radius: 3px;
+}
+#paging li {
+    display: inline;
+}
+#paging a {
+    font-size: 16px;
+    color: rgb(102,153,255);
+    display: inline-block;
+    padding: 5px 10px;
+    margin-right: 3px;
+    border: 1px solid rgb(102,153,255);
+    border-radius: 3px;
+    transition: background-color 0.3s, color 0.3s;
+}
+#paging a:hover {
+    background-color: rgb(102,153,255);
+    color: white;
+    text-decoration: none;
+}
+#paging .active a {
+    background-color: rgb(102,153,255);
+    color: white;
+    border: 1px solid rgb(102,153,255);
+}
+#paging .disabled a {
+    color: #ccc;
+    pointer-events: none;
+}
+
+
+
+
+
+
+.container {
+    max-width: 560px;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    color: rgb(102, 153, 255);
+}
+
+button {
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: 0.175rem 0.45rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    color: #fff;
+    background-color: rgb(102, 153, 255);
+    border-color: rgb(102, 153, 255);
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+button:hover {
+    background-color: #fff;
+    color: rgb(102, 153, 255);
+    border-color: rgb(102, 153, 255);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    transition: border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: rgb(102, 153, 255);
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(102, 153, 255, 0.25);
+}
+
+input[type="text"][readonly],
+input[type="email"][readonly],
+input[type="password"][readonly] {
+    background-color: #e9ecef;
+    opacity: 1;
+}
+
+.search-select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #555;
+    background-color: #fff;
+    box-shadow: none;
+    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* 마우스 오버시 스타일 변경 */
+.search-select:hover {
+    border-color: #aaa;
+}
+
+/* 포커스시 스타일 변경 */
+.search-select:focus {
+    border-color: #3399ff;
+    box-shadow: 0 0 3px rgba(51, 153, 255, 0.5);
+    outline: none;
+}
+
+.member-input:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 .2rem rgba(0,123,255,.25);
+    outline: none;
+}
+
+
+
+
+.member-form {
+    max-width: 500px;
+    margin: 0 auto;
+    font-family: 'Noto Sans KR', sans-serif;
+    flex-direction: column;
+    align-items: center;
+}
+
+.member-label {
+    width: 100%;!important;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: none;
+    border-radius: 4px;
+    background-color: #f2f2f2;
+}
+
+.member-se{
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.product-title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.input-label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+#product-form {
+    width: 80%;
+    margin: 0 auto;
+}
+
+#product-form input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#product-form button[type="submit"],
+#product-form button[type="button"] {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    background-color: rgb(102, 153, 255);
+    cursor: pointer;
+}
+
+#product-form button[type="submit"]:hover,
+#product-form button[type="button"]:hover {
+    background-color: rgb(102, 153, 255);
+}
+
+.add {
+    max-width: 1300px;
+    margin-right: auto;
+    margin-left: auto;
+}
+.padding-left{
+    padding-left: 70%;
+}
+
+.padding-left1{
+    padding-left: 60%;
+}
+
+.padding-left0{
+    padding-left: 80%;
+}

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cart">
+
+
+    <!--기본 CRUD-->
+    <select id="list" resultType="com.solponge.domain.cart.CartVo">
+        SELECT * FROM CART
+    </select>
+
+    <select id="selectCart" resultType="com.solponge.domain.cart.CartVo">
+        SELECT CART_NUM, MEMBER_NUM, CART_DATE FROM CART WHERE MEMBER_NUM = #{MEMBER_NUM}
+    </select>
+
+    <insert id="insertCart" useGeneratedKeys="true" keyProperty="CART_NUM" keyColumn="CART_NUM">
+        INSERT INTO CART (MEMBER_NUM,CART_DATE)
+        VALUES(#{MEMBER_NUM},SYSDATE())
+    </insert>
+
+
+    <delete id="deleteCart">
+        DELETE FROM CART WHERE CART_NUM=#{CART_NUM}
+    </delete>
+
+
+
+    <!--서비스 CURD-->
+
+    <resultMap id="cartListResultMap" type="com.solponge.domain.cart.CartListVo">
+        <result property="MEMBER_NUM" column="MEMBER_NUM"/>
+        <result property="CART_DATE" column="CART_DATE"/>
+        <result property="CART_ITEM_NUM" column="CART_ITEM_NUM"/>
+        <result property="PRODUCT_NUM" column="PRODUCT_NUM"/>
+        <result property="CART_ITEM_STOCK" column="CART_ITEM_STOCK"/>
+        <result property="PRODUCT_TITLE" column="PRODUCT_TITLE"/>
+        <result property="PRODUCT_PRICE" column="PRODUCT_PRICE"/>
+    </resultMap>
+
+    <select id="cartList" resultType="com.solponge.domain.cart.CartListVo">
+        SELECT CART.MEMBER_NUM,
+               CART.CART_DATE,
+               cart_item.cart_item_num,
+               cart_item.product_num,
+               cart_item.cart_item_stock,
+               product.product_title,
+               product.product_price
+        FROM
+            CART
+                JOIN cart_item ON CART.MEMBER_NUM = cart_item.member_num
+                JOIN product ON cart_item.product_num = product.product_num
+        WHERE CART.MEMBER_NUM = #{MEMBER_NUM}
+    </select>
+
+    <delete id="deleteCartByMember">
+        DELETE FROM CART WHERE MEMBER_NUM=#{MEMBER_NUM}
+    </delete>
+
+
+
+
+</mapper>

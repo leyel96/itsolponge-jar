@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../css/headerFooter.css">
+    <link rel="stylesheet" href="/css/hdcss.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+        #product_sale_info {
+            margin: 0 auto;
+            width: 1000px;
+            /* height: 1000px; */
+            /* border: solid 1px; */
+        }
+
+        #product_sale_info_left {
+            width: 380px;
+            margin-left: 55px;
+            margin-right: 50px; /* reduce margin-right to 20px */
+            margin-bottom: 30px;
+            float: left;
+        }
+
+        #product_sale_info_left img {
+            width: 380px;
+            height: 519px;
+        }
+        #product_sale_info_right {
+            width: 440px;
+            padding-left: 20px; /* add padding-left to 20px */
+            float: left; /* add float:left to align right */
+            margin-bottom: 30px;
+        }
+        #product_sale_info_right td {
+            padding: 10px;
+            margin: 10px;
+        }
+        #quantity {
+            float: left;
+            padding-right: 40px;
+        }
+        #button_prt {
+            margin: 30px;
+        }
+        #buy_button {
+            margin-right: 10px;
+            background-color: rgb(102, 153, 255);
+            border-color: rgb(102, 153, 255);
+            border-radius: 7%;
+            border: none;
+            width: 146px;
+            height: 46px;
+            color: rgb(256, 256, 256);
+            font-size: 16px;
+        }
+        #cart_button {
+            background-color: rgb(198, 217, 255);
+            border-color: rgb(198, 217, 255);
+            border-radius: 7%;
+            border: none;
+            width: 146px;
+            height: 46px;
+            font-size: 16px;
+        }
+        #product_details{
+            margin: 30px;
+            /*float: clear;*/
+            clear: both;
+        }
+        .detail_tit {
+            font-size: 28px;
+            color: rgb(102, 153, 255);
+        }
+    </style>
+    <script type="application/javascript">
+        function count(type) {
+            // 결과를 표시할 element
+            const resultElement = document.getElementById('quantity');
+            // 남은 재고 변수 선언
+
+            const num1 = document.getElementById('remaining_stock');
+            console.log(num1);
+            // 현재 화면에 표시된 값
+            let number = parseInt(resultElement.innerText);
+            let number2 = parseInt(num1.innerText);
+
+            // 더하기/빼기
+            if (type === 'plus') {
+                if (number === number2) {
+                    number = parseInt(number);
+                } else {
+                    number = parseInt(number) + 1;
+                }
+            } else if (type === 'minus') {
+                if (number === 1) {
+                    number = parseInt(number);
+                } else {
+                    number = parseInt(number) - 1;
+                }
+            }
+            // 결과 출력
+            resultElement.innerText = number;
+            document.getElementById("quantityinput").value = number;
+
+        }
+        window.onload = function cal() {
+            var today = new Date();
+            var dayOfWeek = today.getDay(); // Sunday = 0, Saturday = 6
+            if (dayOfWeek === 6) {
+                // Saturday
+                today.setDate(today.getDate() + 2); // Add 2 days to get to Monday
+            } else if (dayOfWeek === 0) {
+                // Sunday
+                today.setDate(today.getDate() + 1); // Add 1 day to get to Monday
+            }
+            var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+            var options = { month: 'long', day: 'numeric' };
+            document.getElementById('date').innerHTML = today.toLocaleDateString('ko-KR', options);
+
+        };
+
+        function addToCart() {
+            // 로그인 여부 확인
+            var isLogin = session.getAttribute("loginMember") != null;
+
+            if(!isLogin) {
+                alert("로그인이 필요합니다!");
+                location.href="/loginForm.jsp";
+                return false;
+            }
+            // 장바구니에 담겼다는 알람 띄우기
+            alert("장바구니에 담겼습니다!");
+        }
+    </script>
+</head>
+<body>
+<header>
+    <nav class="navbar nav-first navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/com.solponge/main">
+                <img th:src="@{~/img/sponge.png}" style="width: 100px;" alt="Logo">
+
+            </a>
+            <ul class="navbar-nav ml-auto">
+                <li>
+                    <div th:if="${member == null}">
+                        <a href="/com.solponge/login" class="btn btn-primary btn-sm">login</a>
+                        <a href="/com.solponge/join" class="btn btn-primary btn-sm">Join</a>
+                        <a href="/com.solponge/login" class="btn btn-primary btn-sm">
+                            <img th:src="@{~/img/Basket.png}" style="width: 20px;" alt="basket" />
+                            Basket
+                        </a>
+                    </div>
+                    <div th:if="${GRADE == 'BASIC'}">
+                        <p th:text="${member.MEMBER_NAME} + '님 환영합니다.'"></p>
+
+                        <a href="/com.solponge/logout" class="btn btn-primary btn-sm">로그아웃</a>
+                        <!--                        <a th:href="/com.solponge/member/${member.MEMBER_NO}/myPage" class="btn btn-primary btn-sm">마이페이지</a>-->
+                        <!--                        <a th:href="/com.solponge/member/${member.MEMBER_NO}/myPage/cart" class="btn btn-primary btn-sm"><img th:src="@{~/img/Basket.png}" style="width: 20px;" alt="basket">&nbsp;장바구니</a>-->
+                        <a th:href="@{/com.solponge/member/{memberNo}/myPage(memberNo=${member.MEMBER_NO})}" class="btn btn-primary btn-sm">마이페이지</a>
+                        <a th:href="@{/com.solponge/member/{memberNo}/myPage/cart(memberNo=${member.MEMBER_NO})}" class="btn btn-primary btn-sm"><img th:src="@{~/img/Basket.png}" style="width: 20px;" alt="basket"> 장바구니</a>
+                    </div>
+                    <div th:if="${GRADE =='ADMIN'}">
+                        <p th:text="${member.MEMBER_NAME} + '님 환영합니다.'"></p>
+
+                        <a href="/com.solponge/logout" class="btn btn-primary btn-sm">로그아웃</a>
+                        <a href="/com.solponge/admin/member" class="btn btn-primary btn-sm">회원관리</a>
+                        <a href="/com.solponge/admin/order" class="btn btn-primary btn-sm">주문관리</a>
+                        <a href="/com.solponge/admin/product" class="btn btn-primary btn-sm">상품관리</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <nav class="nav-second navbar custom-navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <button class="navbar-toggler ml-auto" type="button"
+                    data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navnav-linkbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li><a class="nav-link" href="/com.solponge/productList">BOOK</a>
+                    </li>
+                    <li><a class="nav-link" href="/com.solponge/jobinfolist">JOB</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+
+
+<div id="product_sale_info">
+    <div id="product_sale_info_left">
+        <img th:src="${productVo.product_img}" />
+    </div>
+    <form method="POST" th:action="@{/com.solponge/product/${productVo.product_num}}">
+        <div id="product_sale_info_right">
+            <h3 th:text="${productVo.product_title}"></h3>
+            <hr />
+            <table style="padding-left: 20px;">
+                <tr>
+                    <td>저자</td>
+                    <td th:text="${productVo.product_writer}"></td>
+                </tr>
+                <tr>
+                    <td>출간</td>
+                    <td th:text="${productVo.product_date}"></td>
+                </tr>
+                <tr>
+                    <td>페이지</td>
+                    <td th:text="${productVo.product_page}"></td>
+                </tr>
+                <tr>
+                    <td>정가</td>
+                    <td th:text="${productVo.product_price}+'원'"></td>
+                </tr>
+                <tr>
+                    <td>배송료</td>
+                    <td>2500원</td>
+                </tr>
+                <tr>
+                    <td>재고</td>
+                    <td id="remaining_stock" th:text="${productVo.product_stock}"></td>
+                </tr>
+                <tr>
+                    <td>수량</td>
+                    <td>
+                        <div id="quantity">1</div>
+                        <input type="hidden" id="quantityinput" name="quantityinput" value="1">
+                        <input type="button" onclick='count("plus")' value="+" />
+                        <input type="button" onclick='count("minus")' value="-" />
+                    </td>
+                </tr>
+            </table>
+            <script></script>
+            <div id="button_prt">
+                <button id="buy_button" type="submit" name="button1" value="Button 1" th:disabled="${productVo.product_stock==0}">구매하기</button>
+                <button id="cart_button" type="submit" name="button2" value="Button 2" th:disabled="${productVo.product_stock==0}" onclick="addToCart()">장바구니 담기</button>
+<!--                <c:if test="${productVo.product_stock==0}">-->
+<!--                    <button id="buy_button" type="submit" name="button1" value="Button 1" disabled>구매하기</button>-->
+<!--                    <button id="cart_button" type="submit" name="button2" value="Button 2" onclick="addToCart()" disabled>장바구니 담기</button>-->
+<!--                </c:if>-->
+<!--                <c:if test="${productVo.product_stock!=0}">-->
+<!--                    <button id="buy_button" type="submit" name="button1" value="Button 1">구매하기</button>-->
+<!--                    <button id="cart_button" type="submit" name="button2" value="Button 2" onclick="addToCart()">장바구니 담기</button>-->
+<!--                </c:if>-->
+            </div>
+        </div>
+    </form>
+    <div id="product_details" th:utext="${productVo.product_code}">
+
+    </div>
+</div>
+
+
+<div class="py-4 border border-lighter border-bottom-0 border-left-0 border-right-0 bg-dark" >
+    <div class="container">
+        <div class="col-md-9 text-center">
+            <a href="#" class="px-3"><small class="font-weight-bold">이용안내</small></a>
+            <a href="#" class="px-3"><small class="font-weight-bold">정책</small></a>
+            <a href="#" class="pl-3"><small class="font-weight-bold">고객지원</small></a>
+        </div>
+    </div>
+</div>
+<footer class="border border-dark border-left-0 border-right-0 border-bottom-0 p-4 bg-dark">
+    <div class="container">
+        <div class="row align-items-center text-center text-md-left col">
+            <p class="mb-0 small">
+                <a href="">프로젝트 소개</a>&nbsp;|&nbsp;<a href="">조원소개</a>&nbsp;|&nbsp;<a href="">개발범위</a>&nbsp;|&nbsp;<a href="">시스템 요구사항</a>
+            </p>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
