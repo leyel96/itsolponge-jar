@@ -5,26 +5,27 @@ import lombok.Data;
 
 @Data
 public class CartItemVo {
-    private int cart_item_num;
-    private int member_num;
-    private int product_num;
-    private int cart_item_stock;
+    private int CART_ITEM_NUM;
+    private int MEMBER_NUM;
+    private int PRODUCT_NUM;
+    private int CART_ITEM_STOCK;
+
 
     public CartItemVo(int CART_ITEM_STOCK) {
-        this.cart_item_stock = CART_ITEM_STOCK;
+        this.CART_ITEM_STOCK = CART_ITEM_STOCK;
     }
 
     public CartItemVo(CartItem cartItem) {
-        this.member_num = cartItem.getMember().getMEMBER_NO().intValue();
-        this.product_num = cartItem.getProduct().getProduct_num();
-        this.cart_item_stock = cartItem.getCART_ITEM_STOCK();
+        this.MEMBER_NUM = cartItem.getMember().getMEMBER_NO().intValue();
+        this.PRODUCT_NUM = cartItem.getProduct().getProduct_num();
+        this.CART_ITEM_STOCK = cartItem.getCART_ITEM_STOCK();
     }
     //select 를 위한 생성자
     public CartItemVo(int CART_ITEM_NUM, int MEMBER_NUM, int PRODUCT_NUM, int CART_ITEM_STOCK) {
-        this.cart_item_num = CART_ITEM_NUM;
-        this.member_num = MEMBER_NUM;
-        this.product_num = PRODUCT_NUM;
-        this.cart_item_stock = CART_ITEM_STOCK;
+        this.CART_ITEM_NUM = CART_ITEM_NUM;
+        this.MEMBER_NUM = MEMBER_NUM;
+        this.PRODUCT_NUM = PRODUCT_NUM;
+        this.CART_ITEM_STOCK = CART_ITEM_STOCK;
     }
 
 }
