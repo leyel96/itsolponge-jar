@@ -1,11 +1,11 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" type="text/css" href="../css/loginForm.css">
     <link rel="stylesheet" type="text/css" href="../css/headerFooter.css">
+    <link rel="stylesheet" href="/css/success.css">
+    <link rel="stylesheet" href="/css/hdcss.css">
 </head>
 <body>
 <header>
@@ -25,16 +25,14 @@
                             Basket
                         </a>
                     </div>
-                    <div th:if="${GRADE == 'BASIC'}">
+                    <div th:if="${member.Grade == 'BASIC'}">
                         <p th:text="${member.MEMBER_NAME} + '님 환영합니다.'"></p>
 
                         <a href="/com.solponge/logout" class="btn btn-primary btn-sm">로그아웃</a>
-                        <!--                        <a th:href="/com.solponge/member/${member.MEMBER_NO}/myPage" class="btn btn-primary btn-sm">마이페이지</a>-->
-                        <!--                        <a th:href="/com.solponge/member/${member.MEMBER_NO}/myPage/cart" class="btn btn-primary btn-sm"><img th:src="@{~/img/Basket.png}" style="width: 20px;" alt="basket">&nbsp;장바구니</a>-->
                         <a th:href="@{/com.solponge/member/{memberNo}/myPage(memberNo=${member.MEMBER_NO})}" class="btn btn-primary btn-sm">마이페이지</a>
                         <a th:href="@{/com.solponge/member/{memberNo}/myPage/cart(memberNo=${member.MEMBER_NO})}" class="btn btn-primary btn-sm"><img th:src="@{~/img/Basket.png}" style="width: 20px;" alt="basket"> 장바구니</a>
                     </div>
-                    <div th:if="${GRADE =='ADMIN'}">
+                    <div th:if="${member.Grade =='ADMIN'}">
                         <p th:text="${member.MEMBER_NAME} + '님 환영합니다.'"></p>
 
                         <a href="/com.solponge/logout" class="btn btn-primary btn-sm">로그아웃</a>
@@ -46,7 +44,6 @@
             </ul>
         </div>
     </nav>
-
     <nav class="nav-second navbar custom-navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
         <div class="container">
             <button class="navbar-toggler ml-auto" type="button"
@@ -66,38 +63,17 @@
         </div>
     </nav>
 </header>
-<div>
+
+<div id="block">
+
+    <h2>결제 성공!</h2>
+    <table>
+        <tr>
+            <td onclick="location.href='/com.solponge/main'" id="left">메인으로</td>
+            <td><a th:href="@{/com.solponge/member/{member_No}/member_No(member_No=${member_No})}"></a>주문내역</td>
+        </tr>
+    </table>
 </div>
-<div class="login-form">
-    <h2>로그인</h2>
-    <form th:action="@{./login}" method="post" th:object="${LoginForm}">
-        <label for="memberId">아이디</label>
-        <input type="text" th:field="*{memberId}" id="memberId" placeholder="아이디를 입력하세요" />
-        <div th:if="${#fields.hasErrors('memberId')}" th:errors="*{memberId}" style="color: red"></div>
-
-        <label for="memberPwd">패스워드</label>
-        <input type="password" th:field="*{memberPwd}" id="memberPwd" placeholder="비밀번호를 입력하세요" />
-        <div th:if="${#fields.hasErrors('memberPwd')}" th:errors="*{memberPwd}" style="color: red"></div>
-
-        <button type="submit">로그인</button>
-        <div th:if="${#fields.hasGlobalErrors()}">
-            <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"> 전체 오류 메세지 </p>
-        </div>
-    </form>
-
-
-</div>
-
-<div class="py-4 border border-lighter border-bottom-0 border-left-0 border-right-0 bg-dark" >
-    <div class="container">
-        <div class="col-md-9 text-center">
-            <a href="#" class="px-3"><small class="font-weight-bold">이용안내</small></a>
-            <a href="#" class="px-3"><small class="font-weight-bold">정책</small></a>
-            <a href="#" class="pl-3"><small class="font-weight-bold">고객지원</small></a>
-        </div>
-    </div>
-</div>
-
 
 <div class="py-4 border border-lighter border-bottom-0 border-left-0 border-right-0 bg-dark" >
     <div class="container">

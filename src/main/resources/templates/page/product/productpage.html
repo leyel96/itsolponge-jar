@@ -200,7 +200,7 @@
     <div id="product_sale_info_left">
         <img th:src="${productVo.product_img}" />
     </div>
-    <form method="POST" th:action="@{/com.solponge/product/${productVo.product_num}}">
+    <form method="POST" th:action="@{/com.solponge/product/{product_num}(product_num=${productVo.product_num})}">
         <div id="product_sale_info_right">
             <h3 th:text="${productVo.product_title}"></h3>
             <hr />
