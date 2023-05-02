@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        /* 장바구니 스타일 */
+        .cart {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .cart__item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+
+        .cart__item-img {
+            width: 100px;
+            height: 100px;
+            margin-right: 20px;
+        }
+
+        .cart__item-info {
+            flex-grow: 1;
+        }
+
+        .cart__item-title {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .cart__item-price {
+            margin-top: 10px;
+        }
+
+        .cart__item-quantity {
+            margin-top: 10px;
+        }
+
+        .cart__item-total-price {
+            margin-top: 10px;
+
+        }
+
+
+        .cart__item-remove {
+            margin-left: 20px;
+            cursor: pointer;
+        }
+
+
+        .deleteButton{
+            border: none;
+            background-color: snow;
+        }
+        .cart-total-price {
+            width: 500px;
+            padding: 10px;
+            margin: 30px 0px 30px 0px;
+            font-weight: normal;
+            font-size: larger;
+        }
+
+        .cart-total-price div {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+
+    </style>
+    <link rel="stylesheet" type="text/css" href="../css/headerFooter.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+<header>
+    <nav class="navbar nav-first navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/com.solponge/main">
+                <img th:src="@{~/img/sponge.png}" style="width: 100px;" alt="Logo">
+            </a>
+            <ul class="navbar-nav ml-auto">
+                <li>
+                    <div th:if="${member == null}">
+                        <a href="/com.solponge/login" class="btn btn-primary btn-sm">login</a>
+                        <a href="/com.solponge/join" class="btn btn-primary btn-sm">Join</a>
+                        <a href="/com.solponge/login" class="btn btn-primary btn-sm">
+                            <img th:src="@{~/img/Basket.png}" style="width: 20px;" alt="basket" />
+                            Basket
+                        </a>
+                    </div>
+                    <div th:if="${GRADE == 'BASIC'}">
+                        <p th:text="${member.MEMBER_NAME} + '님 환영합니다.'"></p>
+                        <a href="/com.solponge/logout" class="btn btn-primary btn-sm">로그아웃</a>
+                        <a th:href="@{/com.solponge/member/{memberNo}/myPage(memberNo=${member.MEMBER_NO})}" class="btn btn-primary btn-sm">마이페이지</a>
+                        <a th:href="@{/com.solponge/member/{memberNo}/myPage/cart(memberNo=${member.MEMBER_NO})}" class="btn btn-primary btn-sm">
+                            <img th:src="@{~/img/Basket.png}" style="width: 20px;" alt="basket"> 장바구니</a>
+                    </div>
+                    <div th:if="${GRADE =='ADMIN'}">
+                        <p th:text="${member.MEMBER_NAME} + '님 환영합니다.'"></p>
+                        <a href="/com.solponge/logout" class="btn btn-primary btn-sm">로그아웃</a>
+                        <a href="/com.solponge/admin/member" class="btn btn-primary btn-sm">회원관리</a>
+                        <a href="/com.solponge/admin/order" class="btn btn-primary btn-sm">주문관리</a>
+                        <a href="/com.solponge/admin/product" class="btn btn-primary btn-sm">상품관리</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <nav class="nav-second navbar custom-navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <button class="navbar-toggler ml-auto" type="button"
+                    data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navnav-linkbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li><a class="nav-link" href="/com.solponge/productList">BOOK</a>
+                    </li>
+                    <li><a class="nav-link" href="/com.solponge/jobinfolist">JOB</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<!--&#45;&#45; 장바구니가 비어있는 경우 메시지 출력 &#45;&#45;-->
+<th:block th:if="${cart.cartItems == null}">
+    <div class="cart" style="min-height: 500px">
+        <h1 th:text="${loginMember.MEMBER_NAME}+'님의 장바구니'"></h1>
+        <p style="text-align: center; font-size: 1.5rem; font-weight: bold;">장바구니가 비어있습니다</p>
+        <div style="display: flex;
+              justify-content: center;
+              align-items: center;
+              height: 200px;">
+            <button onclick="location.href='/com.solponge/productList'"
+                    style="width: 500px;
+                    padding: 10px;
+                    background-color: rgb(102,153,255);
+                    color: #fff;
+                    border: none;
+                    font-size: 16px;
+                    font-weight: bold;
+                    cursor: pointer;
+                    border-radius: 10px;">상품 보러 가기</button>
+        </div>
+    </div>
+</th:block>
+
+<th:block th:if="${cart.cartItems != null}">
+    <div class="cart">
+        <h1 th:text="${member.MEMBER_NAME}+'님의 장바구니'"></h1>
+        <hr>
+        <form method="post" th:action="@{/com.solponge/member/{MEMBER_NO}/myPage/cart(MEMBER_NO=${member.MEMBER_NO})}">
+                <th:block th:each="entry, status : ${cart.cartItems}">
+                    <th:block th:with="product=${entry.value.product}">
+                    <div class="cart__item">
+                        <img class="cart__item-img" th:src="${product.product_img}" th:alt="${product.product_title}" th:onclick="@{/com.solponge/product/{product_num}(product_num=${product.product_num})}">
+                        <div class="cart__item-info">
+                            <div class="cart__item-num" th:text="${entry.value.CART_ITEM_NUM}"></div>
+                                <a th:href="@{/com.solponge/product/{product_num}(product_num=${product.product_num})}"><div class="cart__item-title" th:text="${product.product_title}"></div></a>
+                            <div class="cart__item-price" th:text="'가격: '+${product.product_price}+'원'"></div>
+                            <div class="cart__item-total-price" th:text="'소계: '+${entry.value.totalPrice}+'원'"></div>
+                            <div class="cart__item-quantity">상태: <input type="text" th:value="${entry.value.CART_ITEM_STOCK}" style="width: 20px;"></div>
+                            <input type="hidden" name="cartItems" th:value="${product.product_num}+','+${entry.value.CART_ITEM_STOCK}+','+${member.MEMBER_NO}+','+${entry.value.CART_ITEM_NUM}">
+                        </div>
+                        <div class="cart_Item_check">
+                            <input type="checkbox" checked name="order" th:value="${entry.key}"><img th:src="@{~/img/Basket.png}" alt="cart.ico" style="width: 25px;">
+                        </div>
+                        <div class="cart__item-remove">
+                            <button type="submit" class="deleteButton" th:formaction="@{/com.solponge/member/{MEMBER_NO}/myPage/cart/deleteCartItem(MEMBER_NO=${member.MEMBER_NO})}" name="cartItemNum" th:value="${entry.value.CART_ITEM_NUM}">
+                                <img th:src="@{~/img/delete.png}" alt="delete.ico" style="width: 25px;"/>
+                            </button>
+                        </div>
+                    </div>
+                </th:block>
+            </th:block>
+            <br>
+            <div class="cart-total-price">
+                <div><span>총 상품 가격 :</span> <span th:text="${cart.totalPrice}+' 원'"></span></div>
+                <div><span>총 배송비 :
+            </span> <span>
+                   <th:block th:if="${cart.totalPrice >= 50000}">
+                       0 원
+                   </th:block>
+                   <th:block th:unless>
+                       +2,500 원
+                   </th:block>
+            </span></div>
+                <hr>
+                <div><span>총 결제 금액 :</span> <span th:text="${cart.totalPrice+2500}+' 원'"></span></div>
+            </div>
+            <br>
+            <button type="submit" th:formaction="/com.solponge/member/${member.MEMBER_NO}/payments">주문하기</button>
+        </form>
+    </div>
+</th:block>
+
+<div class="py-4 border border-lighter border-bottom-0 border-left-0 border-right-0 bg-dark" >
+    <div class="container">
+        <div class="col-md-9 text-center">
+            <a href="#" class="px-3"><small class="font-weight-bold">이용안내</small></a>
+            <a href="#" class="px-3"><small class="font-weight-bold">정책</small></a>
+            <a href="#" class="pl-3"><small class="font-weight-bold">고객지원</small></a>
+        </div>
+    </div>
+</div>
+<footer class="border border-dark border-left-0 border-right-0 border-bottom-0 p-4 bg-dark">
+    <div class="container">
+        <div class="row align-items-center text-center text-md-left col">
+            <p class="mb-0 small">
+                <a href="">프로젝트 소개</a>&nbsp;|&nbsp;<a href="">조원소개</a>&nbsp;|&nbsp;<a href="">개발범위</a>&nbsp;|&nbsp;<a href="">시스템 요구사항</a>
+            </p>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
