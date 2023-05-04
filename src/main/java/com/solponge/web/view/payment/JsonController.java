@@ -60,33 +60,5 @@ public class JsonController {
 
     }
 
-//    @PostMapping("/payments/pay_info")
-//    public ResponseEntity<Map<String, Object>> getMyArray(@SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false) MemberVo loginMember,
-//                                                          @RequestParam("respon_cartItemNum") String[] cartItemNum,
-//                                                          @RequestParam("respon_productNum") String[] productNum,
-//                                                          @RequestParam("respon_paymentStock") String[] paymentStock,
-//                                                          HttpServletRequest request) {
-    @GetMapping("/payments/pay_info")
-    public ResponseEntity<Map<String, Object>> getMyArray(
-            String[] cartItemNum,
-            String[] productNum,
-            String[] paymentStock,
-            HttpServletRequest request) {
-        System.out.println("진입 확인");
-        System.out.println(Arrays.toString(cartItemNum));
-        System.out.println(Arrays.toString(productNum));
-        System.out.println(Arrays.toString(paymentStock));
-        String[] product_num = request.getParameterValues("product_num");
-        String[] payment_stock = request.getParameterValues("payment_stock");
-        String[] cartItem_num = request.getParameterValues("cartItem_num");
-        System.out.println(Arrays.toString(product_num));
-        Map<String, Object> ResponseObj = new HashMap<>();
-//        ResponseObj.put("member_No", loginMember.getMEMBER_NO());
-        ResponseObj.put("product_num", product_num);
-        ResponseObj.put("payment_stock", payment_stock);
-        ResponseObj.put("cartItem_num", cartItem_num);
-        System.out.println("진입 마지막");
-        return ResponseEntity.ok(ResponseObj);
-    }
 
 }
