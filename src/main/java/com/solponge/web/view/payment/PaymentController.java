@@ -9,11 +9,13 @@ import com.solponge.domain.product.productVo;
 import com.solponge.web.view.login.session.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,12 +77,14 @@ public class PaymentController {
                           @RequestParam String email1,
                           @RequestParam String email2,
                           Model model, HttpServletRequest request){
+        System.out.println("결제 컨트롤러");
         String address = sample6_postcode + "/" + sample6_address + "/" + sample6_detailAddress;
         String phone = firstnum2 + "-" + secnum2 + "-" + thrnum2;
         String email = email1 + "@" + email2;
         String[] product_num = request.getParameterValues("product_num");
         String[] payment_stock = request.getParameterValues("payment_stock");
         String[] cartItem_num = request.getParameterValues("cartItem_num");
+
         for (int i = 0; i < product_num.length; i++){
             int product_stock = productService.getproduct(Integer.parseInt(product_num[i])).getProduct_stock();
             try{
@@ -91,43 +95,24 @@ public class PaymentController {
                 return "product/stockfail";
             }
         }
-        model.addAttribute("member_No", loginMember.getMEMBER_NO());
-        model.addAttribute("payment_num", payment_num);
-        model.addAttribute("total_price", total_price);
-        model.addAttribute("address", address);
-        model.addAttribute("phone", phone);
-        model.addAttribute("email", email);
-        model.addAttribute("m_name", m_name);
-        model.addAttribute("delivery_info", delivery_info);
-        model.addAttribute("product_num", product_num);
-        model.addAttribute("payment_stock", payment_stock);
-        model.addAttribute("cartItem_num", cartItem_num);
+        System.out.println(Arrays.toString(product_num));
+        System.out.println(loginMember.getMEMBER_NO());
+        System.out.println("payment_num_"+payment_num);
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_No", loginMember.getMEMBER_NO());
+        map.put("payment_num", payment_num);
+        map.put("total_price", total_price);
+        map.put("address", address);
+        map.put("phone", phone);
+        map.put("email", email);
+        map.put("m_name", m_name);
+        map.put("delivery_info", delivery_info);
+        map.put("product_num", product_num);
+        map.put("payment_stock", payment_stock);
+        map.put("cartItem_num", cartItem_num);
+        model.addAttribute("map", map);
         return "product/pay";
     }
-
-/*    @GetMapping("/payments")
-    public String selectPayment(@SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false) MemberVo loginMember,
-                                Model model){
-        List<OrderVo> data = ps.selectOrderList(loginMember.getMEMBER_NO());
-        Map<String, Object> param = new HashMap<>();
-        int total_price = 0;
-        for (int i = 0; i < data.size(); i++){
-            productVo input_product = ptsd.getproduct(data.get(i).getPRODUCT_NUM());
-            int input_num = input_product.getProduct_num();
-            param.put("img_"+input_num, input_product.getProduct_img());
-            param.put("title_"+input_num, input_product.getProduct_title());
-            param.put("price_"+input_num, input_product.getProduct_price());
-            param.put("stock_"+input_num, data.get(i).getORDER_STOCK());
-            total_price += input_product.getProduct_price() * data.get(i).getORDER_STOCK() + 2500;
-        }
-
-        model.addAttribute("pinfo", param);
-        model.addAttribute("oinfo", data);
-        model.addAttribute("minfo", ms.findByNo(loginMember.getMEMBER_NO()));
-        model.addAttribute("total_price",total_price);
-        return "product/payments";
-    }*/
-
 
     @GetMapping(value = "/payments/success")
     public String successmove(@SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false) MemberVo loginMember,
@@ -142,7 +127,6 @@ public class PaymentController {
         model.addAttribute("member_No",loginMember.getMEMBER_NO());
         return "product/fail";
     }
-
 
     @GetMapping("/paymentList/delete")
     public String notVisible(@SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false) MemberVo loginMember,

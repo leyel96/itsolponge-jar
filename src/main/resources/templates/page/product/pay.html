@@ -1,100 +1,136 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
   <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!--  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
   <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
-    <script>
-        var arrl = [];
-        var productNum = document.getElementById('product_num').value;
-        for (var i = 0; i < productNum.length; i++) {
-            arrl[i] = productNum[i];
-        }
-        console.log(arrl);
+    <script th:inline="javascript">
+        $(document).ready(function(){
+            var list = [[${map.cartItem_num}]] ;
+            console.log(list)
 
-        var arrl2 = [];
-        var paymentStock = document.getElementById('payment_stock').value;
-        for (var i = 0; i < paymentStock.length; i++) {
-            arrl2[i] = paymentStock[i];
-        }
-
-        var arrl3 = [];
-        var cartItemNum = document.getElementById('cartItem_num').value;
-        for (var i = 0; i < cartItemNum.length; i++) {
-            arrl3[i] = cartItemNum[i];
-        }
-        console.log(arrl3);
-
-        console.log(payment_stock[0]);
-
-        var lists = {
-            payment_num: document.getElementById('payment_num').value,
-            address: document.getElementById('address').value,
-            phone: document.getElementById('phone').value,
-            email: document.getElementById('email').value,
-            delivery_info: document.getElementById('delivery_info').value,
-            product_num: arrl,
-            payment_stock: arrl2,
-            cartItem_num: arrl3
-        };
-
-        console.log(product_num);
-        console.log(typeof(product_num));
-
-        const IMP = window.IMP;
-        IMP.init("imp32154105");
-
-        window.onload = function requestPay() {
-            var address = document.getElementById('address').value;
             var member_No = document.getElementById('member_No').value;
-            IMP.request_pay({
-                pg: "html5_inicis.INIpayTest",
-                pay_method: "card",
-                merchant_uid: document.getElementById('payment_num').value,
-                name: "결제하기",
-                amount: 100, //임시
-                buyer_email: document.getElementById('email').value,
-                buyer_name: document.getElementById('m_name').value,
-                buyer_tel: document.getElementById('phone').value,
-                buyer_addr: address.split('/')[1] + address.split('/')[2],
-                buyer_postcode: address.split('/')[0]
-            }, function (rsp) {
-                if (rsp.success) {
-                    jQuery.ajax({
-                        url: "/com.solponge/member/"+member_No+"/payments/su",
-                        method: "post",
-                        contentType: "application/json;charset=UTF-8",
-                        data: JSON.stringify(lists),
-                        success: function(res){
-                            alert("결제 성공했습니다.");
-                            location.replace("/com.solponge/member/"+member_No+"/payments/success");
-                        },
-                        error: function (res){
-                            alert("결제 실패했습니다.");
-                            location.replace("/com.solponge/member/"+member_No+"/payments/fail");
-                        }
-                    });
-                } else {
-                    window.location.href ='/com.solponge/member/'+member_No+'/payments/fail';
-                }
-            });
-        };
-        console.log("${payment_num}"+"${email}"+"${m_name}"+"${phone}");
+            // var respon_productNum = document.getElementById('product_num').value;
+            // console.log(respon_productNum)
+            // var c = respon_productNum.substring(1).slice(0, -1).split(",");
+            // console.log(c)
+            // let respon_paymentStock = document.getElementById('payment_stock').value;
+            // let respon_cartItemNum = document.getElementById('cartItem_num').value;
+            // let arr = respon_cartItemNum.split(";");
+            // console.log(arr)
+            console.log(member_No)
+            // $.ajax({
+            //     url: "/com.solponge/member/"+member_No+"/payments/pay_info",
+            //     // contentType: "application/json",
+            //     type: "GET",
+            //     // data:responData,
+            //     success: function(response) {
+            //
+            //     }
+            // });
+            // console.log(response)
+            // var response_map = response;
+            // var member_No = response_map.member_No;
+            var arrl = [];
+            // var productNum = response_map.product_num;
+            var productNum = [[${map.product_num}]];
+            console.log(productNum)
+            for (var i = 0; i < productNum.length; i++) {
+                arrl[i] = productNum[i];
+            }
+            console.log(arrl);
+
+            var arrl2 = [];
+            var paymentStock = [[${map.payment_stock}]];
+            console.log(paymentStock);
+            // var paymentStock = response_map.payment_stock;
+            for (var j = 0; j < paymentStock.length; j++) {
+                arrl2[j] = paymentStock[j];
+            }
+
+            var arrl3 = [];
+            var cartItemNum = [[${map.cartItem_num}]];
+            console.log(cartItemNum);
+            // var cartItemNum = response_map.cartItem_num;
+            for (var k = 0; k < cartItemNum.length; k++) {
+                arrl3[k] = cartItemNum[k];
+            }
+            console.log(arrl3);
+
+            console.log(payment_stock[0]);
+
+            var lists = {
+                payment_num: document.getElementById('payment_num').value,
+                address: document.getElementById('address').value,
+                phone: document.getElementById('phone').value,
+                email: document.getElementById('email').value,
+                delivery_info: document.getElementById('delivery_info').value,
+                product_num: arrl,
+                payment_stock: arrl2,
+                cartItem_num: arrl3
+            };
+
+            console.log(productNum);
+            console.log(typeof(productNum));
+
+            const IMP = window.IMP;
+            IMP.init("imp32154105");
+
+            window.onload = function requestPay() {
+                var address = document.getElementById('address').value;
+                IMP.request_pay({
+                    pg: "html5_inicis.INIpayTest",
+                    pay_method: "card",
+                    merchant_uid: document.getElementById('payment_num').value,
+                    name: "결제하기",
+                    amount: 100, //임시
+                    buyer_email: document.getElementById('email').value,
+                    buyer_name: document.getElementById('m_name').value,
+                    buyer_tel: document.getElementById('phone').value,
+                    buyer_addr: address.split('/')[1] + address.split('/')[2],
+                    buyer_postcode: address.split('/')[0]
+                }, function (rsp) {
+
+                    if (rsp.success) {
+                        jQuery.ajax({
+                            url: "/com.solponge/member/"+member_No+"/payments/su",
+                            method: "post",
+                            contentType: "application/json;charset=UTF-8",
+                            data: JSON.stringify(lists),
+                            success: function(res){
+                                alert("결제 성공했습니다.");
+                                location.replace("/com.solponge/member/"+member_No+"/payments/success");
+                            },
+                            error: function (res){
+                                alert("결제 실패했습니다.");
+                                location.replace("/com.solponge/member/"+member_No+"/payments/fail");
+                            }
+                        });
+                    } else {
+                        window.location.href ='/com.solponge/member/'+member_No+'/payments/fail';
+                    }
+                });
+            };
+            console.log("${payment_num}"+"${email}"+"${m_name}"+"${phone}");
+        });
+
+
     </script>
 
 </head>
 <body>
-<input type="hidden" id="product_num" th:value="${product_num}"/>
-<input type="hidden" id="payment_stock" th:value="${payment_stock}"/>
-<input type="hidden" id="cartItem_num" th:value="${cartItem_num}"/>
-<input type="hidden" id="payment_num" th:value="${payment_num}"/>
-<input type="hidden" id="address" th:value="${address}"/>
-<input type="hidden" id="phone" th:value="${phone}"/>
-<input type="hidden" id="email" th:value="${email}"/>
-<input type="hidden" id="delivery_info" th:value="${delivery_info}"/>
-<input type="hidden" id="m_name" th:value="${m_name}"/>
-<input type="hidden" id="member_No" th:value="${member_No}"/>
+<input type="hidden" id="product_num" th:value="${map.product_num}"/>
+<input type="hidden" id="payment_stock" th:value="${map.payment_stock}"/>
+<input type="hidden" id="cartItem_num" th:value="${map.cartItem_num}"/>
+<input type="hidden" id="payment_num" th:value="${map.payment_num}"/>
+<input type="hidden" id="address" th:value="${map.address}"/>
+<input type="hidden" id="phone" th:value="${map.phone}"/>
+<input type="hidden" id="email" th:value="${map.email}"/>
+<input type="hidden" id="delivery_info" th:value="${map.delivery_info}"/>
+<input type="hidden" id="m_name" th:value="${map.m_name}"/>
+<input type="hidden" id="member_No" th:value="${map.member_No}"/>
+<input type="hidden" id="map" th:value="${map}"/>
 </body>
 </html>

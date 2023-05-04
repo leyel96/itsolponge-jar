@@ -12,9 +12,14 @@ import com.solponge.web.view.login.session.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 @RequestMapping("/com.solponge/member/{MEMBER_NO}")
 @SessionAttributes(names = SessionConst.LOGIN_MEMBER)
@@ -53,6 +58,35 @@ public class JsonController {
             cartService.deleteItem(cartItemNum);
         }
 
+    }
+
+//    @PostMapping("/payments/pay_info")
+//    public ResponseEntity<Map<String, Object>> getMyArray(@SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false) MemberVo loginMember,
+//                                                          @RequestParam("respon_cartItemNum") String[] cartItemNum,
+//                                                          @RequestParam("respon_productNum") String[] productNum,
+//                                                          @RequestParam("respon_paymentStock") String[] paymentStock,
+//                                                          HttpServletRequest request) {
+    @GetMapping("/payments/pay_info")
+    public ResponseEntity<Map<String, Object>> getMyArray(
+            String[] cartItemNum,
+            String[] productNum,
+            String[] paymentStock,
+            HttpServletRequest request) {
+        System.out.println("진입 확인");
+        System.out.println(Arrays.toString(cartItemNum));
+        System.out.println(Arrays.toString(productNum));
+        System.out.println(Arrays.toString(paymentStock));
+        String[] product_num = request.getParameterValues("product_num");
+        String[] payment_stock = request.getParameterValues("payment_stock");
+        String[] cartItem_num = request.getParameterValues("cartItem_num");
+        System.out.println(Arrays.toString(product_num));
+        Map<String, Object> ResponseObj = new HashMap<>();
+//        ResponseObj.put("member_No", loginMember.getMEMBER_NO());
+        ResponseObj.put("product_num", product_num);
+        ResponseObj.put("payment_stock", payment_stock);
+        ResponseObj.put("cartItem_num", cartItem_num);
+        System.out.println("진입 마지막");
+        return ResponseEntity.ok(ResponseObj);
     }
 
 }

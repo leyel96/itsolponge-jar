@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" type="text/css" href="../css/headerFooter.css">
+<!--    <link rel="stylesheet" type="text/css" href="../css/headerFooter.css">-->
+    <link rel="stylesheet" type="text/css" th:href="@{~/css/headerFooter.css}">
     <style>
         #shopbody {
             background-color: #f0f0f0;
@@ -102,13 +103,17 @@
         //체크박스 클릭시 멤버 정보 뿌려줌
         $(document).ready(function(){
             $("#checkboxs").change(function(){
+                var minfo_MEMBER_NAME = document.getElementById('minfo_MEMBER_NAME').value;
+                var minfo_MEMBER_PHONE = document.getElementById('minfo_MEMBER_PHONE').value;
+                var minfo_MEMBER_ADDRESS = document.getElementById('minfo_MEMBER_ADDRESS').value;
+
                 if($("#checkboxs").is(":checked")){
-                    $("#m_name").attr("value", "${minfo.MEMBER_NAME}");
-                    $("#secnum2").attr("value", "${fn:split(minfo.MEMBER_PHONE,"-")[1]}");
-                    $("#thrnum2").attr("value", "${fn:split(minfo.MEMBER_PHONE,"-")[2]}");
-                    $("#sample6_postcode").attr("value", "${fn:split(minfo.MEMBER_ADDRESS,"/")[0]}");
-                    $("#sample6_address").attr("value", "${fn:split(minfo.MEMBER_ADDRESS,"/")[1]}");
-                    $("#sample6_detailAddress").attr("value", "${fn:split(minfo.MEMBER_ADDRESS,"/")[2]}");
+                    $("#m_name").attr("value", minfo_MEMBER_NAME);
+                    $("#secnum2").attr("value", minfo_MEMBER_PHONE.split('-')[1]);
+                    $("#thrnum2").attr("value", minfo_MEMBER_PHONE.split('-')[2]);
+                    $("#sample6_postcode").attr("value", minfo_MEMBER_ADDRESS.split('/')[0]);
+                    $("#sample6_address").attr("value", minfo_MEMBER_ADDRESS.split('/')[1]);
+                    $("#sample6_detailAddress").attr("value", minfo_MEMBER_ADDRESS.split('/')[2]);
                 }
                 else{
                     $("#m_name").attr("value", "");
@@ -119,8 +124,65 @@
                     $("#sample6_detailAddress").attr("value", "");
                 }
             });
-        });
 
+            var time = new Date();
+            var yyyy = time.getFullYear();
+            var mm = time.getMonth()+1;
+            var dd = time.getDay();
+            var hh = time.getHours();
+            var MM = time.getMinutes();
+            var ss = time.getSeconds();
+            var ms = time.getMilliseconds();
+            var minfo_MEMBER_NO = document.getElementById('minfo_MEMBER_NO').value;
+            var total = ''+yyyy + mm+dd+hh+MM+ss+ms+minfo_MEMBER_NO;
+            console.log(total);
+            // $('payment_num').val(total);
+            document.getElementById("payment_num").value = total;
+
+
+        });
+        function delivering(){
+            if(document.frm.memo.value === "6"){
+                document.frm.email2.readOnly = false;
+                frm.delivery_info.value = "";
+                frm.delivery_info.type = "text"
+                frm.delivery_info.focus();
+            }else if(document.frm.memo.value === "1"){
+                frm.delivery_info.readOnly = true;
+                frm.delivery_info.type = "text"
+                frm.delivery_info.value = "직접 수령하겠습니다.";
+            }else if(document.frm.memo.value === "2"){
+                frm.delivery_info.readOnly = true;
+                frm.delivery_info.type = "text"
+                frm.delivery_info.value = "배송 전 연락바랍니다.";
+            }else if(document.frm.memo.value === "3"){
+                frm.delivery_info.readOnly = true;
+                frm.delivery_info.type = "text"
+                frm.delivery_info.value = "부재 시 경비실에 맡겨주세요.";
+            }else if(document.frm.memo.value === "4"){
+                frm.delivery_info.readOnly = true;
+                frm.delivery_info.type = "text"
+                frm.delivery_info.value = "부재 시 문 앞에 놓아주세요.";
+            }else if(document.frm.memo.value === "5"){
+                frm.delivery_info.readOnly = true;
+                frm.delivery_info.type = "text"
+                frm.delivery_info.value = "부재 시 택배함에 넣어주세요.";
+            }else{
+                frm.delivery_info.readOnly = true;
+                frm.delivery_info.type = "hidden"
+                frm.delivery_info.value = "";
+            }
+        }
+        function emailchang(){
+            if(frm.emails.value === "1"){
+                document.frm.email2.readOnly = false;
+                frm.delivery_info.value = "";
+                frm.delivery_info.focus();
+            }else {
+                frm.email2.readOnly = true;
+                frm.email2.value = frm.emails.value;
+            }
+        }
         //주소찾기 스크립트
         function sample6_execDaumPostcode() {
             new daum.Postcode({
@@ -170,64 +232,7 @@
             }).open();
         }
 
-        var time = new Date();
-        var yyyy = time.getFullYear();
-        var mm = time.getMonth()+1;
-        var dd = time.getDay();
-        var hh = time.getHours();
-        var MM = time.getMinutes();
-        var ss = time.getSeconds();
-        var ms = time.getMilliseconds();
-        var minfo_MEMBER_NO = document.getElementById('minfo_MEMBER_NO').value;
-        var total = ''+yyyy + mm+dd+hh+MM+ss+ms+minfo_MEMBER_NO;
-        $(document).ready(function(){
-            console.log(total);
-            // $('payment_num').val(total);
-            document.getElementById("payment_num").value = total;
-        });
 
-        function delivering(){
-            if(document.frm.memo.value === "6"){
-                document.frm.email2.readOnly = false;
-                frm.delivery_info.value = "";
-                frm.delivery_info.type = "text"
-                frm.delivery_info.focus();
-            }else if(document.frm.memo.value === "1"){
-                frm.delivery_info.readOnly = true;
-                frm.delivery_info.type = "text"
-                frm.delivery_info.value = "직접 수령하겠습니다.";
-            }else if(document.frm.memo.value === "2"){
-                frm.delivery_info.readOnly = true;
-                frm.delivery_info.type = "text"
-                frm.delivery_info.value = "배송 전 연락바랍니다.";
-            }else if(document.frm.memo.value === "3"){
-                frm.delivery_info.readOnly = true;
-                frm.delivery_info.type = "text"
-                frm.delivery_info.value = "부재 시 경비실에 맡겨주세요.";
-            }else if(document.frm.memo.value === "4"){
-                frm.delivery_info.readOnly = true;
-                frm.delivery_info.type = "text"
-                frm.delivery_info.value = "부재 시 문 앞에 놓아주세요.";
-            }else if(document.frm.memo.value === "5"){
-                frm.delivery_info.readOnly = true;
-                frm.delivery_info.type = "text"
-                frm.delivery_info.value = "부재 시 택배함에 넣어주세요.";
-            }else{
-                frm.delivery_info.readOnly = true;
-                frm.delivery_info.type = "hidden"
-                frm.delivery_info.value = "";
-            }
-        }
-        function emailchang(){
-            if(frm.emails.value === "1"){
-                document.frm.email2.readOnly = false;
-                frm.delivery_info.value = "";
-                frm.delivery_info.focus();
-            }else {
-                frm.email2.readOnly = true;
-                frm.email2.value = frm.emails.value;
-            }
-        }
 
         $(document).ready(function (){
             $("#paybutton").click(function (){
@@ -265,14 +270,14 @@
                             Basket
                         </a>
                     </div>
-                    <div th:if="${member.Grade == 'BASIC'}">
+                    <div th:if="${Grade == 'BASIC'}">
                         <p th:text="${member.MEMBER_NAME} + '님 환영합니다.'"></p>
 
                         <a href="/com.solponge/logout" class="btn btn-primary btn-sm">로그아웃</a>
                         <a th:href="@{/com.solponge/member/{memberNo}/myPage(memberNo=${member.MEMBER_NO})}" class="btn btn-primary btn-sm">마이페이지</a>
                         <a th:href="@{/com.solponge/member/{memberNo}/myPage/cart(memberNo=${member.MEMBER_NO})}" class="btn btn-primary btn-sm"><img th:src="@{~/img/Basket.png}" style="width: 20px;" alt="basket"> 장바구니</a>
                     </div>
-                    <div th:if="${member.Grade =='ADMIN'}">
+                    <div th:if="${Grade =='ADMIN'}">
                         <p th:text="${member.MEMBER_NAME} + '님 환영합니다.'"></p>
 
                         <a href="/com.solponge/logout" class="btn btn-primary btn-sm">로그아웃</a>
@@ -303,10 +308,16 @@
         </div>
     </nav>
 </header>
+
+
 <input type="hidden" id="minfo_MEMBER_NO" th:value="${minfo.MEMBER_NO}"/>
+<input type="hidden" id="minfo_MEMBER_NAME" th:value="${minfo.MEMBER_NAME}"/>
+<input type="hidden" id="minfo_MEMBER_PHONE" th:value="${minfo.MEMBER_PHONE}"/>
+<input type="hidden" id="minfo_MEMBER_ADDRESS" th:value="${minfo.MEMBER_ADDRESS}"/>
+
 
 <div id="shopbody">
-    <form id="frm" name="frm" method="post" action="/com.solponge/member/${minfo.MEMBER_NO}/payments/pay">
+    <form id="frm" name="frm" method="post" th:action="@{/com.solponge/member/{memberNo}/payments/pay(memberNo=${minfo.MEMBER_NO})}">
         <div class="box">
             <h2>
                 주문상품
