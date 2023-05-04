@@ -61,6 +61,7 @@ public class CartController {
         //----------------------------------------------------------
         //cartItem 을 넣은 cart 를 model 에 저장
         model.addAttribute("cart",cart);
+        System.out.println(cart.getCartItems());
         return "member/cart";
     }
 

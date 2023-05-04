@@ -133,9 +133,9 @@
 </header>
 
 <!--&#45;&#45; 장바구니가 비어있는 경우 메시지 출력 &#45;&#45;-->
-<th:block th:if="${cart.cartItems == null}">
+<th:block th:if="${cart.cartItems.isEmpty()}">
     <div class="cart" style="min-height: 500px">
-        <h1 th:text="${loginMember.MEMBER_NAME}+'님의 장바구니'"></h1>
+        <h1 th:text="${member.MEMBER_NAME}+'님의 장바구니'"></h1>
         <p style="text-align: center; font-size: 1.5rem; font-weight: bold;">장바구니가 비어있습니다</p>
         <div style="display: flex;
               justify-content: center;
@@ -155,7 +155,7 @@
     </div>
 </th:block>
 
-<th:block th:if="${cart.cartItems != null}">
+<th:block th:if="${!cart.cartItems.isEmpty()}">
     <div class="cart">
         <h1 th:text="${member.MEMBER_NAME}+'님의 장바구니'"></h1>
         <hr>
