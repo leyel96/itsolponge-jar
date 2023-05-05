@@ -76,6 +76,7 @@ public class MemberDAO {
     }
     public void memberDelete(Long MEMBER_NO) {
         Map<String,Object> param = new HashMap<>();
+        System.out.println("계정 삭제 시작");
         param.put("member_no",MEMBER_NO);
         sqlSession.delete("member.delete_member_num",param);
         sqlSession.delete("member.delete_CART_ITEM",param);

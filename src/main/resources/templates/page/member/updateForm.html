@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <link rel="stylesheet" type="text/css" th:href="@{~/css/headerFooter.css}">
+  <link rel="stylesheet" href="/css/hdcss.css">
+  <link rel="stylesheet" href="/css/mypageForm.css">
+  <style>
+    #sidebar td{
+      text-align: center;
+    }
+    #sidebar td a{
+      text-align: center;
+    }
+  </style>
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <script th:src="@{~/js/login.js}"></script>
+</head>
+<body data-spy="scroll" data-target=".navbar" data-offset="40" id="home">
+<header>
+    <nav class="navbar nav-first navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/com.solponge/main">
+                <img th:src="@{~/img/sponge.png}" style="width: 100px;" alt="Logo">
+
+            </a>
+            <ul class="navbar-nav ml-auto">
+                <li>
+                    <div th:if="${member == null}">
+                        <a href="/com.solponge/login" class="btn btn-primary btn-sm">login</a>
+                        <a href="/com.solponge/join" class="btn btn-primary btn-sm">Join</a>
+                        <a href="/com.solponge/login" class="btn btn-primary btn-sm">
+                            <img th:src="@{~/img/Basket.png}" style="width: 20px;" alt="basket" />
+                            Basket
+                        </a>
+                    </div>
+                    <div th:if="${GRADE == 'BASIC'}">
+                        <p th:text="${member.MEMBER_NAME} + '님 환영합니다.'"></p>
+
+                        <a href="/com.solponge/logout" class="btn btn-primary btn-sm">로그아웃</a>
+                        <a th:href="@{/com.solponge/member/{memberNo}/myPage(memberNo=${member.MEMBER_NO})}" class="btn btn-primary btn-sm">마이페이지</a>
+                        <a th:href="@{/com.solponge/member/{memberNo}/myPage/cart(memberNo=${member.MEMBER_NO})}" class="btn btn-primary btn-sm"><img th:src="@{~/img/Basket.png}" style="width: 20px;" alt="basket"> 장바구니</a>
+                    </div>
+                    <div th:if="${GRADE =='ADMIN'}">
+                        <p th:text="${member.MEMBER_NAME} + '님 환영합니다.'"></p>
+
+                        <a href="/com.solponge/logout" class="btn btn-primary btn-sm">로그아웃</a>
+                        <a href="/com.solponge/admin/member" class="btn btn-primary btn-sm">회원관리</a>
+                        <a href="/com.solponge/admin/order" class="btn btn-primary btn-sm">주문관리</a>
+                        <a href="/com.solponge/admin/product" class="btn btn-primary btn-sm">상품관리</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <nav class="nav-second navbar custom-navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <button class="navbar-toggler ml-auto" type="button"
+                    data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navnav-linkbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li><a class="nav-link" href="/com.solponge/productList">BOOK</a>
+                    </li>
+                    <li><a class="nav-link" href="/com.solponge/jobinfolist">JOB</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+
+<div id="mypagebody">
+    <div id="sidebar">
+        <table>
+            <tr>
+                <td style="background-color: #007bff;"><a class="link" th:href="@{/com.solponge/member/{MEMBER_NO}/myPage(MEMBER_NO=${member.MEMBER_NO})}" style="color:white;">정보수정</a></td>
+            </tr>
+            <tr>
+                <td><a th:href="@{/com.solponge/member/{MEMBER_NO}/paymentList(MEMBER_NO=${member.MEMBER_NO})}">구매목록</a></td>
+            </tr>
+            <tr>
+                <td><a th:href="@{/com.solponge/member/{MEMBER_NO}/jobScrap(MEMBER_NO=${member.MEMBER_NO})}">스크랩</a></td>
+            </tr>
+        </table>
+
+    </div>
+    <form method="post" th:action="@{/com.solponge/member/{MEMBER_NO}/myPage(MEMBER_NO=${member.MEMBER_NO})}" name="frm">
+        <input type="hidden" name="MEMBER_NO" id="MEMBER_NO" th:value="${member.MEMBER_NO}">
+        <div id="memberinfo">
+            <table>
+                <tr>
+                    <th>아이디</th>
+                    <td><input type="text" id="member_id" name="member_id" th:value="${member.MEMBER_ID}" disabled></td>
+                </tr>
+                <tr>
+                    <th>비밀번호</th>
+                    <td><input type="password" id="member_pwd" name="member_pwd" th:value="${member.MEMBER_PWD}"></td>
+                </tr>
+                <tr>
+                    <th>비밀번호 확인</th>
+                    <td><input type="password" id="member_pwdCheck" name="member_pwdCheck" th:value="${member.MEMBER_PWD}"></td>
+                </tr>
+                <tr>
+                    <th>이름</th>
+                    <td><input type="text" name="MEMBER_NAME" id="MEMBER_NAME" th:value="${member.MEMBER_NAME}" disabled></td>
+                </tr>
+                <tr>
+                    <th>이메일</th>
+                    <td><input type="text" th:value="${#strings.arraySplit(member.MEMBER_EMAIL, '@')[0]}" size="16" id="email1" name="email1"> @
+                        <input type="text" size="20" id="email2" th:value="${#strings.arraySplit(member.getMEMBER_EMAIL, '@')[1]}" name="email2">
+                        <select name="emails" id="emails" size="1" onchange="mailCheck()">
+                            <option th:value="${#strings.arraySplit(member.getMEMBER_EMAIL, '@')[1]}" selected>선택하세요</option>
+                            <option value="naver.com">naver.com</option>
+                            <option value="hanmail.net">hanmail.net</option>
+                            <option value="gmail.com">gmail.com</option>
+                            <option value="nate.com">nate.com</option>
+                            <option value="1">직접입력</option>
+                        </select></td>
+                </tr>
+                <tr>
+                    <th>휴대폰 번호</th>
+                    <td><select name="firstnum" size="1" id="firstnum">
+                        <option value="010">010</option>
+                        <option value="011">011</option>
+                        <option value="013">013</option>
+                        <option value="017">017</option>
+                        <option value="018">018</option>
+                    </select>-&nbsp;<input type="text" size="4" maxlength="4" minlength="4" name="secnum" id="secnum" th:value="${#strings.arraySplit(member.MEMBER_PHONE, '-')[1]}">-
+                        <input type="text" size="4" maxlength="4" minlength="4" name="thrnum" id="thrnum" th:value="${#strings.arraySplit(member.MEMBER_PHONE, '-')[2]}"></td>
+                </tr>
+                <tr>
+                    <th>주소</th>
+                    <td>
+                        <input type="text" id="sample6_postcode" placeholder="우편번호" readonly th:value="${#strings.arraySplit(member.MEMBER_ADDRESS, '/')[0]}" name="sample6_postcode">
+                        <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
+                        <input type="text" id="sample6_address" placeholder="주소" readonly th:value="${#strings.arraySplit(member.MEMBER_ADDRESS, '/')[1]}" name="sample6_address">
+                        <input type="text" id="sample6_detailAddress" placeholder="상세주소" th:value="${#strings.arraySplit(member.MEMBER_ADDRESS, '/')[2]}" name="sample6_detailAddress">
+                        <!--<input type="text" id="sample6_extraAddress" placeholder="참고항목">-->
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"  id="buttons">
+                        <input type="submit" value="변경" id="submitbtn">
+                        <input type="button" onclick="location.href='/com.solponge/main'" value="돌아가기">
+                        <a th:href="@{/com.solponge/member/{MEMBER_NO}/myPage/delete(MEMBER_NO=${member.MEMBER_NO})}"><input type="button" value="회원 탈퇴"/></a> </td>
+                </tr>
+            </table>
+            <script>
+                document.getElementById('submitbtn').onclick = function(){
+                    var emailExp = /^[a-z0-9]{1}[a-z0-9\-]+[a-z0-9]{1}\.(([a-z]{1}[a-z.]+[a-z]{1}[a-z]+)|([a-z]+))$/;
+                    var phonExp = /^[0-9]{4}$/;
+                    if(document.frm.MEMBER_NAME.value === "") {
+                        alert("MEMBER_NAME 입력해주세요.");
+                        return false;
+                    }
+                    if (document.frm.member_pwd.value === ""){
+                        alert("비밀번호를 입력해주세요.");
+                        document.frm.member_pwd.focus();
+                        return false;
+                    }
+                    if(document.frm.member_pwd.value !== document.frm.member_pwdCheck.value){
+                        alert("비밀번호가 틀렸습니다.");
+                        document.frm.member_pwd.focus();
+                        return false;
+                    }
+                    if (document.frm.MEMBER_NAME.value === ""){
+                        alert("이름을 입력해주세요.");
+                        document.frm.MEMBER_NAME.focus();
+                        return false;
+                    }
+                    if (document.frm.email1.value === "" || document.frm.email2.value === ""){
+                        alert("이메일을 입력해주세요.");
+                        document.frm.email1.focus();
+                        return false;
+                    }
+                    if (emailExp.test(document.frm.email2.value) === false){
+                        alert("정확한 이메일 주소를 입력해주세요");
+                        document.frm.email1.focus();
+                        return false;
+                    }
+                    if (document.frm.secnum.value === "" || document.frm.thrnum.value === ""){
+                        alert("전화번호를 입력해주세요.");
+                        document.frm.secnum.focus();
+                        return false;
+                    }
+                    if (document.frm.secnum.value.match(phonExp) === null){
+                        alert("전화번호가 틀렸습니다.");
+                        document.frm.secnum.focus();
+                        return false;
+                    }
+                    if (document.frm.sample6_postcode.value === "" || document.frm.sample6_detailAddress.value === "" || document.frm.sample6_address.value === ""){
+                        alert("주소를 입력해주세요.");
+                        document.frm.sample6_detailAddress.focus();
+                        return false;
+                    }
+                    alert("변경이 완료됐습니다.");
+                };
+            </script>
+        </div>
+    </form>
+</div>
+
+
+<div class="py-4 border border-lighter border-bottom-0 border-left-0 border-right-0 bg-dark" >
+    <div class="container">
+        <div class="col-md-9 text-center">
+            <a href="#" class="px-3"><small class="font-weight-bold">이용안내</small></a>
+            <a href="#" class="px-3"><small class="font-weight-bold">정책</small></a>
+            <a href="#" class="pl-3"><small class="font-weight-bold">고객지원</small></a>
+        </div>
+    </div>
+</div>
+<footer class="border border-dark border-left-0 border-right-0 border-bottom-0 p-4 bg-dark">
+    <div class="container">
+        <div class="row align-items-center text-center text-md-left col">
+            <p class="mb-0 small">
+                <a href="">프로젝트 소개</a>&nbsp;|&nbsp;<a href="">조원소개</a>&nbsp;|&nbsp;<a href="">개발범위</a>&nbsp;|&nbsp;<a href="">시스템 요구사항</a>
+            </p>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

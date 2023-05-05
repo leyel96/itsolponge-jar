@@ -3,6 +3,7 @@ package com.solponge.web.view.member;
 import com.solponge.domain.JobScrap.InfScrapVO;
 import com.solponge.domain.JobScrap.JobScrapService;
 import com.solponge.domain.JobScrap.companyScrapVO;
+import com.solponge.domain.JobScrap.responseScrap;
 import com.solponge.domain.jobinfo.JopInfoService;
 import com.solponge.domain.jobinfo.JopInfoVo;
 import com.solponge.domain.member.MemberVo;
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Controller
 @Slf4j
@@ -41,7 +43,21 @@ public class MemberController {
     @GetMapping("/{MEMBER_NO}/myPage")
     public String getMyPage(Model model, HttpServletRequest request) {
         MemberVo loginMember = getLoginMember(request);
-
+        try{
+            String id = Objects.requireNonNull(loginMember).getMEMBER_ID();
+            System.out.println(id);
+            System.out.println(loginMember.getMEMBER_GRADE());
+            String grade = String.valueOf(loginMember.getMEMBER_GRADE());
+            if(id !=null) {
+                if(grade.equals("ADMIN")){
+                    model.addAttribute("GRADE", "ADMIN");
+                } else {
+                    model.addAttribute("GRADE", "BASIC");
+                }
+            }
+        }catch (Exception ex){
+            System.out.println(ex);
+        }
         //회원 정보 조회
         model.addAttribute("member", loginMember);
         return "member/updateForm";
