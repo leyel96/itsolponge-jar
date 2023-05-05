@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        /* Pagination container */
+        #paging {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        /* Pagination links */
+        .pagination {
+            display: inline-block;
+            margin-bottom: 0;
+        }
+
+        .pagination .page-item {
+            display: inline;
+        }
+
+        .pagination .page-link {
+            color: #007bff;
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            padding: 6px 12px;
+            margin: 0 4px;
+        }
+
+        .pagination .page-item.disabled .page-link {
+            color: #6c757d;
+            pointer-events: none;
+            cursor: default;
+        }
+
+        .pagination .page-item.active .page-link {
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .pagination {
+            display: inline-block;
+            margin: 0 auto;
+        }
+
+        .pagination li {
+            display: inline;
+            margin: 0 1px;
+        }
+
+        .pagination li.active a {
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .pagination li a {
+            color: #007bff;
+            border: 1px solid #007bff;
+            padding: 6px 12px;
+        }
+
+        .pagination li a:hover {
+            background-color: #007bff;
+            color: #fff;
+            border-color: #007bff;
+        }
+
+        .pagination li.disabled a {
+            color: #6c757d;
+            cursor: not-allowed;
+            background-color: #fff;
+            border-color: #6c757d;
+        }
+
+        #paymentlist {
+            width: 1300px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 1%;
+            margin-bottom: 10%;
+        }
+        img{
+            width: 100px;
+        }
+        .tittxt, .pritxt{
+            width: 500px;
+        }
+        .del{
+            width: 150px;
+        }
+        #sidebar{
+            display:inline-block;
+            float:left;
+            width:150px;
+            margin-top: 20px;
+            margin-right: 10px;
+            padding: 10px;
+            text-align: center;
+        }
+        #productinfo{
+            display:inline-block;
+            margin-top: 20px;
+            border: 1px solid black;
+            padding: 10px;
+            width: 1050px;
+            left: 52px;
+            position:relative;
+        }
+        .suctxt{
+            padding-left: 20px;
+            height: 20px;
+        }
+        .pritxt, .tittxt{
+            padding-left: 20px;
+        }
+        .remove, .del, .propage{
+            text-align: center;
+        }
+        .visi{
+            cursor: pointer;
+        }
+        .del, .propage{
+            background-color: darkgrey;
+            color: white;
+            cursor: pointer;
+        }
+        .tdbody{
+            margin-top: 10px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+        .iiimm{
+            width: 150px;
+            text-align: center;
+        }
+
+    </style>
+    <link rel="stylesheet" type="text/css" th:href="@{~/css/headerFooter.css}">
+    <script th:src="@{~/js/paymentList.js}"></script>
+</head>
+<body>
+
+<header>
+    <nav class="navbar nav-first navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/com.solponge/main">
+                <img th:src="@{~/img/sponge.png}" style="width: 100px;" alt="Logo">
+
+            </a>
+            <ul class="navbar-nav ml-auto">
+                <li>
+                    <div th:if="${member == null}">
+                        <a href="/com.solponge/login" class="btn btn-primary btn-sm">login</a>
+                        <a href="/com.solponge/join" class="btn btn-primary btn-sm">Join</a>
+                        <a href="/com.solponge/login" class="btn btn-primary btn-sm">
+                            <img th:src="@{~/img/Basket.png}" style="width: 20px;" alt="basket" />
+                            Basket
+                        </a>
+                    </div>
+                    <div th:if="${GRADE == 'BASIC'}">
+                        <p th:text="${member.MEMBER_NAME} + '님 환영합니다.'"></p>
+
+                        <a href="/com.solponge/logout" class="btn btn-primary btn-sm">로그아웃</a>
+                        <a th:href="@{/com.solponge/member/{memberNo}/myPage(memberNo=${member.MEMBER_NO})}" class="btn btn-primary btn-sm">마이페이지</a>
+                        <a th:href="@{/com.solponge/member/{memberNo}/myPage/cart(memberNo=${member.MEMBER_NO})}" class="btn btn-primary btn-sm"><img th:src="@{~/img/Basket.png}" style="width: 20px;" alt="basket"> 장바구니</a>
+                    </div>
+                    <div th:if="${GRADE =='ADMIN'}">
+                        <p th:text="${member.MEMBER_NAME} + '님 환영합니다.'"></p>
+
+                        <a href="/com.solponge/logout" class="btn btn-primary btn-sm">로그아웃</a>
+                        <a href="/com.solponge/admin/member" class="btn btn-primary btn-sm">회원관리</a>
+                        <a href="/com.solponge/admin/order" class="btn btn-primary btn-sm">주문관리</a>
+                        <a href="/com.solponge/admin/product" class="btn btn-primary btn-sm">상품관리</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <nav class="nav-second navbar custom-navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <button class="navbar-toggler ml-auto" type="button"
+                    data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navnav-linkbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li><a class="nav-link" href="/com.solponge/productList">BOOK</a>
+                    </li>
+                    <li><a class="nav-link" href="/com.solponge/jobinfolist">JOB</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div id="paymentlist">
+    <div id="sidebar">
+        <table>
+            <tr>
+                <td><a class="link" th:href="@{/com.solponge/member/{MEMBER_NO}/myPage(MEMBER_NO=${member.MEMBER_NO})}">정보수정</a></td>
+            </tr>
+            <tr>
+                <td class="link" style="background-color: #007bff;"><a th:href="@{/com.solponge/member/{MEMBER_NO}/paymentList(MEMBER_NO=${member.MEMBER_NO})}" style="color:white;">구매목록</a></td>
+            </tr>
+            <tr>
+                <td class="link"><a th:href="@{/com.solponge/member/{MEMBER_NO}/jobScrap(MEMBER_NO=${member.MEMBER_NO})}">스크랩</a></td>
+            </tr>
+        </table>
+    </div>
+    <th:block th:if="${paginatedProducts.size() == 0}">
+        <div class="cart" style="min-height: 500px">
+
+            <p style="text-align: center; padding-top: 50px; font-size: 1.5rem; font-weight: bold;">구매 이력이 없습니다.</p>
+            <div style="display: flex;
+              justify-content: center;
+              align-items: center;
+              height: 200px;">
+                <button onclick="location.href='/com.solponge/productList'"
+                        style="width: 500px;
+                    padding: 10px;
+                    background-color: rgb(102,153,255);
+                    color: #fff;
+                    border: none;
+                    font-size: 16px;
+                    font-weight: bold;
+                    cursor: pointer;
+                    border-radius: 10px;">상품 보러 가기</button>
+            </div>
+        </div>
+    </th:block>
+
+    <th:block th:if="${paginatedProducts.size() != 0}">
+        <div id="productinfo">
+<!--        <th:block th:each="pageNum : ${#numbers.sequence(1, totalPages)}">-->
+        <th:block th:each="i : ${paginatedProducts}">
+            <th:block th:with="title='title'+${i.product_num}, stock='stock'+${i.product_num}, price='price'+${i.product_num},
+            img='img'+${i.product_num}, date='date'+${i.product_num}, paynum='paynum'+${i.product_num}, delete_url='/com.solponge/member/'+${member_No}+'paymentList/delete+'+'?'+'payment_num='+${i.payment_num}+'&product_num='+${i.product_num}">
+                <table class="tdbody">
+                    <tr>
+                        <td colspan="2" class="suctxt">결제완료</td>
+                        <td class="remove"><a class="td_in_a" style="display: block; width: 100%; height: 100%; padding: 10px;" th:href="@{'/com.solponge/member/' + ${member_No} + '/paymentList/delete?payment_num=' + ${i.payment_num} + '&product_num=' + ${i.product_num}}"><span class="visi">내역삭제</span></a></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2" class="iiimm"><img class="proimg" th:src="${productinfo.get(img)}"></td>
+                        <td class="tittxt" th:text="${productinfo.get(title)}"></td>
+                        <td th:onclick="|window.open('https://tracker.delivery/#/kr.cjlogistics/'+${i.delivery_num},'배송조회','width=430, height=600')|"
+                            th:class="${'del'}">배송조회</td>
+                    </tr>
+                    <tr>
+                        <td class="pritxt" th:value="${productinfo.get(price)}+'원'"></td>
+                        <td class="propage"><a class="td_in_a" style="display: block; width: 100%; height: 100%; padding: 10px;" th:href="@{'/com.solponge/product/'+${i.product_num}}">상품페이지</a></td>
+                    </tr>
+                </table>
+            </th:block>
+        </th:block>
+        <nav id="paging" aria-label="Page navigation example" style="clear: both;">
+            <ul class="pagination justify-content-center" style="padding: 0">
+                <li class="page-item" th:classappend="${currentPage == 1 ? 'disabled' : ''}">
+                    <a class="page-link" th:href="${url}+'page='+${currentPage - 1}" tabindex="-1" th:aria-disabled="${currentPage == 1}">Previous</a>
+                </li>
+                <th:block th:if="${totalPages == 0}">
+                    <!--                    <th:block th:each="pageNum : ${#numbers.sequence(1, 0)}">-->
+                    <li class="page-item" th:classappend="${currentPage == 1 ? 'active' : ''}">
+                        <a class="page-link" th:href="${url}+'page='+${1}" th:text="${1}"></a>
+                    </li>
+                    <!--                    </th:block>-->
+                </th:block>
+                <th:block th:if="${totalPages <= 10 and totalPages != 0}">
+                    <th:block th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
+                        <li class="page-item" th:classappend="${currentPage == pageNum ? 'active' : ''}">
+                            <a class="page-link" th:href="${url}+'page='+${pageNum}" th:text="${pageNum}"></a>
+                        </li>
+                    </th:block>
+                </th:block>
+                <th:block th:if="${totalPages >= 11 and currentPage <= 6}">
+                    <th:block th:each="pageNum : ${#numbers.sequence(1, 10)}">
+                        <li class="page-item" th:classappend="${currentPage == pageNum ? 'active' : ''}">
+                            <a class="page-link" th:href="${url}+'page='+${pageNum}" th:text="${pageNum}"></a>
+                        </li>
+                    </th:block>
+                </th:block>
+                <th:block th:if="${currentPage > 6 and currentPage > totalPages - 6}">
+                    <th:block th:each="pageNum : ${#numbers.sequence(totalPages - 9, totalPages)}">
+                        <li class="page-item" th:classappend="${currentPage == pageNum ? 'active' : ''}">
+                            <a class="page-link" th:href="${url}+'page='+${pageNum}" th:text="${pageNum}"></a>
+                        </li>
+                    </th:block>
+                </th:block>
+                <th:block th:if="${currentPage > 6 and currentPage <= totalPages - 6}">
+                    <th:block th:each="pageNum : ${#numbers.sequence(currentPage - 5, currentPage + 4)}">
+                        <li class="page-item" th:classappend="${currentPage == pageNum ? 'active' : ''}">
+                            <a class="page-link" th:href="${url}+'page='+${pageNum}" th:text="${pageNum}"></a>
+                        </li>
+                    </th:block>
+                </th:block>
+                <li class="page-item" th:classappend="${currentPage == totalPages ? 'disabled' : ''}" style="margin-right: 44px">
+                    <a class="page-link" th:href="${url}+'page='+${currentPage + 1}" th:aria-disabled="${currentPage == totalPages}">Next</a>
+                </li>
+            </ul>
+        </nav>
+
+    </div>
+    </th:block>
+</div>
+
+<div class="py-4 border border-lighter border-bottom-0 border-left-0 border-right-0 bg-dark" >
+    <div class="container">
+        <div class="col-md-9 text-center">
+            <a href="#" class="px-3"><small class="font-weight-bold">이용안내</small></a>
+            <a href="#" class="px-3"><small class="font-weight-bold">정책</small></a>
+            <a href="#" class="pl-3"><small class="font-weight-bold">고객지원</small></a>
+        </div>
+    </div>
+</div>
+<footer class="border border-dark border-left-0 border-right-0 border-bottom-0 p-4 bg-dark">
+    <div class="container">
+        <div class="row align-items-center text-center text-md-left col">
+            <p class="mb-0 small">
+                <a href="">프로젝트 소개</a>&nbsp;|&nbsp;<a href="">조원소개</a>&nbsp;|&nbsp;<a href="">개발범위</a>&nbsp;|&nbsp;<a href="">시스템 요구사항</a>
+            </p>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

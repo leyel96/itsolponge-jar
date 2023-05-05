@@ -1,5 +1,6 @@
 package com.solponge.web.view.payment;
 
+import com.solponge.domain.JobScrap.responseScrap;
 import com.solponge.domain.member.MemberVo;
 import com.solponge.domain.payment.OutOfStockException;
 import com.solponge.domain.payment.PaymentService;
@@ -59,6 +60,19 @@ public class PaymentController {
         model.addAttribute("member_No", loginMember.getMEMBER_NO());
         model.addAttribute("productinfo", param);
         model.addAttribute("payinfo", data);
+        try{
+            String id = loginMember.getMEMBER_ID();
+            String grade = String.valueOf(loginMember.getMEMBER_GRADE());
+            if(id !=null) {
+                if(grade.equals("ADMIN")){
+                    model.addAttribute("GRADE", "ADMIN");
+                } else {
+                    model.addAttribute("GRADE", "BASIC");
+                }
+            }
+        }catch (Exception e){
+            System.out.println("오류발생");
+        }
         return "member/paymentList";
     }
 
