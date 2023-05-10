@@ -202,7 +202,19 @@ public class MemberController {
         }catch (Exception e){
             System.out.println("오류발생");
         }
-
+        try{
+            String id = loginMember.getMEMBER_ID();
+            String grade = String.valueOf(loginMember.getMEMBER_GRADE());
+            if(id !=null) {
+                if(grade.equals("ADMIN")){
+                    model.addAttribute("GRADE", "ADMIN");
+                } else {
+                    model.addAttribute("GRADE", "BASIC");
+                }
+            }
+        }catch (Exception e){
+            System.out.println("오류발생");
+        }
         return "member/scrap";
     }
 
