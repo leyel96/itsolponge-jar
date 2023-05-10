@@ -299,24 +299,25 @@
       <div id="companyNameContainer">
         <div class="companyScrap">
           <div class="companies">
-            <th:block th:with="c=${div_company_count}-1">
-              <th:block th:each="count : ${#numbers.sequence(0, c)}">
+<!--            <th:block th:with="count=0">-->
+              <th:block th:with="c=${div_company_count}-1">
+              <th:block th:each="cc : ${#numbers.sequence(0, c)}">
                 <div class="company">
                   <th:block th:each="i : ${#numbers.sequence(0, 1)}">
                     <div class="flex-container">
-                      <th:block th:each="j : ${#numbers.sequence(0, 3)}">
-                        <th:block th:with="apple=${company_names[count]}, apple2=${company_names[count]}+'count',
-                      apple3=${company_names[count]}+'OneInfoName', apple3=${company_names[count]}+'OneInfoNum'">
+                      <th:block th:each="j, status : ${#numbers.sequence(0, 3)}" th:with="count=${status.index}">
+                      <th:block th:with="apple=${company_names[count]}, apple2=${company_names[count]}+'count',
+                      apple3=${company_names[count]}+'OneInfoName', apple4=${company_names[count]}+'OneInfoNum'">
                           <th:block th:if="${apple.length()>=1}">
-                            <input type="hidden" name="company_name" th:id="'companyName_'+${apple}" value="${apple}">
+                            <input type="hidden" name="company_name" th:id="'companyName_'+${apple}" th:value="${apple}">
                             <div class="flex-item color-gray" style="float: left;">
                               <div class="item_container">
-                                <div class="logo" onclick="location.href='/com.solponge/jobinfolist/${apple}'">
-                                  <img src="${pageContext.request.contextPath}/img/icons8-business-buildings-100.png" />
-                                </div>
+                                <a th:href="'/com.solponge/jobinfolist/'+${apple}"><div class="logo">
+                                  <img th:src="@{~/img/icons8-business-buildings-100.png}" />
+                                </div></a>
                                 <th:block th:with="appleCount=${responseData.get(apple).get(apple2)}">
-                                  <a th:href="'/com.solponge/jobinfolist/'+${apple}"><div class="company_name" th:text="${apple}">
-                                    <br /><span  style="font-size: 12px;" th:text="'채용중' +${appleCount}+' 건'"></span>
+                                  <a th:href="'/com.solponge/jobinfolist/'+${apple}"><div class="company_name"><span th:text="${apple}"></span>
+                                    <br /><span style="font-size: 12px;" th:text="'채용중' +${appleCount}+' 건'"></span>
                                   </div></a>
                                   <button class="delete_bt" type="button" style="float: right;" th:id="${apple}" onclick="submitForm(this.id)">x</button>
                                 </th:block>
@@ -331,7 +332,7 @@
                               </div>
                             </div>
                           </th:block>
-                          <th:block th:if="${#strings.length(apple) >=1}">
+                          <th:block th:if="${#strings.length(apple) <1}">
                             <div class="flex-item color-gray" style="text-align: center;">
                               <div style="top: 32px;  position:relative;">solponge</div>
                             </div>
@@ -344,6 +345,7 @@
                 </div>
               </th:block>
             </th:block>
+<!--            </th:block>-->
           </div>
         </div>
         <div style="display: inline-block; float: right; margin-right: 20px;">
