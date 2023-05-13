@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="UTF-8">
+  <title>Title</title>
   <link rel="stylesheet" type="text/css" th:href="@{~/css/headerFooter.css}">
   <link rel="stylesheet" th:href="@{~/css/mypageForm.css}">
   <style>
@@ -292,59 +292,58 @@
 
   </div>
   <div>
-    <th:block th:if="${company_state != null and company_state.equals('NO')}">
-        <h3 id="company_state">관심 기업을 스크랩 해주세요!</h3>
-    </th:block>
-    <th:block th:unless="${company_state != null and company_state.equals('NO')}">
+    <div th:if="${company_state eq 'NO'}">
+      <h3 id="company_state">관심 기업을 스크랩 해주세요!</h3>
+    </div>
+    <div th:if="${company_state ne 'NO'}">
       <div id="companyNameContainer">
         <div class="companyScrap">
           <div class="companies">
-<!--            <th:block th:with="count=0">-->
-              <th:block th:with="c=${div_company_count}-1">
-              <th:block th:each="cc : ${#numbers.sequence(0, c)}">
+<!--            <th:block th:with="companyIndex=${#lists.size(company_names)}, index=-1">-->
+              <th:block th:each="i : ${#numbers.sequence(0, div_company_count - 1)}">
                 <div class="company">
-                  <th:block th:each="i : ${#numbers.sequence(0, 1)}">
+                  <th:block th:each="j : ${#numbers.sequence(0, 1)}">
                     <div class="flex-container">
-                      <th:block th:each="j, status : ${#numbers.sequence(0, 3)}" th:with="count=${status.index}">
-                      <th:block th:with="apple=${company_names[count]}, apple2=${company_names[count]}+'count',
-                      apple3=${company_names[count]}+'OneInfoName', apple4=${company_names[count]}+'OneInfoNum'">
-                          <th:block th:if="${apple.length()>=1}">
-                            <input type="hidden" name="company_name" th:id="'companyName_'+${apple}" th:value="${apple}">
-                            <div class="flex-item color-gray" style="float: left;">
-                              <div class="item_container">
-                                <a th:href="'/com.solponge/jobinfolist/'+${apple}"><div class="logo">
-                                  <img th:src="@{~/img/icons8-business-buildings-100.png}" />
-                                </div></a>
-                                <th:block th:with="appleCount=${responseData.get(apple).get(apple2)}">
-                                  <a th:href="'/com.solponge/jobinfolist/'+${apple}"><div class="company_name"><span th:text="${apple}"></span>
-                                    <br /><span style="font-size: 12px;" th:text="'채용중' +${appleCount}+' 건'"></span>
-                                  </div></a>
-                                  <button class="delete_bt" type="button" style="float: right;" th:id="${apple}" onclick="submitForm(this.id)">x</button>
-                                </th:block>
-                                <th:block th:with="infotitle=${responseData.get(apple).get(apple3)}">
-                                  <th:block th:if="${#strings.length(infotitle) > 15}">
-                                    <div class="jobinfo"><a th:href="'/com.solponge/jobinfo/'+${responseData.get(apple).get(apple4)}" th:text="'최근 공고: '+${infotitle.substring(0, 14)}+'...'"></a></div>
+                      <th:block th:each="k : ${#numbers.sequence(0, 3)}">
+                        <th:block th:with="count=${i*8 + j*4 + k}">
+<!--                          <th:block th:if="-->
+                            <th:block th:if="${count lt #lists.size(company_names)}" th:with="apple=${company_names[count]}, apple2=${company_names[count]} + 'count', apple3=${company_names[count]} + 'OneInfoName', apple4=${company_names[count]} + 'OneInfoNum'">
+                              <input type="hidden" name="company_name" th:id="'companyName_'+${apple}" th:value="${apple}">
+                              <div class="flex-item color-gray" style="float: left;" th:value="${count}">
+                                <div class="item_container" th:value="${k}">
+                                  <a th:href="'/com.solponge/jobinfolist/'+${apple}">
+                                    <div class="logo">
+                                      <img th:src="@{~/img/icons8-business-buildings-100.png}"/>
+                                    </div>
+                                  </a>
+                                  <th:block th:with="appleCount=${responseData.get(apple).get(apple2)}">
+                                    <a th:href="'/com.solponge/jobinfolist/'+${apple}">
+                                      <div class="company_name">
+                                        <span th:text="${apple}"></span><br/>
+                                        <span style="font-size: 12px;" th:text="'채용중 '+${appleCount}+' 건'"></span>
+                                      </div>
+                                    </a>
+                                    <button class="delete_bt" type="button" style="float: right;" th:id="${apple}" onclick="submitForm(this.id)">x</button>
                                   </th:block>
-                                  <th:block th:if="${#strings.length(infotitle) <= 15}">
-                                    <div class="jobinfo"><a th:href="'/com.solponge/jobinfo/'+${responseData.get(apple).get(apple4)}" th:text="'최근 공고: '+${infotitle}"></a></div>
+                                  <th:block th:with="infotitle=${responseData.get(apple).get(apple3)}">
+                                    <div th:if="${#strings.length(infotitle) > 15}" class="jobinfo"><a th:href="'/com.solponge/jobinfo/'+${responseData.get(apple).get(apple4)}">최근 공고: <span th:text="${#strings.substring(infotitle, 0, 14) + '...'}"></span></a></div>
+                                    <div th:if="${#strings.length(infotitle) le 15}" class="jobinfo"><a th:href="'/com.solponge/jobinfo/'+${responseData.get(apple).get(apple4)}">최근 공고: <span th:text="${infotitle}"></span></a></div>
                                   </th:block>
-                                </th:block>
+                                </div>
                               </div>
-                            </div>
-                          </th:block>
-                          <th:block th:if="${#strings.length(apple) <1}">
-                            <div class="flex-item color-gray" style="text-align: center;">
-                              <div style="top: 32px;  position:relative;">solponge</div>
-                            </div>
-                          </th:block>
+                            </th:block>
+                            <th:block th:if="${count ge #lists.size(company_names)}">
+                              <div class="flex-item color-gray" style="text-align: center;" th:value="${count}">
+                                <div style="top: 32px;  position:relative;">solponge</div>
+                              </div>
+                            </th:block>
+<!--                          </th:block>-->
                         </th:block>
                       </th:block>
                     </div>
-
                   </th:block>
                 </div>
               </th:block>
-            </th:block>
 <!--            </th:block>-->
           </div>
         </div>
@@ -356,202 +355,204 @@
             &#62;
           </button>
         </div>
-        <script>
-          const items = document.querySelectorAll('.company');
-          const itemCount = items.length - 1;
-          console.log(itemCount);
-          let curPos = 0;
-          let position = 0;
-          const IMAGE_WIDTH = 1090;
+      </div>
+    </div>
+    <script>
+      const items = document.querySelectorAll('.company');
+      const itemCount = items.length - 1;
+      console.log(itemCount);
+      let curPos = 0;
+      let position = 0;
+      const IMAGE_WIDTH = 1090;
 
-          // 요소 선택
-          const prevBtn = document.querySelector('.prev');
-          const nextBtn = document.querySelector('.next');
-          const companies = document.querySelector('.companies');
+      // 요소 선택
+      const prevBtn = document.querySelector('.prev');
+      const nextBtn = document.querySelector('.next');
+      const companies = document.querySelector('.companies');
 
-          function prev() {
-            if (curPos > 0) {
-              nextBtn.removeAttribute('disabled');
-              position += IMAGE_WIDTH;
+      function prev() {
+        if (curPos > 0) {
+          nextBtn.removeAttribute('disabled');
+          position += IMAGE_WIDTH;
 
-              companies.style.transform = 'translateX('+position+'px)';
-              curPos -= 1;
-            }
-            if (curPos === 0) {
-              prevBtn.setAttribute('disabled', 'true');
-            }
+          companies.style.transform = 'translateX('+position+'px)';
+          curPos -= 1;
+        }
+        if (curPos === 0) {
+          prevBtn.setAttribute('disabled', 'true');
+        }
+      }
+      function next() {
+        if (curPos < itemCount) {
+          prevBtn.removeAttribute('disabled');
+          position -= IMAGE_WIDTH;
+          companies.style.transform = 'translateX('+position+'px)';
+          curPos += 1;
+        }
+        if (curPos === itemCount) {
+          nextBtn.setAttribute('disabled', 'true');
+        }
+      }
+      function init() {
+        prevBtn.setAttribute('disabled', 'true');
+        prevBtn.addEventListener('click', prev);
+        nextBtn.addEventListener('click', next);
+      }
+
+      init();
+
+      const myButton = document.getElementsByClassName("delete_bt");
+      myButton.addEventListener("click", postData);
+
+      function postData() {
+        const inputVal = document.getElementById("myInput").value;
+        fetch("/my-endpoint", {
+          method: "POST",
+          body: JSON.stringify({ inputVal }),
+          headers: {
+            "Content-Type": "application/json"
           }
-          function next() {
-            if (curPos < itemCount) {
-              prevBtn.removeAttribute('disabled');
-              position -= IMAGE_WIDTH;
-              companies.style.transform = 'translateX('+position+'px)';
-              curPos += 1;
-            }
-            if (curPos === itemCount) {
-              nextBtn.setAttribute('disabled', 'true');
-            }
-          }
-          function init() {
-            prevBtn.setAttribute('disabled', 'true');
-            prevBtn.addEventListener('click', prev);
-            nextBtn.addEventListener('click', next);
-          }
+        })
+                .then(response => response.json())
+                .then(data => console.log(data))
+                .catch(error => console.error(error));
+      }
+      $(document).ready(function() {
+        $(".delete_bt").click(function() {
+          location.reload();
+        });
+      });
 
-          init();
-
-          const myButton = document.getElementsByClassName("delete_bt");
-          myButton.addEventListener("click", postData);
-
-          function postData() {
-            const inputVal = document.getElementById("myInput").value;
-            fetch("/my-endpoint", {
-              method: "POST",
-              body: JSON.stringify({ inputVal }),
-              headers: {
-                "Content-Type": "application/json"
+      function submitForm(clicked_id) {
+        var buttonElement = document.getElementById(clicked_id);
+        var usercheck = document.getElementById('MEMBER_ID').value;
+        var getMEMBER_NO = document.getElementById('MEMBER_NO').value;
+        console.log(usercheck)
+        console.log(getMEMBER_NO)
+        let MEMBER_NO = parseInt(getMEMBER_NO);
+        var companyName = "companyName_"+clicked_id;
+        var data2 = document.getElementById(companyName).value;
+        if (buttonElement.value === 'Click') {
+          buttonElement.value = 'Clicked';
+          buttonElement.classList.add('red');
+          if (usercheck.length !== 0) {
+            console.log('보낼 값: ' + data2);
+            console.log('용자사 번호: ' + MEMBER_NO);
+            console.log(typeof(MEMBER_NO))
+            let scrapCompany = JSON.stringify({"member_No": MEMBER_NO,"companyName": data2});
+            $.ajax({
+              type: "POST"
+              , url: "/scrap/company"
+              , contentType: "application/json"
+              , data: scrapCompany
+              , success: function() {
+                alert('성공');
               }
-            })
-                    .then(response => response.json())
-                    .then(data => console.log(data))
-                    .catch(error => console.error(error));
-          }
-          $(document).ready(function() {
-            $(".delete_bt").click(function() {
-              location.reload();
+              , error: function() {
+                alert('찜 등록에 실패했습니다. 관리자에게 문의해주세요.');
+              }
             });
-          });
-
-          function submitForm(clicked_id) {
-            var buttonElement = document.getElementById(clicked_id);
-            var usercheck = document.getElementById('MEMBER_ID').value;
-            var getMEMBER_NO = document.getElementById('MEMBER_NO').value;
-            console.log(usercheck)
-            console.log(getMEMBER_NO)
-            let MEMBER_NO = parseInt(getMEMBER_NO);
-            var companyName = "companyName_"+clicked_id;
-            var data2 = document.getElementById(companyName).value;
-            if (buttonElement.value === 'Click') {
-              buttonElement.value = 'Clicked';
-              buttonElement.classList.add('red');
-              if (usercheck.length !== 0) {
-                console.log('보낼 값: ' + data2);
-                console.log('용자사 번호: ' + MEMBER_NO);
-                console.log(typeof(MEMBER_NO))
-                let scrapCompany = JSON.stringify({"member_No": MEMBER_NO,"companyName": data2});
-                $.ajax({
-                  type: "POST"
-                  , url: "/scrap/company"
-                  , contentType: "application/json"
-                  , data: scrapCompany
-                  , success: function() {
-                    alert('성공');
-                  }
-                  , error: function() {
-                    alert('찜 등록에 실패했습니다. 관리자에게 문의해주세요.');
-                  }
-                });
-              } else {
-                alert('찜 등록에 실패했습니다. 로그인을 해주세요');
-                location.href = "/main";
-              }
-            } else {
-              buttonElement.value = 'Click';
-              buttonElement.classList.remove('red');
-              if (usercheck.length !== 0) {
-                console.log('보낼 값: ' + data2);
-                console.log('용자사 번호: ' + MEMBER_NO);
-                console.log(typeof(MEMBER_NO))
-                let scrapCompany = JSON.stringify({"member_No": MEMBER_NO,"companyName": data2});
-                $.ajax({
-                  type: "POST"
-                  , url: "/scrap/company/delete"
-                  , contentType: "application/json"
-                  , data: scrapCompany
-                  , success: function() {
-                    alert('성공');
-                  }
-                  , error: function() {
-                    alert('찜 삭제 실패했습니다. 관리자에게 문의해주세요.');
-                  }
-                });
-              }
-            }
+          } else {
+            alert('찜 등록에 실패했습니다. 로그인을 해주세요');
+            location.href = "/main";
           }
-          function submitForm2(clicked_id) {
-            var buttonElement = document.getElementById(clicked_id);
-            var usercheck = document.getElementById('MEMBER_ID').value;
-            var getMEMBER_NO = document.getElementById('MEMBER_NO').value;
-            console.log(usercheck)
-            console.log(getMEMBER_NO)
-            let MEMBER_NO = parseInt(getMEMBER_NO);
-            var infoname = "infoname_"+clicked_id;
-            console.log(infoname)
-            var infoname_re = infoname.replace("_star","");
-            console.log(infoname_re)
-            var data2 = document.getElementById(infoname_re).value;
-            if (buttonElement.value === 'Click') {
-              buttonElement.value = 'Clicked';
-              buttonElement.classList.add('yellow');
-              if (usercheck.length !== 0) {
-                console.log('보낼 값: ' + data2);
-                console.log('용자사 번호: ' + MEMBER_NO);
-                console.log(typeof(MEMBER_NO))
-                let scrapinfo = JSON.stringify({"member_No": MEMBER_NO,"infoname": data2});
-                $.ajax({
-                  type: "POST"
-                  , url: "/scrap/job"
-                  , contentType: "application/json"
-                  , data: scrapinfo
-                  , success: function() {
-                    alert('성공');
-                  }
-                  , error: function() {
-                    alert('찜 등록에 실패했습니다. 관리자에게 문의해주세요.');
-                  }
-                });
-              } else {
-                alert('찜 등록에 실패했습니다.');
-                location.href = "/main";
+        } else {
+          buttonElement.value = 'Click';
+          buttonElement.classList.remove('red');
+          if (usercheck.length !== 0) {
+            console.log('보낼 값: ' + data2);
+            console.log('용자사 번호: ' + MEMBER_NO);
+            console.log(typeof(MEMBER_NO))
+            let scrapCompany = JSON.stringify({"member_No": MEMBER_NO,"companyName": data2});
+            $.ajax({
+              type: "POST"
+              , url: "/scrap/company/delete"
+              , contentType: "application/json"
+              , data: scrapCompany
+              , success: function() {
+                alert('성공');
               }
-            } else {
-              buttonElement.value = 'Click';
-              buttonElement.classList.remove('yellow');
-              if (usercheck.length !== 0) {
-                console.log('보낼 값: ' + data2);
-                console.log('용자사 번호: ' + MEMBER_NO);
-                console.log(typeof(MEMBER_NO))
-                let scrapinfo = JSON.stringify({"member_No": MEMBER_NO,"infoname": data2});
-                $.ajax({
-                  type: "POST"
-                  , url: "/scrap/job/delete"
-                  , contentType: "application/json"
-                  , data: scrapinfo
-                  , success: function() {
-                    alert('성공');
-                  }
-                  , error: function() {
-                    alert('찜 삭제 실패했습니다. 관리자에게 문의해주세요.');
-                  }
-                });
+              , error: function() {
+                alert('찜 삭제 실패했습니다. 관리자에게 문의해주세요.');
               }
-            }
+            });
           }
-        </script>
-        <br>
-        <div style="width: 1050px; margin: 0 auto; position: relative; left: 55px;">
-          <br>
-          <hr>
-            <!--          여기가 기업 공고 리스트 시작-->
-            <th:block th:if="${jobinfo_state == 'NO'}">
-              <h3 id="jobinfo_state">관심 구직 공고를 스크랩해주세요!</h3>
-            </th:block>
-            <th:block th:if="${jobinfo_state != 'NO'}">
-              <div id="container_booklist">
-                <div id="row2">
-                  <form th:action="'/com.solponge/member/'+${member.MEMBER_NO}+'/myPage/jobScrap/search'" accept-charset="utf-8" name = "book_info" method = "get">
-                    <h3 id="newbook">
-                      스크랩된 공고<span>
+        }
+      }
+      function submitForm2(clicked_id) {
+        var buttonElement = document.getElementById(clicked_id);
+        var usercheck = document.getElementById('MEMBER_ID').value;
+        var getMEMBER_NO = document.getElementById('MEMBER_NO').value;
+        console.log(usercheck)
+        console.log(getMEMBER_NO)
+        let MEMBER_NO = parseInt(getMEMBER_NO);
+        var infoname = "infoname_"+clicked_id;
+        console.log(infoname)
+        var infoname_re = infoname.replace("_star","");
+        console.log(infoname_re)
+        var data2 = document.getElementById(infoname_re).value;
+        if (buttonElement.value === 'Click') {
+          buttonElement.value = 'Clicked';
+          buttonElement.classList.add('yellow');
+          if (usercheck.length !== 0) {
+            console.log('보낼 값: ' + data2);
+            console.log('용자사 번호: ' + MEMBER_NO);
+            console.log(typeof(MEMBER_NO))
+            let scrapinfo = JSON.stringify({"member_No": MEMBER_NO,"infoname": data2});
+            $.ajax({
+              type: "POST"
+              , url: "/scrap/job"
+              , contentType: "application/json"
+              , data: scrapinfo
+              , success: function() {
+                alert('성공');
+              }
+              , error: function() {
+                alert('찜 등록에 실패했습니다. 관리자에게 문의해주세요.');
+              }
+            });
+          } else {
+            alert('찜 등록에 실패했습니다.');
+            location.href = "/main";
+          }
+        } else {
+          buttonElement.value = 'Click';
+          buttonElement.classList.remove('yellow');
+          if (usercheck.length !== 0) {
+            console.log('보낼 값: ' + data2);
+            console.log('용자사 번호: ' + MEMBER_NO);
+            console.log(typeof(MEMBER_NO))
+            let scrapinfo = JSON.stringify({"member_No": MEMBER_NO,"infoname": data2});
+            $.ajax({
+              type: "POST"
+              , url: "/scrap/job/delete"
+              , contentType: "application/json"
+              , data: scrapinfo
+              , success: function() {
+                alert('성공');
+              }
+              , error: function() {
+                alert('찜 삭제 실패했습니다. 관리자에게 문의해주세요.');
+              }
+            });
+          }
+        }
+      }
+    </script>
+    <br>
+    <div style="width: 1050px; margin: 0 auto; position: relative; left: 55px;">
+      <br>
+      <hr>
+      <!--          여기가 기업 공고 리스트 시작-->
+      <th:block th:if="${jobinfo_state == 'NO'}">
+        <h3 id="jobinfo_state">관심 구직 공고를 스크랩해주세요!</h3>
+      </th:block>
+      <th:block th:if="${jobinfo_state != 'NO'}">
+        <div id="container_booklist">
+          <div id="row2">
+            <form th:action="'/com.solponge/member/'+${member.MEMBER_NO}+'/myPage/jobScrap/search'" accept-charset="utf-8" name = "book_info" method = "get">
+              <h3 id="newbook">
+                스크랩된 공고<span>
                         <select name="SearchSelect">
                           <option value="all">전체</option>
                           <option value="JopInfo_COMPANYNAME">회사명</option>
@@ -563,101 +564,99 @@
                         <input type="text" name="SearchValue" size="15" value="검색 내용">
                         <button type="submit"><img src="/img/Magnifier.png" style="width: 20px;" alt="Search"></button>
                         </span>
-                    </h3>
-                  </form>
-                  <input type="hidden" th:if="${member!=null}" id="MEMBER_ID" th:value="${member.MEMBER_ID}">
-                  <input type="hidden" th:if="${member!=null}" id="MEMBER_NO" th:value="${member.MEMBER_NO}">
-                  <form id="my-form">
-                    <table id="Newjob8" style="font-size: 13px;">
-                      <tr id="Newjob8th" style="text-align: center; background: #f2f9fe">
-                        <td style="width: 220px; height: 44px">기업명</td>
-                        <td style="width: 420px; height: 44px">제목</td>
-                        <td style="width: 180px; height: 44px">지원자격</td>
-                        <td style="width: 150px; height: 44px">근무조건</td>
-                        <td>마감일</td>
-                      </tr>
-                      <tr th:each="NewJopInfo, status : ${paginatedjobinfo}" id="Newjob8td">
-                        <td style="display:none"><label style="display:none">
-                          <input th:id="infoname_+${NewJopInfo.infonum}" th:value="${NewJopInfo.infoname}" style="display:none">
-                        </label></td>
-                        <td style="display:none"><label style="display:none">
-                          <input th:id="companyName_+${NewJopInfo.infonum}" th:value="${NewJopInfo.companyname}" style="display:none">
-                        </label></td>
-                        <td th:if="${JobScrap?.get('response_'+NewJopInfo.companyname) != null}" class="infonum" style="height: 54px">
-                          <a class="url" th:href="@{/com.solponge/jobinfolist/{companyname}(companyname=${NewJopInfo.companyname})}" th:text="${NewJopInfo.companyname}"></a>
-                          <button class="heart red" th:id="${NewJopInfo.infonum}" type="button" onclick="submitForm(this.id)" value="Clicked">&#10084;</button>
-                        </td>
-                        <td th:if="${JobScrap?.get('response_'+NewJopInfo.companyname) == null}" class="infonum" style="height: 54px">
-                          <a class="url" th:href="@{/com.solponge/jobinfolist/{companyname}(companyname=${NewJopInfo.companyname})}" th:text="${NewJopInfo.companyname}"></a>
-                          <button class="heart" th:id="${NewJopInfo.infonum}" type="button" onclick="submitForm(this.id)" value="Click">&#10084;</button>
-                        </td>
+              </h3>
+            </form>
+            <input type="hidden" th:if="${member!=null}" id="MEMBER_ID" th:value="${member.MEMBER_ID}">
+            <input type="hidden" th:if="${member!=null}" id="MEMBER_NO" th:value="${member.MEMBER_NO}">
+            <form id="my-form">
+              <table id="Newjob8" style="font-size: 13px;">
+                <tr id="Newjob8th" style="text-align: center; background: #f2f9fe">
+                  <td style="width: 220px; height: 44px">기업명</td>
+                  <td style="width: 420px; height: 44px">제목</td>
+                  <td style="width: 180px; height: 44px">지원자격</td>
+                  <td style="width: 150px; height: 44px">근무조건</td>
+                  <td>마감일</td>
+                </tr>
+                <tr th:each="NewJopInfo, status : ${paginatedjobinfo}" id="Newjob8td">
+                  <td style="display:none"><label style="display:none">
+                    <input th:id="infoname_+${NewJopInfo.infonum}" th:value="${NewJopInfo.infoname}" style="display:none">
+                  </label></td>
+                  <td style="display:none"><label style="display:none">
+                    <input th:id="companyName_+${NewJopInfo.infonum}" th:value="${NewJopInfo.companyname}" style="display:none">
+                  </label></td>
+                  <td th:if="${JobScrap?.get('response_'+NewJopInfo.companyname) != null}" class="infonum" style="height: 54px">
+                    <a class="url" th:href="@{/com.solponge/jobinfolist/{companyname}(companyname=${NewJopInfo.companyname})}" th:text="${NewJopInfo.companyname}"></a>
+                    <button class="heart red" th:id="${NewJopInfo.infonum}" type="button" onclick="submitForm(this.id)" value="Clicked">&#10084;</button>
+                  </td>
+                  <td th:if="${JobScrap?.get('response_'+NewJopInfo.companyname) == null}" class="infonum" style="height: 54px">
+                    <a class="url" th:href="@{/com.solponge/jobinfolist/{companyname}(companyname=${NewJopInfo.companyname})}" th:text="${NewJopInfo.companyname}"></a>
+                    <button class="heart" th:id="${NewJopInfo.infonum}" type="button" onclick="submitForm(this.id)" value="Click">&#10084;</button>
+                  </td>
 
-                        <td th:if="${JobScrap2?.get('response_'+NewJopInfo.infoname) != null}" class="infonum" style="height: 54px">
-                          <a class="url" th:href="@{/com.solponge/jobinfo/{infonum}(infonum=${NewJopInfo.infonum})}" th:text="${NewJopInfo.infoname}"></a>
-                          <button class="star yellow" th:id="${NewJopInfo.infonum}+'_star'" type="button" onclick="submitForm2(this.id)" value="Clicked">&#10029;</button><br><span style="font-size: 10px" th:text="${NewJopInfo.ftaglist}"></span>
-                        </td>
-                        <td th:if="${JobScrap2?.get('response_'+NewJopInfo.infoname) == null}" class="infonum" style="height: 54px">
-                          <a class="url" th:href="@{/com.solponge/jobinfo/{infonum}(infonum=${NewJopInfo.infonum})}" th:text="${NewJopInfo.infoname}"></a>
-                          <button class="star" th:id="${NewJopInfo.infonum}+'_star'" type="button" onclick="submitForm2(this.id)" value="Click">&#10029;</button><br><span style="font-size: 10px" th:text="${NewJopInfo.ftaglist}"></span>
-                        </td>
-                        <td style="height: 54px" th:text="${NewJopInfo.qualificat}"></td>
-                        <td style="text-align: center; height: 54px" th:utext="${NewJopInfo.worktype} + '&lt;br&gt;' + ${NewJopInfo.workarea}"></td>
-                        <td style="height: 54px" th:text="${NewJopInfo.deadline}"></td>
-                      </tr>
-                    </table>
-                  </form>
-                  <nav id="paging" aria-label="Page navigation example" style="clear: both;">
-                    <ul class="pagination justify-content-center" style="padding: 0">
-                      <li class="page-item" th:classappend="${currentPage == 1 ? 'disabled' : ''}">
-                        <a class="page-link" th:href="${url}+'page='+${currentPage - 1}" tabindex="-1" th:aria-disabled="${currentPage == 1}">Previous</a>
-                      </li>
-                      <th:block th:if="${totalPages == 0}">
-                        <!--                    <th:block th:each="pageNum : ${#numbers.sequence(1, 0)}">-->
-                        <li class="page-item" th:classappend="${currentPage == 1 ? 'active' : ''}">
-                          <a class="page-link" th:href="${url}+'page='+${1}" th:text="${1}"></a>
-                        </li>
-                        <!--                    </th:block>-->
-                      </th:block>
-                      <th:block th:if="${totalPages <= 10 and totalPages != 0}">
-                        <th:block th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
-                          <li class="page-item" th:classappend="${currentPage == pageNum ? 'active' : ''}">
-                            <a class="page-link" th:href="${url}+'page='+${pageNum}" th:text="${pageNum}"></a>
-                          </li>
-                        </th:block>
-                      </th:block>
-                      <th:block th:if="${totalPages >= 11 and currentPage <= 6}">
-                        <th:block th:each="pageNum : ${#numbers.sequence(1, 10)}">
-                          <li class="page-item" th:classappend="${currentPage == pageNum ? 'active' : ''}">
-                            <a class="page-link" th:href="${url}+'page='+${pageNum}" th:text="${pageNum}"></a>
-                          </li>
-                        </th:block>
-                      </th:block>
-                      <th:block th:if="${currentPage > 6 and currentPage > totalPages - 6}">
-                        <th:block th:each="pageNum : ${#numbers.sequence(totalPages - 9, totalPages)}">
-                          <li class="page-item" th:classappend="${currentPage == pageNum ? 'active' : ''}">
-                            <a class="page-link" th:href="${url}+'page='+${pageNum}" th:text="${pageNum}"></a>
-                          </li>
-                        </th:block>
-                      </th:block>
-                      <th:block th:if="${currentPage > 6 and currentPage <= totalPages - 6}">
-                        <th:block th:each="pageNum : ${#numbers.sequence(currentPage - 5, currentPage + 4)}">
-                          <li class="page-item" th:classappend="${currentPage == pageNum ? 'active' : ''}">
-                            <a class="page-link" th:href="${url}+'page='+${pageNum}" th:text="${pageNum}"></a>
-                          </li>
-                        </th:block>
-                      </th:block>
-                      <li class="page-item" th:classappend="${currentPage == totalPages ? 'disabled' : ''}" style="margin-right: 44px">
-                        <a class="page-link" th:href="${url}+'page='+${currentPage + 1}" th:aria-disabled="${currentPage == totalPages}">Next</a>
-                      </li>
-                    </ul>
-                  </nav>
-                </div>
-              </div>
-            </th:block>
-            <!--          여기가 기업 공고 리스트 끝-->
+                  <td th:if="${JobScrap2?.get('response_'+NewJopInfo.infoname) != null}" class="infonum" style="height: 54px">
+                    <a class="url" th:href="@{/com.solponge/jobinfo/{infonum}(infonum=${NewJopInfo.infonum})}" th:text="${NewJopInfo.infoname}"></a>
+                    <button class="star yellow" th:id="${NewJopInfo.infonum}+'_star'" type="button" onclick="submitForm2(this.id)" value="Clicked">&#10029;</button><br><span style="font-size: 10px" th:text="${NewJopInfo.ftaglist}"></span>
+                  </td>
+                  <td th:if="${JobScrap2?.get('response_'+NewJopInfo.infoname) == null}" class="infonum" style="height: 54px">
+                    <a class="url" th:href="@{/com.solponge/jobinfo/{infonum}(infonum=${NewJopInfo.infonum})}" th:text="${NewJopInfo.infoname}"></a>
+                    <button class="star" th:id="${NewJopInfo.infonum}+'_star'" type="button" onclick="submitForm2(this.id)" value="Click">&#10029;</button><br><span style="font-size: 10px" th:text="${NewJopInfo.ftaglist}"></span>
+                  </td>
+                  <td style="height: 54px" th:text="${NewJopInfo.qualificat}"></td>
+                  <td style="text-align: center; height: 54px" th:utext="${NewJopInfo.worktype} + '&lt;br&gt;' + ${NewJopInfo.workarea}"></td>
+                  <td style="height: 54px" th:text="${NewJopInfo.deadline}"></td>
+                </tr>
+              </table>
+            </form>
+            <nav id="paging" aria-label="Page navigation example" style="clear: both;">
+              <ul class="pagination justify-content-center" style="padding: 0">
+                <li class="page-item" th:classappend="${currentPage == 1 ? 'disabled' : ''}">
+                  <a class="page-link" th:href="${url}+'page='+${currentPage - 1}" tabindex="-1" th:aria-disabled="${currentPage == 1}">Previous</a>
+                </li>
+                <th:block th:if="${totalPages == 0}">
+                  <!--                    <th:block th:each="pageNum : ${#numbers.sequence(1, 0)}">-->
+                  <li class="page-item" th:classappend="${currentPage == 1 ? 'active' : ''}">
+                    <a class="page-link" th:href="${url}+'page='+${1}" th:text="${1}"></a>
+                  </li>
+                  <!--                    </th:block>-->
+                </th:block>
+                <th:block th:if="${totalPages <= 10 and totalPages != 0}">
+                  <th:block th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
+                    <li class="page-item" th:classappend="${currentPage == pageNum ? 'active' : ''}">
+                      <a class="page-link" th:href="${url}+'page='+${pageNum}" th:text="${pageNum}"></a>
+                    </li>
+                  </th:block>
+                </th:block>
+                <th:block th:if="${totalPages >= 11 and currentPage <= 6}">
+                  <th:block th:each="pageNum : ${#numbers.sequence(1, 10)}">
+                    <li class="page-item" th:classappend="${currentPage == pageNum ? 'active' : ''}">
+                      <a class="page-link" th:href="${url}+'page='+${pageNum}" th:text="${pageNum}"></a>
+                    </li>
+                  </th:block>
+                </th:block>
+                <th:block th:if="${currentPage > 6 and currentPage > totalPages - 6}">
+                  <th:block th:each="pageNum : ${#numbers.sequence(totalPages - 9, totalPages)}">
+                    <li class="page-item" th:classappend="${currentPage == pageNum ? 'active' : ''}">
+                      <a class="page-link" th:href="${url}+'page='+${pageNum}" th:text="${pageNum}"></a>
+                    </li>
+                  </th:block>
+                </th:block>
+                <th:block th:if="${currentPage > 6 and currentPage <= totalPages - 6}">
+                  <th:block th:each="pageNum : ${#numbers.sequence(currentPage - 5, currentPage + 4)}">
+                    <li class="page-item" th:classappend="${currentPage == pageNum ? 'active' : ''}">
+                      <a class="page-link" th:href="${url}+'page='+${pageNum}" th:text="${pageNum}"></a>
+                    </li>
+                  </th:block>
+                </th:block>
+                <li class="page-item" th:classappend="${currentPage == totalPages ? 'disabled' : ''}" style="margin-right: 44px">
+                  <a class="page-link" th:href="${url}+'page='+${currentPage + 1}" th:aria-disabled="${currentPage == totalPages}">Next</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
         </div>
-      </div>
-  </th:block>
+      </th:block>
+      <!--          여기가 기업 공고 리스트 끝-->
+    </div>
   </div>
 </div>
 

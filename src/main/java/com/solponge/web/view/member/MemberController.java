@@ -19,10 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Controller
 @Slf4j
@@ -164,7 +161,10 @@ public class MemberController {
         for(int i = 1; i <= (div_company_count*8)-company_names.length; i++){
             responseData.computeIfAbsent("none"+i, k-> new HashMap<>());
         }
-
+        System.out.println("div_company_count"+div_company_count);
+        System.out.println("company_names"+ Arrays.toString(company_names));
+        System.out.println("company_names_len"+ company_names.length);
+        System.out.println("responseData"+responseData);
         model.addAttribute("div_company_count", div_company_count);
         model.addAttribute("company_names", company_names);
         model.addAttribute("responseData", responseData);
