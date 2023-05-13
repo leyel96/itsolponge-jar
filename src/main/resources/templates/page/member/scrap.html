@@ -5,6 +5,7 @@
   <title>Title</title>
   <link rel="stylesheet" type="text/css" th:href="@{~/css/headerFooter.css}">
   <link rel="stylesheet" th:href="@{~/css/mypageForm.css}">
+  <link rel="stylesheet" href="/css/hdcss.css">
   <style>
     .fixed {
       position: sticky;
@@ -214,6 +215,40 @@
 
 
   </style>
+  <style>
+    .heart {
+      width: 25px;
+      font-size: 15px;
+      color: gray;
+      cursor: pointer;
+      background-color: transparent;
+      border: none;
+    }
+
+    .heart.red {
+      width: 25px;
+      font-size: 15px;
+      color: red;
+      background-color: transparent;
+      border: none;
+    }
+    .star {
+      width: 25px;
+      font-size: 15px;
+      color: gray;
+      cursor: pointer;
+      background-color: transparent;
+      border: none;
+    }
+
+    .star.yellow {
+      width: 25px;
+      font-size: 15px;
+      color: sandybrown;
+      background-color: transparent;
+      border: none;
+    }
+  </style>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script th:src="@{~/js/login.js}"></script>
 </head>
@@ -299,14 +334,14 @@
       <div id="companyNameContainer">
         <div class="companyScrap">
           <div class="companies">
-<!--            <th:block th:with="companyIndex=${#lists.size(company_names)}, index=-1">-->
+
               <th:block th:each="i : ${#numbers.sequence(0, div_company_count - 1)}">
                 <div class="company">
                   <th:block th:each="j : ${#numbers.sequence(0, 1)}">
                     <div class="flex-container">
                       <th:block th:each="k : ${#numbers.sequence(0, 3)}">
                         <th:block th:with="count=${i*8 + j*4 + k}">
-<!--                          <th:block th:if="-->
+
                             <th:block th:if="${count lt #lists.size(company_names)}" th:with="apple=${company_names[count]}, apple2=${company_names[count]} + 'count', apple3=${company_names[count]} + 'OneInfoName', apple4=${company_names[count]} + 'OneInfoNum'">
                               <input type="hidden" name="company_name" th:id="'companyName_'+${apple}" th:value="${apple}">
                               <div class="flex-item color-gray" style="float: left;" th:value="${count}">
@@ -337,14 +372,14 @@
                                 <div style="top: 32px;  position:relative;">solponge</div>
                               </div>
                             </th:block>
-<!--                          </th:block>-->
+
                         </th:block>
                       </th:block>
                     </div>
                   </th:block>
                 </div>
               </th:block>
-<!--            </th:block>-->
+
           </div>
         </div>
         <div style="display: inline-block; float: right; margin-right: 20px;">
