@@ -89,11 +89,28 @@
         <!--        </foreach>-->
         <!--        )-->
         <!--        ORDER BY INFONUM-->
-        select * from (SELECT * FROM job_info WHERE infoname IN
+        select * from (
+        SELECT * FROM job_info WHERE infoname IN
         <foreach collection="infonames" item="arr" open="(" close=")" separator=",">
             #{arr}
         </foreach>
-        ) WHERE companyname LIKE CONCAT('%', #{SearchValue}, '%') OR infoname LIKE CONCAT('%', #{SearchValue}, '%') OR ftaglist LIKE CONCAT('%', #{SearchValue}, '%')  OR worktype LIKE CONCAT('%', #{SearchValue}, '%') OR qualificat LIKE CONCAT('%', #{SearchValue}, '%')
+        ) WHERE companyname LIKE CONCAT('%', #{SearchValue}, '%')
+             OR infoname LIKE CONCAT('%', #{SearchValue}, '%')
+             OR ftaglist LIKE CONCAT('%', #{SearchValue}, '%')
+             OR worktype LIKE CONCAT('%', #{SearchValue}, '%')
+             OR qualificat LIKE CONCAT('%', #{SearchValue}, '%')
+        ORDER BY infonum
+
+        SELECT * FROM (
+        SELECT * FROM job_info WHERE infoname IN
+        <foreach collection="infonames" item="arr" open="(" close=")" separator=",">
+            #{arr}
+        </foreach>
+        ) temp WHERE companyname LIKE CONCAT('%', #{SearchValue}, '%')
+        OR infoname LIKE CONCAT('%', #{SearchValue}, '%')
+        OR ftaglist LIKE CONCAT('%', #{SearchValue}, '%')
+        OR worktype LIKE CONCAT('%', #{SearchValue}, '%')
+        OR qualificat LIKE CONCAT('%', #{SearchValue}, '%')
         ORDER BY infonum
     </select>
     <select id="Mypage_Searchlist_JopInfo_COMPANYNAME" resultType="com.solponge.domain.jobinfo.JopInfoVo">
