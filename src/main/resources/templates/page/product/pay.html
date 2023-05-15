@@ -3,38 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-  <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
-<!--  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
-  <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
     <script th:inline="javascript">
         $(document).ready(function(){
             var list = [[${map.cartItem_num}]] ;
             console.log(list)
 
             var member_No = document.getElementById('member_No').value;
-            // var respon_productNum = document.getElementById('product_num').value;
-            // console.log(respon_productNum)
-            // var c = respon_productNum.substring(1).slice(0, -1).split(",");
-            // console.log(c)
-            // let respon_paymentStock = document.getElementById('payment_stock').value;
-            // let respon_cartItemNum = document.getElementById('cartItem_num').value;
-            // let arr = respon_cartItemNum.split(";");
-            // console.log(arr)
             console.log(member_No)
-            // $.ajax({
-            //     url: "/com.solponge/member/"+member_No+"/payments/pay_info",
-            //     // contentType: "application/json",
-            //     type: "GET",
-            //     // data:responData,
-            //     success: function(response) {
-            //
-            //     }
-            // });
-            // console.log(response)
-            // var response_map = response;
-            // var member_No = response_map.member_No;
             var arrl = [];
-            // var productNum = response_map.product_num;
             var productNum = [[${map.product_num}]];
             console.log(productNum)
             for (var i = 0; i < productNum.length; i++) {
@@ -45,7 +23,6 @@
             var arrl2 = [];
             var paymentStock = [[${map.payment_stock}]];
             console.log(paymentStock);
-            // var paymentStock = response_map.payment_stock;
             for (var j = 0; j < paymentStock.length; j++) {
                 arrl2[j] = paymentStock[j];
             }
@@ -53,12 +30,10 @@
             var arrl3 = [];
             var cartItemNum = [[${map.cartItem_num}]];
             console.log(cartItemNum);
-            // var cartItemNum = response_map.cartItem_num;
             for (var k = 0; k < cartItemNum.length; k++) {
                 arrl3[k] = cartItemNum[k];
             }
             console.log(arrl3);
-
             console.log(payment_stock[0]);
 
             var lists = {
