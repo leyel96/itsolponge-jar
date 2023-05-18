@@ -107,6 +107,7 @@
                  </tr>
             </table>
         </div>
+
 <footer>
     <%@include file="../../tags/footer.jsp" %>
 </footer>
