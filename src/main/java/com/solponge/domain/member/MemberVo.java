@@ -52,6 +52,8 @@ public class MemberVo {
 
     private String MEMBER_DATE;
 
+    private int MEMBER_situation;
+
     public MemberVo() {
     }
 

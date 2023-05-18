@@ -39,7 +39,18 @@
     <delete id="delete_member_No">
         delete from MEMBER2 where MEMBER_NO =#{member_no}
     </delete>
-
+    <delete id="delete_CART_NUM">
+        UPDATE CART SET CART_NUM=-#{member_no} WHERE CART_NUM=#{member_no};
+    </delete>
+    <delete id="delete_companyScrap">
+        delete from companyScrap where MEMBER_NO=#{member_no};
+    </delete>
+    <delete id="delete_InfScrap">
+        delete from InfScrap where MEMBER_NO=#{member_no};
+    </delete>
+    <update id="update_MEMBER_situation">
+        update MEMBER2 set MEMBER_situation=1 where MEMBER_NO=#{member_no}
+    </update>
 </mapper>
 
 

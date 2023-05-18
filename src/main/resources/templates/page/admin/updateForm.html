@@ -2,9 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" type="text/css" href="../css/loginForm.css">
-    <link rel="stylesheet" type="text/css" href="../css/headerFooter.css">
+    <title>회원 정보수정</title>
+    <link rel="stylesheet" type="text/css" th:href="@{~/css/headerFooter.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{~/css/proStyle.css?ver=2}">
+
+    <style>
+        .container {
+            max-width: 560px;
+        }
+    </style>
 </head>
 <body>
 <header>
@@ -28,8 +34,6 @@
                         <p th:text="${member.MEMBER_NAME} + '님 환영합니다.'"></p>
 
                         <a href="/com.solponge/logout" class="btn btn-primary btn-sm">로그아웃</a>
-                        <!--                        <a th:href="/com.solponge/member/${member.MEMBER_NO}/myPage" class="btn btn-primary btn-sm">마이페이지</a>-->
-                        <!--                        <a th:href="/com.solponge/member/${member.MEMBER_NO}/myPage/cart" class="btn btn-primary btn-sm"><img th:src="@{~/img/Basket.png}" style="width: 20px;" alt="basket">&nbsp;장바구니</a>-->
                         <a th:href="@{/com.solponge/member/{memberNo}/myPage(memberNo=${member.MEMBER_NO})}" class="btn btn-primary btn-sm">마이페이지</a>
                         <a th:href="@{/com.solponge/member/{memberNo}/myPage/cart(memberNo=${member.MEMBER_NO})}" class="btn btn-primary btn-sm"><img th:src="@{~/img/Basket.png}" style="width: 20px;" alt="basket"> 장바구니</a>
                     </div>
@@ -45,7 +49,6 @@
             </ul>
         </div>
     </nav>
-
     <nav class="nav-second navbar custom-navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
         <div class="container">
             <button class="navbar-toggler ml-auto" type="button"
@@ -65,55 +68,58 @@
         </div>
     </nav>
 </header>
-<div>
-</div>
-<div class="login-form">
-    <h2>로그인</h2>
-    <form th:action="@{./login}" method="post" th:object="${LoginForm}">
-        <label for="memberId">아이디</label>
-        <input type="text" id="memberId" name="memberId" placeholder="아이디를 입력하세요" />
-        <label for="memberPwd">패스워드</label>
-        <input type="password" id="memberPwd" name="memberPwd" placeholder="비밀번호를 입력하세요" />
-
-        <button type="submit">로그인</button>
-    </form>
-    <th:block th:if="${loginFail}!=null">
-        <div class="error" style="color: red; text-align: center;" th:text="${loginFail}">
-        </div>
-    </th:block>
-
-</div>
-
-
-    <!--<div class="login-form">-->
-<!--    <h2>로그인</h2>-->
-<!--        <form th:action="@{./login}" method="post" th:object="${LoginForm}">-->
-<!--            <label for="memberId">아이디</label>-->
-<!--            <input type="text" th:field="*{memberId}" id="memberId" placeholder="아이디를 입력하세요" />-->
-<!--            <div th:if="${#fields.hasErrors('memberId')}" th:errors="*{memberId}" style="color: red"></div>-->
-
-<!--            <label for="memberPwd">패스워드</label>-->
-<!--            <input type="password" th:field="*{memberPwd}" id="memberPwd" placeholder="비밀번호를 입력하세요" />-->
-<!--            <div th:if="${#fields.hasErrors('memberPwd')}" th:errors="*{memberPwd}" style="color: red"></div>-->
-
-<!--            <button type="submit">로그인</button>-->
-<!--            <div th:if="${#fields.hasGlobalErrors()}">-->
-<!--                <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"> 전체 오류 메세지 </p>-->
-<!--            </div>-->
-<!--        </form>-->
-
-
-<!--</div>-->
-
-<div class="py-4 border border-lighter border-bottom-0 border-left-0 border-right-0 bg-dark" >
-    <div class="container">
-        <div class="col-md-9 text-center">
-            <a href="#" class="px-3"><small class="font-weight-bold">이용안내</small></a>
-            <a href="#" class="px-3"><small class="font-weight-bold">정책</small></a>
-            <a href="#" class="pl-3"><small class="font-weight-bold">고객지원</small></a>
-        </div>
+<div class="container" style="max-width: 600px">
+    <div class="py-5 text-center">
+        <h2>회원 수정</h2>
     </div>
+    <form class = "member-form" method="post" th:action="'/com.solponge/admin/member/'+${member_No}+'/update'">
+        <div>
+            <label class = "member-se" for="member_id">아이디</label>
+            <p><input class = "member-label"  type="text" id="member_Id" name="member_Id" th:value="${member.MEMBER_ID}" readonly/></p>
+        </div>
+        <div>
+            <label class = "member-se" for="member_pwd">비밀번호</label>
+            <p><input class = "member-label" type="password" id="member_Pwd" name="member_Pwd" th:value="${member.MEMBER_PWD}"/></p>
+        </div>
+        <div>
+            <label class = "member-se" for="member_name">이름</label>
+            <p><input class = "member-label" type="text" id="member_Name" name="member_Name" th:value="${member.MEMBER_NAME}" readonly/></p>
+        </div>
+        <div>
+            <label class = "member-se" for="member_address">주소</label>
+            <p><input class = "member-label" type="text" id="member_Address" name="member_Address" th:value="${member.MEMBER_ADDRESS}" /></p>
+        </div>
+        <div>
+            <label class = "member-se" for="member_phone">전화번호</label>
+            <p><input class = "member-label" type="text" id="member_Phone" name="member_Phone" th:value="${member.MEMBER_PHONE}" /></p>
+        </div>
+        <div>
+            <label class = "member-se" for="member_email">이메일</label>
+            <p><input class = "member-label" type="email" id="member_Email" name="member_Email" th:value="${member.MEMBER_EMAIL}" /></p>
+        </div>
+        </table>
+        <hr class="my-4">
+        <div class="row">
+            <div class = "padding-left1">
+                <button class = "button" type="submit">저장</button>
+            </div>
+            <div>
+
+                <button class = "button" onclick="location.href='/com.solponge/admin/member'" type="button">목록</button>
+            </div>
+            <div>
+                <button class = "button" th:onclick="'location.href=\'/com.solponge/admin/member/'+${member.MEMBER_NO} + '/delete\''"  type="button">삭제</button>
+            </div>
+            <div></div>
+        </div>
+    </form>
+    <table>
+        <tr>
+            <th></th>
+        </tr>
+    </table>
 </div>
+
 <footer class="border border-dark border-left-0 border-right-0 border-bottom-0 p-4 bg-dark">
     <div class="container">
         <div class="row align-items-center text-center text-md-left col">

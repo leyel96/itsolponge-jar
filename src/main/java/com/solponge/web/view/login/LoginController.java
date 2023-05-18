@@ -35,6 +35,7 @@ public class LoginController {
     String loginPost(@Validated @ModelAttribute("loginForm")LoginForm form, BindingResult bindingResult, HttpServletRequest request, Model model,
                      @RequestParam(defaultValue = "/com.solponge/main")String redirectURL){
         System.out.println("loging");
+        System.out.println(form.getMemberId()+", "+ form.getMemberPwd());
         if(bindingResult.hasErrors()){
             return "member/loginForm";
         }
@@ -43,6 +44,13 @@ public class LoginController {
         if (loginMember==null){//회원을 못 찾을때
             bindingResult.reject("loginFail","아이디 또는 비밀번호가 맞지 않습니다.");
             log.info("bindingResult={}",bindingResult);
+            model.addAttribute("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
+            return "member/loginForm";
+        }
+        if (loginMember.getMEMBER_situation() == 1){//회원 탈퇴시
+            bindingResult.reject("loginFail","해당 아이디는 회원 탈퇴 처리 되었습니다.");
+            log.info("bindingResult={}",bindingResult);
+            model.addAttribute("loginFail", "해당 아이디는 회원 탈퇴 처리 되었습니다.");
             return "member/loginForm";
         }
         //로그인 성공처리

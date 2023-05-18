@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>상품관리</title>
+  <link rel="stylesheet" type="text/css" th:href="@{~/css/headerFooter.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{~/css/proStyle.css}">
+
+</head>
+<body>
+<header>
+  <nav class="navbar nav-first navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="/com.solponge/main">
+        <img th:src="@{~/img/sponge.png}" style="width: 100px;" alt="Logo">
+
+      </a>
+      <ul class="navbar-nav ml-auto">
+        <li>
+          <div th:if="${member == null}">
+            <a href="/com.solponge/login" class="btn btn-primary btn-sm">login</a>
+            <a href="/com.solponge/join" class="btn btn-primary btn-sm">Join</a>
+            <a href="/com.solponge/login" class="btn btn-primary btn-sm">
+              <img th:src="@{~/img/Basket.png}" style="width: 20px;" alt="basket" />
+              Basket
+            </a>
+          </div>
+          <div th:if="${GRADE == 'BASIC'}">
+            <p th:text="${member.MEMBER_NAME} + '님 환영합니다.'"></p>
+
+            <a href="/com.solponge/logout" class="btn btn-primary btn-sm">로그아웃</a>
+            <a th:href="@{/com.solponge/member/{memberNo}/myPage(memberNo=${member.MEMBER_NO})}" class="btn btn-primary btn-sm">마이페이지</a>
+            <a th:href="@{/com.solponge/member/{memberNo}/myPage/cart(memberNo=${member.MEMBER_NO})}" class="btn btn-primary btn-sm"><img th:src="@{~/img/Basket.png}" style="width: 20px;" alt="basket"> 장바구니</a>
+          </div>
+          <div th:if="${GRADE =='ADMIN'}">
+            <p th:text="${member.MEMBER_NAME} + '님 환영합니다.'"></p>
+
+            <a href="/com.solponge/logout" class="btn btn-primary btn-sm">로그아웃</a>
+            <a href="/com.solponge/admin/member" class="btn btn-primary btn-sm">회원관리</a>
+            <a href="/com.solponge/admin/order" class="btn btn-primary btn-sm">주문관리</a>
+            <a href="/com.solponge/admin/product" class="btn btn-primary btn-sm">상품관리</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <nav class="nav-second navbar custom-navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
+    <div class="container">
+      <button class="navbar-toggler ml-auto" type="button"
+              data-toggle="collapse" data-target="#navbarSupportedContent"
+              aria-controls="navnav-linkbarSupportedContent" aria-expanded="false"
+              aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li><a class="nav-link" href="/com.solponge/productList">BOOK</a>
+          </li>
+          <li><a class="nav-link" href="/com.solponge/jobinfolist">JOB</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<link rel="stylesheet" type="text/css" th:href="@{~/css/proStyle.css}">
+<div style="max-width: 100%">
+  <div class="py-5 text-center">
+    <br><h2>상품 목록</h2>
+  </div>
+  <div class="row">
+    <table>
+      <tr>
+        <td width="1%"></td>
+        <td><div>
+          <form action = "/com.solponge/admin/product/search" accept-charset="utf-8" name = "book_info" method = "get">
+            <select name="SearchSelect" class="search-select">
+              <option value="all">전체</option>
+              <option value="product_title">도서명</option>
+              <option value="product_writer">저자</option>
+            </select>
+            <input type="text" name="SearchValue" size="15" value="검색 내용">
+            <button type="submit">검색</button>
+          </form>
+        </div></td>
+        <td width="45%"></td>
+        <td>
+          <div>
+            <button class = "button" onclick="location.href='product/add'" type="button">상품 등록 </button>
+          </div>
+        </td>
+        <td width="10%"></td>
+      </tr>
+    </table>
+  </div>
+  <hr>
+  <div>
+    <table class="yogi">
+      <thead>
+      <tr>
+        <th width="10%"></th>
+        <th>번호</th>
+        <th>이미지</th>
+        <th width = "20%">상품명</th>
+        <th width = "10%">작가</th>
+        <th>가격</th>
+        <th>페이지 수</th>
+        <th>재고</th>
+        <th>판매량</th>
+        <th>조회수</th>
+        <th></th>
+        <th></th>
+        <th width="10%"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="product : ${paginatedProducts}">
+        <td width="10%"></td>
+        <td th:text="${product.product_num}"></td>
+        <td><img th:src="${product.product_img}" style="width: 50px;" alt="img"></td>
+        <td th:text="${product.product_title}"></td>
+        <td th:text="${product.product_writer}"></td>
+        <td th:text="${product.product_price} + ' 원'"></td>
+        <td th:text="${product.product_page}"></td>
+        <td th:text="${product.product_stock}"></td>
+        <td th:text="${product.product_sale}"></td>
+        <td th:text="${product.product_visit}"></td>
+        <td>
+          <div class="col">
+            <button class="w-100 btn btn-primary btn-lg" th:onclick="'location.href=\'../admin/product/' + ${product.product_num} + '\''" type="button">상세보기</button>
+          </div>
+        </td>
+        <td>
+          <div class="col">
+            <form id="delete" th:action="@{/com.solponge/admin/product/{productNum}/delete(productNum=${product.product_num})}" method="post">
+              <input type="hidden" name="_method" value="DELETE"/>
+              <button onclick="return confirm('정말 삭제하시겠습니까?')" type="submit">삭제 </button>
+            </form>
+          </div>
+        </td>
+        <td width="10%"></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<nav id="paging" aria-label="Page navigation example" style="clear: both;">
+  <ul class="pagination justify-content-center" style="padding: 0">
+    <li class="page-item" th:classappend="${currentPage == 1 ? 'disabled' : ''}">
+      <a class="page-link" th:href="${url}+'page='+${currentPage - 1}" tabindex="-1" th:aria-disabled="${currentPage == 1}">Previous</a>
+    </li>
+    <th:block th:if="${totalPages == 0}">
+      <li class="page-item" th:classappend="${currentPage == 1 ? 'active' : ''}">
+        <a class="page-link" th:href="${url}+'page='+${1}" th:text="${1}"></a>
+      </li>
+    </th:block>
+    <th:block th:if="${totalPages <= 10 and totalPages != 0}">
+      <th:block th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
+        <li class="page-item" th:classappend="${currentPage == pageNum ? 'active' : ''}">
+          <a class="page-link" th:href="${url}+'page='+${pageNum}" th:text="${pageNum}"></a>
+        </li>
+      </th:block>
+    </th:block>
+    <th:block th:if="${totalPages >= 11 and currentPage <= 6}">
+      <th:block th:each="pageNum : ${#numbers.sequence(1, 10)}">
+        <li class="page-item" th:classappend="${currentPage == pageNum ? 'active' : ''}">
+          <a class="page-link" th:href="${url}+'page='+${pageNum}" th:text="${pageNum}"></a>
+        </li>
+      </th:block>
+    </th:block>
+    <th:block th:if="${currentPage > 6 and currentPage > totalPages - 6}">
+      <th:block th:each="pageNum : ${#numbers.sequence(totalPages - 9, totalPages)}">
+        <li class="page-item" th:classappend="${currentPage == pageNum ? 'active' : ''}">
+          <a class="page-link" th:href="${url}+'page='+${pageNum}" th:text="${pageNum}"></a>
+        </li>
+      </th:block>
+    </th:block>
+    <th:block th:if="${currentPage > 6 and currentPage <= totalPages - 6}">
+      <th:block th:each="pageNum : ${#numbers.sequence(currentPage - 5, currentPage + 4)}">
+        <li class="page-item" th:classappend="${currentPage == pageNum ? 'active' : ''}">
+          <a class="page-link" th:href="${url}+'page='+${pageNum}" th:text="${pageNum}"></a>
+        </li>
+      </th:block>
+    </th:block>
+    <li class="page-item" th:classappend="${currentPage == totalPages ? 'disabled' : ''}" style="margin-right: 44px">
+      <a class="page-link" th:href="${url}+'page='+${currentPage + 1}" th:aria-disabled="${currentPage == totalPages}">Next</a>
+    </li>
+  </ul>
+</nav>
+<div class="py-4 border border-lighter border-bottom-0 border-left-0 border-right-0 bg-dark" >
+  <div class="container">
+    <div class="col-md-9 text-center">
+      <a href="#" class="px-3"><small class="font-weight-bold">이용안내</small></a>
+      <a href="#" class="px-3"><small class="font-weight-bold">정책</small></a>
+      <a href="#" class="pl-3"><small class="font-weight-bold">고객지원</small></a>
+    </div>
+  </div>
+</div>
+<footer class="border border-dark border-left-0 border-right-0 border-bottom-0 p-4 bg-dark">
+  <div class="container">
+    <div class="row align-items-center text-center text-md-left col">
+      <p class="mb-0 small">
+        <a href="">프로젝트 소개</a>&nbsp;|&nbsp;<a href="">조원소개</a>&nbsp;|&nbsp;<a href="">개발범위</a>&nbsp;|&nbsp;<a href="">시스템 요구사항</a>
+      </p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

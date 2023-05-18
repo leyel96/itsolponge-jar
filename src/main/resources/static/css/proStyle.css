@@ -24,6 +24,7 @@ table td button {
 }
 .button{
     padding: 10px; !important;
+    float: left;
 }
 table td button:hover {
     background-color: #3458b3;

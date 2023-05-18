@@ -104,8 +104,8 @@ public class AdminController {
 
     @GetMapping("/member/{member_No}/delete")
     public String deleteMember(@PathVariable Long member_No) {
-        MemberVo member = memberService.findByNo(member_No);
-        memberService.withdrawal(member);
+//        MemberVo member = memberService.findByNo(member_No);
+        memberService.withdrawal(member_No);
         return "redirect:/com.solponge/admin/member";
     }
 
@@ -134,7 +134,7 @@ public class AdminController {
         List<productVo> data = productService.getproductList();
         new pageing(20, request, data, model, "paginatedProducts");
 
-        log.info("findAll={}", productService.getproductList());
+//        log.info("findAll={}", productService.getproductList());
         return "admin/inqProduct";
     }
 
