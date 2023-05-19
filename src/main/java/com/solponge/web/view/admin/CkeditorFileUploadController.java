@@ -24,7 +24,7 @@ public class CkeditorFileUploadController {
     @ResponseBody
     public String fileUpload(HttpServletRequest request, HttpServletResponse response,
                              MultipartHttpServletRequest multiFile) throws IOException {
-
+        System.out.println("사진 업로드 시작");
         //Json 객체 생성
         JsonObject json = new JsonObject();
         // Json 객체를 출력하기 위해 PrintWriter 생성
