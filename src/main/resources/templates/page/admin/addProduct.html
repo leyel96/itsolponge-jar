@@ -1,11 +1,9 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-  <meta charset="utf-8">
+  <meta charSet="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Bootstrap demo</title>
-  <link rel="stylesheet" type="text/css" th:href="@{~/css/proStyle.css}">
+  <link rel="stylesheet" type="text/css" th::href="@{~/css/proStyle.css}">
   <link rel="stylesheet" type="text/css" th:href="@{~/css/headerFooter.css}">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="//cdn.ckeditor.com/4.20.2/standard/ckeditor.js"></script>
@@ -27,107 +25,112 @@
 </head>
 <body>
 <header>
-  <nav class="navbar nav-first navbar-dark bg-dark">
-    <div class="container">
-      <a class="navbar-brand" href="/com.solponge/main">
+  <nav className="navbar nav-first navbar-dark bg-dark">
+    <div className="container">
+      <a className="navbar-brand" href="/com.solponge/main">
         <img th:src="@{~/img/sponge.png}" style="width: 100px;" alt="Logo">
 
       </a>
-      <ul class="navbar-nav ml-auto">
+      <ul className="navbar-nav ml-auto">
         <li>
           <div th:if="${member == null}">
-            <a href="/com.solponge/login" class="btn btn-primary btn-sm">login</a>
-            <a href="/com.solponge/join" class="btn btn-primary btn-sm">Join</a>
-            <a href="/com.solponge/login" class="btn btn-primary btn-sm">
-              <img th:src="@{~/img/Basket.png}" style="width: 20px;" alt="basket" />
+            <a href="/com.solponge/login" className="btn btn-primary btn-sm">login</a>
+            <a href="/com.solponge/join" className="btn btn-primary btn-sm">Join</a>
+            <a href="/com.solponge/login" className="btn btn-primary btn-sm">
+              <img th:src="@{~/img/Basket.png}" style="width: 20px;" alt="basket"/>
               Basket
             </a>
           </div>
           <div th:if="${GRADE == 'BASIC'}">
             <p th:text="${member.MEMBER_NAME} + '님 환영합니다.'"></p>
 
-            <a href="/com.solponge/logout" class="btn btn-primary btn-sm">로그아웃</a>
-            <a th:href="@{/com.solponge/member/{memberNo}/myPage(memberNo=${member.MEMBER_NO})}" class="btn btn-primary btn-sm">마이페이지</a>
-            <a th:href="@{/com.solponge/member/{memberNo}/myPage/cart(memberNo=${member.MEMBER_NO})}" class="btn btn-primary btn-sm"><img th:src="@{~/img/Basket.png}" style="width: 20px;" alt="basket"> 장바구니</a>
+            <a href="/com.solponge/logout" className="btn btn-primary btn-sm">로그아웃</a>
+            <a th:href="@{/com.solponge/member/{memberNo}/myPage(memberNo=${member.MEMBER_NO})}"
+               className="btn btn-primary btn-sm">마이페이지</a>
+            <a th:href="@{/com.solponge/member/{memberNo}/myPage/cart(memberNo=${member.MEMBER_NO})}"
+               className="btn btn-primary btn-sm"><img th:src="@{~/img/Basket.png}" style="width: 20px;"
+                                                       alt="basket"> 장바구니</a>
           </div>
           <div th:if="${GRADE =='ADMIN'}">
             <p th:text="${member.MEMBER_NAME} + '님 환영합니다.'"></p>
 
-            <a href="/com.solponge/logout" class="btn btn-primary btn-sm">로그아웃</a>
-            <a href="/com.solponge/admin/member" class="btn btn-primary btn-sm">회원관리</a>
-            <a href="/com.solponge/admin/order" class="btn btn-primary btn-sm">주문관리</a>
-            <a href="/com.solponge/admin/product" class="btn btn-primary btn-sm">상품관리</a>
+            <a href="/com.solponge/logout" className="btn btn-primary btn-sm">로그아웃</a>
+            <a href="/com.solponge/admin/member" className="btn btn-primary btn-sm">회원관리</a>
+            <a href="/com.solponge/admin/order" className="btn btn-primary btn-sm">주문관리</a>
+            <a href="/com.solponge/admin/product" className="btn btn-primary btn-sm">상품관리</a>
           </div>
         </li>
       </ul>
     </div>
   </nav>
-  <nav class="nav-second navbar custom-navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
-    <div class="container">
-      <button class="navbar-toggler ml-auto" type="button"
+  <nav className="nav-second navbar custom-navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
+    <div className="container">
+      <button className="navbar-toggler ml-auto" type="button"
               data-toggle="collapse" data-target="#navbarSupportedContent"
               aria-controls="navnav-linkbarSupportedContent" aria-expanded="false"
               aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+        <span className="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li><a class="nav-link" href="/com.solponge/productList">BOOK</a>
+      <div className="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul className="navbar-nav mr-auto">
+          <li><a className="nav-link" href="/com.solponge/productList">BOOK</a>
           </li>
-          <li><a class="nav-link" href="/com.solponge/jobinfolist">JOB</a>
+          <li><a className="nav-link" href="/com.solponge/jobinfolist">JOB</a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
 </header>
-<div class="add">
+<div className="add">
   <div>
-    <h2 class="product-title">상품 등록</h2>
+    <h2 className="product-title">상품 등록</h2>
   </div>
   <form id="product-form" action="/com.solponge/admin/product/add" method="post">
     <div>
-      <label for="product_title" class="input-label">책제목</label>
+      <label htmlFor="product_title" className="input-label">책제목</label>
       <input type="text" id="product_title" name="product_title" placeholder="이름을 입력하세요">
     </div>
     <div>
-      <label for="product_subtitle" class="input-label">부제목</label>
+      <label htmlFor="product_subtitle" className="input-label">부제목</label>
       <input type="text" id="product_subtitle" name="product_subtitle" placeholder="부제목을 입력하세요">
     </div>
     <div>
-      <label for="product_writer" class="input-label">작가</label>
+      <label htmlFor="product_writer" className="input-label">작가</label>
       <input type="text" id="product_writer" name="product_writer" placeholder="작가를 입력하세요">
     </div>
     <div>
-      <label for="product_price" class="input-label">가격</label>
+      <label htmlFor="product_price" className="input-label">가격</label>
       <input type="text" id="product_price" name="product_price" placeholder="가격을 입력하세요">
     </div>
     <div>
-      <label for="product_img" class="input-label">이미지</label>
+      <label htmlFor="product_img" className="input-label">이미지</label>
       <input type="text" id="product_img" name="product_img" placeholder="이미지 URL을 입력하세요">
     </div>
     <div>
-      <label for="product_date" class="input-label">출간일</label>
+      <label htmlFor="product_date" className="input-label">출간일</label>
       <input type="text" id="product_date" name="product_date" placeholder="출간일을 입력하세요 (yyyy-MM-dd)">
     </div>
     <div>
-      <label for="product_page" class="input-label">페이지 수</label>
+      <label htmlFor="product_page" className="input-label">페이지 수</label>
       <input type="text" id="product_page" name="product_page" placeholder="페이지 수를 입력하세요">
     </div>
     <div>
-      <label for="product_stock" class="input-label">재고</label>
+      <label htmlFor="product_stock" className="input-label">재고</label>
       <input type="text" id="product_stock" name="product_stock" placeholder="재고를 입력하세요">
     </div>
     <div id="product_code">
-      <p></p>
+      <p>${product.product_code}</p>
     </div>
     <input type="hidden" id="myInput" name="myInput">
-    <script>
+    <script th:inline="javascript">
+      /*<![CDATA[*/
       $(function () {
         CKEDITOR.replace('product_code', {
-          filebrowserUploadUrl: '../../../../adm/fileupload.do'
+          filebrowserUploadUrl: '@{/adm/fileupload.do}'
         });
       });
+      /*]]>*/
     </script>
 
     <table>
@@ -135,12 +138,13 @@
         <th></th>
       </tr>
     </table>
-    <div class="row">
-      <div class="padding-left0">
-        <button type="submit" onclick="postData()">상품등록</button>
-      </div>&nbsp
+    <div className="row">
+      <div className="padding-left0">
+        <button type="submit" onClick="postData()">상품등록</button>
+      </div>
+      &nbsp
       <div>
-        <button onclick="location.href='/basic/items/product'" type="button">취소</button>
+        <button onClick="location.href='/basic/items/product'" type="button">취소</button>
       </div>
     </div>
   </form>
@@ -149,23 +153,22 @@
       <th></th>
     </tr>
   </table>
-</div> <!-- /container -->
-
-
-<div class="py-4 border border-lighter border-bottom-0 border-left-0 border-right-0 bg-dark" >
-  <div class="container">
-    <div class="col-md-9 text-center">
-      <a href="#" class="px-3"><small class="font-weight-bold">이용안내</small></a>
-      <a href="#" class="px-3"><small class="font-weight-bold">정책</small></a>
-      <a href="#" class="pl-3"><small class="font-weight-bold">고객지원</small></a>
+</div>
+<div className="py-4 border border-lighter border-bottom-0 border-left-0 border-right-0 bg-dark">
+  <div className="container">
+    <div className="col-md-9 text-center">
+      <a href="#" className="px-3"><small className="font-weight-bold">이용안내</small></a>
+      <a href="#" className="px-3"><small className="font-weight-bold">정책</small></a>
+      <a href="#" className="pl-3"><small className="font-weight-bold">고객지원</small></a>
     </div>
   </div>
 </div>
-<footer class="border border-dark border-left-0 border-right-0 border-bottom-0 p-4 bg-dark">
-  <div class="container">
-    <div class="row align-items-center text-center text-md-left col">
-      <p class="mb-0 small">
-        <a href="">프로젝트 소개</a>&nbsp;|&nbsp;<a href="">조원소개</a>&nbsp;|&nbsp;<a href="">개발범위</a>&nbsp;|&nbsp;<a href="">시스템 요구사항</a>
+<footer className="border border-dark border-left-0 border-right-0 border-bottom-0 p-4 bg-dark">
+  <div className="container">
+    <div className="row align-items-center text-center text-md-left col">
+      <p className="mb-0 small">
+        <a href="">프로젝트 소개</a>&nbsp;|&nbsp;<a href="">조원소개</a>&nbsp;|&nbsp;<a href="">개발범위</a>&nbsp;|&nbsp;<a
+              href="">시스템 요구사항</a>
       </p>
     </div>
   </div>
