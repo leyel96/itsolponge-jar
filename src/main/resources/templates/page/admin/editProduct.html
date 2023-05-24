@@ -134,19 +134,18 @@
       <input type="text" id="product_visit" name="product_visit" class="form-control" th:value="${product.product_visit}" readonly>
     </div>
     <div id="product_code">
-      <p th:text="${product.product_code}"></p>
+      <p th:utext="${product.product_code}"></p>
     </div>
     <input type="hidden" id="myInput" name="myInput">
     <script th:inline="javascript">
       /*<![CDATA[*/
       $(function () {
         CKEDITOR.replace('product_code', {
-          filebrowserUploadUrl: '@{/adm/fileupload.do}'
+          filebrowserUploadUrl: '../../../../adm/fileupload.do'
         });
       });
       /*]]>*/
     </script>
-
 
 
     <hr class="my-4">
