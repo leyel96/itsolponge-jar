@@ -5,6 +5,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -114,6 +115,7 @@ public class jobInfoDAO {
         System.out.println("===> Spring JDBC로 getCompanyInScrapList() 기능 처리");
         Map<String, Object> param = new HashMap<>();
         param.put("companynames", companynames);
+        System.out.println(Arrays.toString(companynames));
         return sqlSession.selectList("collection_of_sql_job_info.companyInScrap", param);
     }
     public List<JopInfoVo> getInfoInScrapList(String[] infonames) {

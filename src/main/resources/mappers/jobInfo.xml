@@ -82,25 +82,6 @@
 
 
     <select id="Mypage_Searchlist_all" resultType="com.solponge.domain.jobinfo.JopInfoVo">
-        <!--        select * from job_info WHERE COMPANYNAME LIKE '%'||#{SearchValue}||'%' OR INFONAME LIKE '%'||#{SearchValue}||'%' OR FTAGLIST LIKE '%'||#{SearchValue}||'%' OR WORKTYPE LIKE '%'||#{SearchValue}||'%' OR QUALIFICAT LIKE '%'||#{SearchValue}||'%'-->
-        <!--        AND (INFONAME IN-->
-        <!--        <foreach collection="infonames" item="arr" open="(" close=")" separator=",">-->
-        <!--            #{arr}-->
-        <!--        </foreach>-->
-        <!--        )-->
-        <!--        ORDER BY INFONUM-->
-        select * from (
-        SELECT * FROM job_info WHERE infoname IN
-        <foreach collection="infonames" item="arr" open="(" close=")" separator=",">
-            #{arr}
-        </foreach>
-        ) WHERE companyname LIKE CONCAT('%', #{SearchValue}, '%')
-             OR infoname LIKE CONCAT('%', #{SearchValue}, '%')
-             OR ftaglist LIKE CONCAT('%', #{SearchValue}, '%')
-             OR worktype LIKE CONCAT('%', #{SearchValue}, '%')
-             OR qualificat LIKE CONCAT('%', #{SearchValue}, '%')
-        ORDER BY infonum
-
         SELECT * FROM (
         SELECT * FROM job_info WHERE infoname IN
         <foreach collection="infonames" item="arr" open="(" close=")" separator=",">

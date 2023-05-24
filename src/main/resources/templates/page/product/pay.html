@@ -67,8 +67,8 @@
                     buyer_addr: address.split('/')[1] + address.split('/')[2],
                     buyer_postcode: address.split('/')[0]
                 }, function (rsp) {
-
-                    if (rsp.success) {
+                    /*결제기능 테스트로 취소시 결제된것 처럼 수정*/
+                    if (!rsp.success) {
                         jQuery.ajax({
                             url: "/com.solponge/member/"+member_No+"/payments/su",
                             method: "post",

@@ -25,14 +25,14 @@
                             Basket
                         </a>
                     </div>
-                    <div th:if="${member.Grade == 'BASIC'}">
+                    <div th:if="${member.MEMBER_GRADE == 'BASIC'}">
                         <p th:text="${member.MEMBER_NAME} + '님 환영합니다.'"></p>
 
                         <a href="/com.solponge/logout" class="btn btn-primary btn-sm">로그아웃</a>
                         <a th:href="@{/com.solponge/member/{memberNo}/myPage(memberNo=${member.MEMBER_NO})}" class="btn btn-primary btn-sm">마이페이지</a>
                         <a th:href="@{/com.solponge/member/{memberNo}/myPage/cart(memberNo=${member.MEMBER_NO})}" class="btn btn-primary btn-sm"><img th:src="@{~/img/Basket.png}" style="width: 20px;" alt="basket"> 장바구니</a>
                     </div>
-                    <div th:if="${member.Grade =='ADMIN'}">
+                    <div th:if="${member.MEMBER_GRADE =='ADMIN'}">
                         <p th:text="${member.MEMBER_NAME} + '님 환영합니다.'"></p>
 
                         <a href="/com.solponge/logout" class="btn btn-primary btn-sm">로그아웃</a>
