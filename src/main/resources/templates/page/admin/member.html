@@ -69,57 +69,64 @@
   </div>
   <div class="row">
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<form method="get" action="/com.solponge/admin/member/search">
-    <select name="SearchSelect" class="search-select">
-      <option value="ALL">전체</option>
-      <option value="MEMBER_NAME">이름</option>
-      <option value="MEMBER_ID">아이디</option>
-    </select>
-    <input type="text" name="SearchValue">
+    <label>
+      <select name="SearchSelect" class="search-select">
+        <option value="ALL">전체</option>
+        <option value="MEMBER_NAME">이름</option>
+        <option value="MEMBER_ID">아이디</option>
+      </select>
+    </label>
+    <label>
+      <input type="text" name="SearchValue">
+    </label>
     <button type="submit">검색</button>
   </form>
   </div>
   <hr class="my-4">
   <div>
-    <table class="yogi">
-      <thead>
-      <tr>
-        <th width="10%"></th>
-        <th>번호</th>
-        <th>아이디</th>
-        <th>비밀번호</th>
-        <th width="20%">주소</th>
-        <th>이메일</th>
-        <th>전화번호</th>
-        <th>이름</th>
-        <th>권한</th>
-        <th>가입일</th>
-        <th></th>
-        <th width="10%"></th>
-      </tr>
-      </thead>
-      <tbody>
-      <th:block th:each="member : ${members}">
-        <tr>
-          <td width="10%"></td>
-          <td th:text="${member.MEMBER_NO}"></td>
-          <td th:text="${member.MEMBER_ID}"></td>
-          <td th:text="${member.MEMBER_PWD}"></td>
-          <td th:text="${member.MEMBER_ADDRESS}"></td>
-          <td th:text="${member.MEMBER_EMAIL}"></td>
-          <td th:text="${member.MEMBER_PHONE}"></td>
-          <td th:text="${member.MEMBER_NAME}"></td>
-          <td th:text="${member.MEMBER_GRADE}"></td>
-          <td th:text="${#strings.substring(member.MEMBER_DATE, 0, 10)}"></td>
-          <td>
-            <div class="col">
-              <button class="w-100 btn btn-primary btn-lg"
-                      th:onclick="'location.href=\'/com.solponge/admin/member/'+${member.MEMBER_NO} + '/update\''" type="button">정보수정</button>
-            </div>
-          <td width="10%"></td>
-        </tr>
-      </th:block>
-      </tbody>
+    <h2 th:if="${#lists.size(members) == 0}" style="text-align: center;">검색된 결과가 없습니다.</h2>
+    <th:block th:unless="${#lists.size(members) == 0}">
+      <table class="yogi">
+    <thead>
+    <tr>
+    <th width="10%"></th>
+    <th>번호</th>
+    <th>아이디</th>
+    <th>비밀번호</th>
+    <th width="20%">주소</th>
+    <th>이메일</th>
+    <th>전화번호</th>
+    <th>이름</th>
+    <th>권한</th>
+    <th>가입일</th>
+    <th></th>
+    <th width="10%"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="member : ${members}">
+    <tr>
+      <td width="10%"></td>
+      <td th:text="${member.MEMBER_NO}"></td>
+      <td th:text="${member.MEMBER_ID}"></td>
+      <td th:text="${member.MEMBER_PWD}"></td>
+      <td th:text="${member.MEMBER_ADDRESS}"></td>
+      <td th:text="${member.MEMBER_EMAIL}"></td>
+      <td th:text="${member.MEMBER_PHONE}"></td>
+      <td th:text="${member.MEMBER_NAME}"></td>
+      <td th:text="${member.MEMBER_GRADE}"></td>
+      <td th:text="${#strings.substring(member.MEMBER_DATE, 0, 10)}"></td>
+      <td>
+        <div class="col">
+          <button class="w-100 btn btn-primary btn-lg"
+                  th:onclick="'location.href=\'/com.solponge/admin/member/'+${member.MEMBER_NO} + '/update\''" type="button">정보수정</button>
+        </div>
+      <td width="10%"></td>
+    </tr>
+    </th:block>
+    </tbody>
     </table>
+    </th:block>
     <br>
   </div>
 </div>
