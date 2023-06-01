@@ -48,18 +48,52 @@ public class AdminController {
 
     @GetMapping("/member/search")
     public String produtslist(@SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false) MemberVo loginMember,
-                              Model model, HttpServletRequest request,
+                              Model model,
                               @RequestParam("SearchSelect") String SearchSelect,
                               @RequestParam("SearchValue") String SearchValue){
+        try{
+            String id = loginMember.getMEMBER_ID();
+            String grade = String.valueOf(loginMember.getMEMBER_GRADE());
+            if(id !=null) {
+                if(grade.equals("ADMIN")){
+                    model.addAttribute("GRADE", "ADMIN");
+                } else {
+                    model.addAttribute("GRADE", "BASIC");
+                }
+            }
+        }catch (Exception e){
+            System.out.println("오류발생");
+        }
+
         model.addAttribute("member",loginMember);
         List<MemberVo> data = ms.membersearchlist(SearchSelect, SearchValue);
+        System.out.println("Page request received at /member/search");
+
+        System.out.println("SearchSelect: " + SearchSelect);
+        System.out.println("SearchValue: " + SearchValue);
+
+        System.out.println(data);
+
+        System.out.println("검색후 페이지 이동중");
         model.addAttribute("members",data);
-//        model.addAttribute("members", memberService.findAll());
-        log.info("findAll={}", memberService.findAll());
         return "admin/member";
     }
     @GetMapping("/member")
-    public String member(Model model) {
+    public String member(@SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false) MemberVo loginMember,
+                         Model model) {
+        try{
+            String id = loginMember.getMEMBER_ID();
+            String grade = String.valueOf(loginMember.getMEMBER_GRADE());
+            if(id !=null) {
+                if(grade.equals("ADMIN")){
+                    model.addAttribute("GRADE", "ADMIN");
+                } else {
+                    model.addAttribute("GRADE", "BASIC");
+                }
+            }
+        }catch (Exception e){
+            System.out.println("오류발생");
+        }
         model.addAttribute("members", memberService.findAll());
         log.info("findAll={}", memberService.findAll());
         return "/admin/member";
@@ -69,7 +103,22 @@ public class AdminController {
     /*회원정보 수정*/
 
     @GetMapping("/member/{member_No}/update")
-    public String editMember(@PathVariable Long member_No, Model model,HttpServletRequest request) {
+    public String editMember(@SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false) MemberVo loginMember,
+            @PathVariable Long member_No, Model model,HttpServletRequest request) {
+        try{
+            String id = loginMember.getMEMBER_ID();
+            String grade = String.valueOf(loginMember.getMEMBER_GRADE());
+            if(id !=null) {
+                if(grade.equals("ADMIN")){
+                    model.addAttribute("GRADE", "ADMIN");
+                } else {
+                    model.addAttribute("GRADE", "BASIC");
+                }
+            }
+        }catch (Exception e){
+            System.out.println("오류발생");
+        }
+
         MemberVo memberVo = getLoginMember(request);
         if (memberVo == null || memberVo.getMEMBER_GRADE() != Grade.ADMIN) {
             return "redirect:/com.solponge/main";
@@ -118,6 +167,19 @@ public class AdminController {
                                    Model model, HttpServletRequest request,
                                    @RequestParam("SearchSelect") String SearchSelec,
                                    @RequestParam("SearchValue") String SearchValue){
+        try{
+            String id = loginMember.getMEMBER_ID();
+            String grade = String.valueOf(loginMember.getMEMBER_GRADE());
+            if(id !=null) {
+                if(grade.equals("ADMIN")){
+                    model.addAttribute("GRADE", "ADMIN");
+                } else {
+                    model.addAttribute("GRADE", "BASIC");
+                }
+            }
+        }catch (Exception e){
+            System.out.println("오류발생");
+        }
         model.addAttribute("member",loginMember);
 
         List<productVo> data = productService.produtsearchlist(SearchSelec, SearchValue);
@@ -130,11 +192,23 @@ public class AdminController {
     }
 
     @GetMapping("/product") //수정완료
-    public String product(Model model, HttpServletRequest request) {
+    public String product(Model model, HttpServletRequest request,
+                          @SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false) MemberVo loginMember) {
+        try{
+            String id = loginMember.getMEMBER_ID();
+            String grade = String.valueOf(loginMember.getMEMBER_GRADE());
+            if(id !=null) {
+                if(grade.equals("ADMIN")){
+                    model.addAttribute("GRADE", "ADMIN");
+                } else {
+                    model.addAttribute("GRADE", "BASIC");
+                }
+            }
+        }catch (Exception e){
+            System.out.println("오류발생");
+        }
         List<productVo> data = productService.getproductList();
         new pageing(20, request, data, model, "paginatedProducts");
-
-//        log.info("findAll={}", productService.getproductList());
         return "admin/inqProduct";
     }
 
