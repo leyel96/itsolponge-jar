@@ -12,11 +12,10 @@
       // alert("시도중")
       // Get the CKEditor instance
       var editor = CKEDITOR.instances['product_code'];
-      var content = editor.getData();
       // console.log(typeof(content)); // Print the content to the console
       // alert(content)
       // Set the value of the hidden input field
-      document.getElementById("myInput").value = content;
+      document.getElementById("myInput").value = editor.getData();
       // Submit the form
       document.getElementById("myForm").submit();
     }
@@ -25,18 +24,18 @@
 </head>
 <body>
 <header>
-  <nav className="navbar nav-first navbar-dark bg-dark">
-    <div className="container">
-      <a className="navbar-brand" href="/com.solponge/main">
+  <nav class="navbar nav-first navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="/com.solponge/main">
         <img th:src="@{~/img/sponge.png}" style="width: 100px;" alt="Logo">
 
       </a>
-      <ul className="navbar-nav ml-auto">
+      <ul class="navbar-nav ml-auto">
         <li>
           <div th:if="${member == null}">
-            <a href="/com.solponge/login" className="btn btn-primary btn-sm">login</a>
-            <a href="/com.solponge/join" className="btn btn-primary btn-sm">Join</a>
-            <a href="/com.solponge/login" className="btn btn-primary btn-sm">
+            <a href="/com.solponge/login" class="btn btn-primary btn-sm">login</a>
+            <a href="/com.solponge/join" class="btn btn-primary btn-sm">Join</a>
+            <a href="/com.solponge/login" class="btn btn-primary btn-sm">
               <img th:src="@{~/img/Basket.png}" style="width: 20px;" alt="basket"/>
               Basket
             </a>
@@ -44,83 +43,83 @@
           <div th:if="${GRADE == 'BASIC'}">
             <p th:text="${member.MEMBER_NAME} + '님 환영합니다.'"></p>
 
-            <a href="/com.solponge/logout" className="btn btn-primary btn-sm">로그아웃</a>
+            <a href="/com.solponge/logout" class="btn btn-primary btn-sm">로그아웃</a>
             <a th:href="@{/com.solponge/member/{memberNo}/myPage(memberNo=${member.MEMBER_NO})}"
-               className="btn btn-primary btn-sm">마이페이지</a>
+               class="btn btn-primary btn-sm">마이페이지</a>
             <a th:href="@{/com.solponge/member/{memberNo}/myPage/cart(memberNo=${member.MEMBER_NO})}"
-               className="btn btn-primary btn-sm"><img th:src="@{~/img/Basket.png}" style="width: 20px;"
+               class="btn btn-primary btn-sm"><img th:src="@{~/img/Basket.png}" style="width: 20px;"
                                                        alt="basket"> 장바구니</a>
           </div>
           <div th:if="${GRADE =='ADMIN'}">
             <p th:text="${member.MEMBER_NAME} + '님 환영합니다.'"></p>
 
-            <a href="/com.solponge/logout" className="btn btn-primary btn-sm">로그아웃</a>
-            <a href="/com.solponge/admin/member" className="btn btn-primary btn-sm">회원관리</a>
-            <a href="/com.solponge/admin/order" className="btn btn-primary btn-sm">주문관리</a>
-            <a href="/com.solponge/admin/product" className="btn btn-primary btn-sm">상품관리</a>
+            <a href="/com.solponge/logout" class="btn btn-primary btn-sm">로그아웃</a>
+            <a href="/com.solponge/admin/member" class="btn btn-primary btn-sm">회원관리</a>
+            <a href="/com.solponge/admin/order" class="btn btn-primary btn-sm">주문관리</a>
+            <a href="/com.solponge/admin/product" class="btn btn-primary btn-sm">상품관리</a>
           </div>
         </li>
       </ul>
     </div>
   </nav>
-  <nav className="nav-second navbar custom-navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
-    <div className="container">
-      <button className="navbar-toggler ml-auto" type="button"
+  <nav class="nav-second navbar custom-navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
+    <div class="container">
+      <button class="navbar-toggler ml-auto" type="button"
               data-toggle="collapse" data-target="#navbarSupportedContent"
               aria-controls="navnav-linkbarSupportedContent" aria-expanded="false"
               aria-label="Toggle navigation">
-        <span className="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon"></span>
       </button>
-      <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul className="navbar-nav mr-auto">
-          <li><a className="nav-link" href="/com.solponge/productList">BOOK</a>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li><a class="nav-link" href="/com.solponge/productList">BOOK</a>
           </li>
-          <li><a className="nav-link" href="/com.solponge/jobinfolist">JOB</a>
+          <li><a class="nav-link" href="/com.solponge/jobinfolist">JOB</a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
 </header>
-<div className="add">
+<div class="add">
   <div>
-    <h2 className="product-title">상품 등록</h2>
+    <h2 class="product-title">상품 등록</h2>
   </div>
   <form id="product-form" action="/com.solponge/admin/product/add" method="post">
     <div>
-      <label htmlFor="product_title" className="input-label">책제목</label>
+      <label for="product_title" class="input-label">책제목</label>
       <input type="text" id="product_title" name="product_title" placeholder="이름을 입력하세요">
     </div>
     <div>
-      <label htmlFor="product_subtitle" className="input-label">부제목</label>
+      <label for="product_subtitle" class="input-label">부제목</label>
       <input type="text" id="product_subtitle" name="product_subtitle" placeholder="부제목을 입력하세요">
     </div>
     <div>
-      <label htmlFor="product_writer" className="input-label">작가</label>
+      <label for="product_writer" class="input-label">작가</label>
       <input type="text" id="product_writer" name="product_writer" placeholder="작가를 입력하세요">
     </div>
     <div>
-      <label htmlFor="product_price" className="input-label">가격</label>
+      <label for="product_price" class="input-label">가격</label>
       <input type="text" id="product_price" name="product_price" placeholder="가격을 입력하세요">
     </div>
     <div>
-      <label htmlFor="product_img" className="input-label">이미지</label>
+      <label for="product_img" class="input-label">이미지</label>
       <input type="text" id="product_img" name="product_img" placeholder="이미지 URL을 입력하세요">
     </div>
     <div>
-      <label htmlFor="product_date" className="input-label">출간일</label>
+      <label for="product_date" class="input-label">출간일</label>
       <input type="text" id="product_date" name="product_date" placeholder="출간일을 입력하세요 (yyyy-MM-dd)">
     </div>
     <div>
-      <label htmlFor="product_page" className="input-label">페이지 수</label>
+      <label for="product_page" class="input-label">페이지 수</label>
       <input type="text" id="product_page" name="product_page" placeholder="페이지 수를 입력하세요">
     </div>
     <div>
-      <label htmlFor="product_stock" className="input-label">재고</label>
+      <label for="product_stock" class="input-label">재고</label>
       <input type="text" id="product_stock" name="product_stock" placeholder="재고를 입력하세요">
     </div>
     <div id="product_code">
-      <p>${product.product_code}</p>
+      <p></p>
     </div>
     <input type="hidden" id="myInput" name="myInput">
     <script th:inline="javascript">
