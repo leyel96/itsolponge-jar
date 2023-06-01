@@ -95,55 +95,61 @@
     </table>
   </div>
   <hr>
-  <div>
-    <table class="yogi">
-      <thead>
-      <tr>
-        <th width="10%"></th>
-        <th>번호</th>
-        <th>이미지</th>
-        <th width = "20%">상품명</th>
-        <th width = "10%">작가</th>
-        <th>가격</th>
-        <th>페이지 수</th>
-        <th>재고</th>
-        <th>판매량</th>
-        <th>조회수</th>
-        <th></th>
-        <th></th>
-        <th width="10%"></th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr th:each="product : ${paginatedProducts}">
-        <td width="10%"></td>
-        <td th:text="${product.product_num}"></td>
-        <td><img th:src="${product.product_img}" style="width: 50px;" alt="img"></td>
-        <td th:text="${product.product_title}"></td>
-        <td th:text="${product.product_writer}"></td>
-        <td th:text="${product.product_price} + ' 원'"></td>
-        <td th:text="${product.product_page}"></td>
-        <td th:text="${product.product_stock}"></td>
-        <td th:text="${product.product_sale}"></td>
-        <td th:text="${product.product_visit}"></td>
-        <td>
-          <div class="col">
-            <button class="w-100 btn btn-primary btn-lg" th:onclick="'location.href=\'../admin/product/' + ${product.product_num} + '\''" type="button">상세보기</button>
-          </div>
-        </td>
-        <td>
-          <div class="col">
-            <form id="delete" th:action="@{/com.solponge/admin/product/{productNum}/delete(productNum=${product.product_num})}" method="post">
-              <input type="hidden" name="_method" value="DELETE"/>
-              <button onclick="return confirm('정말 삭제하시겠습니까?')" type="submit">삭제 </button>
-            </form>
-          </div>
-        </td>
-        <td width="10%"></td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
+  <th:brock th:if="${#lists.size(paginatedProducts) == 0}">
+    <p style="text-align: center; padding-top: 50px; font-size: 1.5rem; font-weight: bold;">검색된 제품이 없습니다.</p>
+  </th:brock>
+  <th:brock th:unless="${#lists.size(paginatedProducts) == 0}">
+    <div>
+      <table class="yogi">
+        <thead>
+        <tr>
+          <th width="10%"></th>
+          <th>번호</th>
+          <th>이미지</th>
+          <th width = "20%">상품명</th>
+          <th width = "10%">작가</th>
+          <th>가격</th>
+          <th>페이지 수</th>
+          <th>재고</th>
+          <th>판매량</th>
+          <th>조회수</th>
+          <th></th>
+          <th></th>
+          <th width="10%"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${paginatedProducts}">
+          <td width="10%"></td>
+          <td th:text="${product.product_num}"></td>
+          <td><img th:src="${product.product_img}" style="width: 50px;" alt="img"></td>
+          <td th:text="${product.product_title}"></td>
+          <td th:text="${product.product_writer}"></td>
+          <td th:text="${product.product_price} + ' 원'"></td>
+          <td th:text="${product.product_page}"></td>
+          <td th:text="${product.product_stock}"></td>
+          <td th:text="${product.product_sale}"></td>
+          <td th:text="${product.product_visit}"></td>
+          <td>
+            <div class="col">
+              <button class="w-100 btn btn-primary btn-lg" th:onclick="'location.href=\'../admin/product/' + ${product.product_num} + '\''" type="button">상세보기</button>
+            </div>
+          </td>
+          <td>
+            <div class="col">
+              <form id="delete" th:action="@{/com.solponge/admin/product/{productNum}/delete(productNum=${product.product_num})}" method="post">
+                <input type="hidden" name="_method" value="DELETE"/>
+                <button onclick="return confirm('정말 삭제하시겠습니까?')" type="submit">삭제 </button>
+              </form>
+            </div>
+          </td>
+          <td width="10%"></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </th:brock>
+
 </div>
 
 <nav id="paging" aria-label="Page navigation example" style="clear: both;">
