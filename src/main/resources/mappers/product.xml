@@ -4,26 +4,26 @@
     <select id="Searchlist_all" resultType="com.solponge.domain.product.productVo">
         SELECT * FROM product
         WHERE product_title LIKE CONCAT('%', #{SearchValue}, '%') OR product_writer LIKE CONCAT('%', #{SearchValue}, '%')
-          AND (product_garbage = 1);
+          AND (PRODUCT_GARBAGE = 1);
     </select>
     <select id="Searchlist_product_title" resultType="com.solponge.domain.product.productVo">
         SELECT * FROM product
         WHERE product_title LIKE CONCAT('%', #{SearchValue}, '%')
-            AND (product_garbage = 1);
+            AND (PRODUCT_GARBAGE = 1);
     </select>
     <select id="Searchlist_product_writer" resultType="com.solponge.domain.product.productVo">
         SELECT * FROM product
         WHERE product_writer LIKE CONCAT('%', #{SearchValue}, '%')
-            AND (product_garbage = 1);
+            AND (PRODUCT_GARBAGE = 1);
     </select>
     <select id="list" resultType="com.solponge.domain.product.productVo">
-        SELECT * FROM product WHERE product_garbage = 1 ORDER BY product_num ASC
+        SELECT * FROM product WHERE PRODUCT_GARBAGE = 1 ORDER BY product_num ASC
     </select>
     <select id="list_new_8" resultType="com.solponge.domain.product.productVo">
         <![CDATA[
         SELECT DISTINCT product_num, product_title, product_subtitle, product_writer, product_price, product_img, product_date
         FROM product
-        WHERE product_garbage = 1
+        WHERE PRODUCT_GARBAGE = 1
         ORDER BY product_date DESC LIMIT 8;
         ]]>
     </select>
@@ -31,12 +31,12 @@
         <![CDATA[
         SELECT DISTINCT product_num, product_title, product_writer, product_img, product_sale
         FROM product
-        WHERE product_garbage = 1
+        WHERE PRODUCT_GARBAGE = 1
         ORDER BY PRODUCT_SALE DESC LIMIT 6;
         ]]>
     </select>
     <select id="product" resultType="com.solponge.domain.product.productVo">
-        select * from product where product_garbage = 1 AND product_num=#{product_num}
+        select * from product where PRODUCT_GARBAGE = 1 AND product_num=#{product_num}
     </select>
     <insert id="insertpro" useGeneratedKeys="true" keyProperty="PRODUCT_NUM_num" keyColumn="PRODUCT_NUM">
         insert into product(product_title, product_subtitle, product_writer, product_price, product_img, product_date, product_page, product_stock, product_code)
