@@ -322,7 +322,11 @@
         </form>
         <input type="hidden" th:if="${member!=null}" id="MEMBER_ID" th:value="${member.MEMBER_ID}">
         <input type="hidden" th:if="${member!=null}" id="MEMBER_NO" th:value="${member.MEMBER_NO}">
-        <form id="my-form">
+        <th:block th:if="${#lists.size(paginatedjobinfo) == 0}">
+            <p style="text-align: center; padding-top: 50px; font-size: 1.5rem; font-weight: bold;">검색된 공고가 없습니다.</p>
+        </th:block>
+        <th:block th:unless="${#lists.size(paginatedjobinfo) == 0}">
+            <form id="my-form">
             <table id="Newjob8" style="font-size: 13px;">
                 <tr id="Newjob8th" style="text-align: center; background: #f2f9fe">
                     <td style="width: 220px; height: 44px">기업명</td>
@@ -361,6 +365,7 @@
                 </tr>
             </table>
         </form>
+        </th:block>
     </div>
 </div>
 <nav id="paging" aria-label="Page navigation example" style="clear: both;">
