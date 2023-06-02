@@ -97,11 +97,17 @@ public class produtController {
         model.addAttribute("quantityinput",quantityinput);
         model.addAttribute("member",loginMember);
         model.addAttribute("check",check);
-        if (check) {
-            return "redirect:/com.solponge/member/"+loginMember.getMEMBER_NO()+"/"+ productId + "/" + quantityinput + "/true";
-        } else {
-            return "redirect:/com.solponge/member/"+loginMember.getMEMBER_NO()+"/myPage/cart/"+ productId + "/" + quantityinput;
+        System.out.println(check);
+        if(loginMember != null){
+            if (check) {
+                return "redirect:/com.solponge/member/"+loginMember.getMEMBER_NO()+"/"+ productId + "/" + quantityinput + "/true";
+            } else {
+                return "redirect:/com.solponge/member/"+loginMember.getMEMBER_NO()+"/myPage/cart/"+ productId + "/" + quantityinput;
+            }
+        }else {
+            return "redirect:../login";
         }
+
 
     }
 }
