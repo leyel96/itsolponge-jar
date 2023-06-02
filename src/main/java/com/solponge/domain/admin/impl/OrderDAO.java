@@ -95,6 +95,8 @@ public class OrderDAO {
         Map<String, Object> param = new HashMap<>();
         param.put("payment_num",paymentNum);
         param.put("delivery_num", vo.getDelivery_num());
+        System.out.println("paymentNum_"+paymentNum);
+        System.out.println("delivery_num_"+vo.getDelivery_num());
         log.info("vo.getDelivery_num()={}",vo.getDelivery_num());
         sqlSession.update("order.updateOrder", param);
     }

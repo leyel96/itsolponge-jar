@@ -57,7 +57,7 @@
                             <td th:text="${order.delivery.deliveryInfo}"></td>
                             <td>
                                 <input type="hidden" name="payment_num" th:value="${order.payment.paymentNum}">
-                                <input type="text" id="deliveryNum" name="deliveryNum" th:value="${order.delivery.deliveryNum}">
+                                <input type="text" id="deliveryNum" name="deliveryNum" th:value="${order.delivery.deliveryNum}"  maxlength="9">
                             </td>
                             <td>
                                 <p id="demo">
