@@ -96,7 +96,7 @@ public class AdminController {
         }
         model.addAttribute("members", memberService.findAll());
         log.info("findAll={}", memberService.findAll());
-        return "/admin/member";
+        return "admin/member";
     }
 
 
