@@ -266,11 +266,11 @@
                             <input th:id="companyName_+${NewJopInfo.infonum}" th:value="${NewJopInfo.companyname}" style="display:none">
                         </label></td>
                         <td th:if="${JobScrap?.get('response_'+NewJopInfo.companyname) != null}" class="infonum" style="height: 54px">
-                            <a class="url" th:href="@{/com.solponge/jobinfolist/{companyname}(companyname=${NewJopInfo.companyname})}" th:text="${NewJopInfo.companyname}"></a>
+                            <a class="url" th:href="@{/com.solponge/jobinfolist/{companyname}(companyname=${NewJopInfo.companyname})}" th:text="${NewJopInfo.companyname.length() > 9} ? ${NewJopInfo.companyname.substring(0, 8) + '...'} : ${NewJopInfo.companyname}"></a>
                             <button class="heart red" th:id="${NewJopInfo.infonum}" type="button" onclick="submitForm(this.id)" value="Clicked">&#10084;</button>
                         </td>
                         <td th:if="${JobScrap?.get('response_'+NewJopInfo.companyname) == null}" class="infonum" style="height: 54px">
-                            <a class="url" th:href="@{/com.solponge/jobinfolist/{companyname}(companyname=${NewJopInfo.companyname})}" th:text="${NewJopInfo.companyname}"></a>
+                            <a class="url" th:href="@{/com.solponge/jobinfolist/{companyname}(companyname=${NewJopInfo.companyname})}" th:text="${NewJopInfo.companyname.length() > 9} ? ${NewJopInfo.companyname.substring(0, 8) + '...'} : ${NewJopInfo.companyname}"></a>
                             <button class="heart" th:id="${NewJopInfo.infonum}" type="button" onclick="submitForm(this.id)" value="Click">&#10084;</button>
                         </td>
 
