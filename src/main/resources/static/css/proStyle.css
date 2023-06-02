@@ -100,15 +100,6 @@ table td button:hover {
     pointer-events: none;
 }
 
-
-
-
-
-
-.container {
-    max-width: 560px;
-}
-
 .text-center {
     text-align: center !important;
 }
