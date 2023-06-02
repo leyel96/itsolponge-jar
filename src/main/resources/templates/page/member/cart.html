@@ -143,7 +143,10 @@
                 </th:block>
             </span></div>
                 <hr>
-                <div><span>총 결제 금액 :</span> <span th:text="${cart.totalPrice+2500}+' 원'"></span></div>
+                <div><span>총 결제 금액 :</span>
+                    <span th:if="${cart.totalPrice <= 50000}" th:text="${cart.totalPrice+2500}+' 원'"></span>
+                    <span th:unless="${cart.totalPrice <= 50000}" th:text="${cart.totalPrice}+' 원'"></span>
+                </div>
             </div>
             <br>
             <button type="submit" th:formaction="@{/com.solponge/member/{MEMBER_NO}/payments(MEMBER_NO=${member.MEMBER_NO})}">주문하기</button>
