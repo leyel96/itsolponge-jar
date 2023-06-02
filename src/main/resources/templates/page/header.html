@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-  <link rel="stylesheet" type="text/css" href="../../static/css/headerFooter.css">
+  <link rel="stylesheet" type="text/css" th:href="@{~/css/headerFooter.css}">
 </head>
 <body>
 <div class="header">
@@ -23,7 +23,7 @@
                             Basket
                         </a>
                     </div>
-                    <div th:if="${GRADE == 'BASIC'}">
+                    <div th:if="${member != null and member.getMEMBER_GRADE() != null and member.getMEMBER_GRADE().toString() == 'BASIC'}">
                         <p th:text="${member.MEMBER_NAME} + '님 환영합니다.'"></p>
 
                         <a href="/com.solponge/logout" class="btn btn-primary btn-sm">로그아웃</a>
@@ -32,7 +32,7 @@
                         <a th:href="@{/com.solponge/member/{memberNo}/myPage(memberNo=${member.MEMBER_NO})}" class="btn btn-primary btn-sm">마이페이지</a>
                         <a th:href="@{/com.solponge/member/{memberNo}/myPage/cart(memberNo=${member.MEMBER_NO})}" class="btn btn-primary btn-sm"><img th:src="@{~/img/Basket.png}" style="width: 20px;" alt="basket"> 장바구니</a>
                     </div>
-                    <div th:if="${GRADE =='ADMIN'}">
+                    <div th:if="${member != null and member.getMEMBER_GRADE() != null and member.getMEMBER_GRADE().toString() == 'ADMIN'}">
                         <p th:text="${member.MEMBER_NAME} + '님 환영합니다.'"></p>
 
                         <a href="/com.solponge/logout" class="btn btn-primary btn-sm">로그아웃</a>
