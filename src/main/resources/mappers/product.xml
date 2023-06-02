@@ -2,20 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="collection_of_sql_statements">
     <select id="Searchlist_all" resultType="com.solponge.domain.product.productVo">
-        SELECT * FROM product WHERE (product_title LIKE CONCAT('%', #{SearchValue}, '%') OR product_writer LIKE CONCAT('%', #{SearchValue}, '%')) AND (PRODUCT_GARBAGE = 1);
+        SELECT * FROM product WHERE (product_title LIKE CONCAT('%', #{SearchValue}, '%') OR product_writer LIKE CONCAT('%', #{SearchValue}, '%')) AND (PRODUCT_GARBAGE = 1) ORDER BY product_num desc
     </select>
     <select id="Searchlist_product_title" resultType="com.solponge.domain.product.productVo">
         SELECT * FROM product
         WHERE (product_title LIKE CONCAT('%', #{SearchValue}, '%'))
-            AND (PRODUCT_GARBAGE = 1);
+            AND (PRODUCT_GARBAGE = 1) ORDER BY product_num desc
     </select>
     <select id="Searchlist_product_writer" resultType="com.solponge.domain.product.productVo">
         SELECT * FROM product
         WHERE (product_writer LIKE CONCAT('%', #{SearchValue}, '%'))
-            AND (PRODUCT_GARBAGE = 1);
+            AND (PRODUCT_GARBAGE = 1) ORDER BY product_num desc
     </select>
     <select id="list" resultType="com.solponge.domain.product.productVo">
-        SELECT * FROM product WHERE PRODUCT_GARBAGE = 1 ORDER BY product_num ASC
+        SELECT * FROM product WHERE PRODUCT_GARBAGE = 1 ORDER BY product_num desc
     </select>
     <select id="list_new_8" resultType="com.solponge.domain.product.productVo">
         <![CDATA[
